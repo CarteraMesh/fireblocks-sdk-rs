@@ -15,14 +15,14 @@ env:
 jobs:
   release-candidate:
     name: Release Candidate
-    runs-on: ubicloud-standard-2
+    runs-on: ${{ vars.RUNNER }}
     permissions:
       contents: write
       pull-requests: write
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
