@@ -24,22 +24,37 @@ pub struct AssetDetailsMetadata {
         skip_serializing_if = "Option::is_none"
     )]
     pub deprecation_referral_id: Option<String>,
+    /// Is asset verified by Fireblocks
+    #[serde(rename = "verified")]
+    pub verified: bool,
     /// Vendor’s website
     #[serde(rename = "website", skip_serializing_if = "Option::is_none")]
     pub website: Option<String>,
     /// Asset’s media
     #[serde(rename = "media", skip_serializing_if = "Option::is_none")]
     pub media: Option<Vec<models::Media>>,
+    #[serde(rename = "note", skip_serializing_if = "Option::is_none")]
+    pub note: Option<models::AssetNote>,
+    /// Asset features
+    #[serde(rename = "features", skip_serializing_if = "Option::is_none")]
+    pub features: Option<Vec<models::AssetFeature>>,
 }
 
 impl AssetDetailsMetadata {
-    pub fn new(scope: models::AssetScope, deprecated: bool) -> AssetDetailsMetadata {
+    pub fn new(
+        scope: models::AssetScope,
+        deprecated: bool,
+        verified: bool,
+    ) -> AssetDetailsMetadata {
         AssetDetailsMetadata {
             scope,
             deprecated,
             deprecation_referral_id: None,
+            verified,
             website: None,
             media: None,
+            note: None,
+            features: None,
         }
     }
 }

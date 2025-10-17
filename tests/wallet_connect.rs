@@ -25,7 +25,10 @@ async fn test_wallet_connections(config: Config) -> anyhow::Result<()> {
 
     if let Err(e) = dapp.submit(params).await {
         let msg = e.to_string();
-        assert!(msg.contains("Not Found") || msg.contains("Unauthorized"));
+        assert!(
+            msg.contains("Not Found") || msg.contains("Unauthorized"),
+            "real error {msg}",
+        );
     }
     Ok(())
 }

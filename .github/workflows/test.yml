@@ -25,33 +25,16 @@ concurrency:
 name: test
 jobs:
   coverage:
-    # use llvm-cov to build and collect coverage and outputs in a format that
-    # is compatible with codecov.io
-    #
-    # note that codecov as of v4 requires that CODECOV_TOKEN from
-    #
-    #   https://app.codecov.io/gh/<user or org>/<project>/settings
-    #
-    # is set in two places on your repo:
-    #
-    # - https://github.com/jonhoo/guardian/settings/secrets/actions
-    # - https://github.com/jonhoo/guardian/settings/secrets/dependabot
-    #
-    # (the former is needed for codecov uploads to work with Dependabot PRs)
-    #
-    # PRs coming from forks of your repo will not have access to the token, but
-    # for those, codecov allows uploading coverage reports without a token.
-    # it's all a little weird and inconvenient. see
-    #
-    #   https://github.com/codecov/feedback/issues/112
-    #
-    # for lots of more discussion
     runs-on: ${{ vars.RUNNER }}
     name: coverage
     steps:
       - uses: actions/checkout@v5
         with:
           submodules: true
+      - uses: ubicloud/rust-cache@v2
+        with:
+          cache-on-failure: "true"
+          cache-all-crates: "true"
       - name: Install stable
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -62,7 +45,7 @@ jobs:
         if: hashFiles('Cargo.lock') == ''
         run: cargo generate-lockfile
       - name: cargo llvm-cov
-        run: cargo llvm-cov --locked --all-features --lcov --output-path lcov.info
+        run: cargo llvm-cov --locked --all-features --lcov --output-path lcov.info  -- --test-threads=1
       - name: Record Rust version
         run: echo "RUST=$(rustc --version)" >> "$GITHUB_ENV"
       - name: Upload to codecov.io

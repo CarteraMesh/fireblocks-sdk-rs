@@ -26,6 +26,9 @@ pub struct DestinationTransferPeerPath {
     pub wallet_id: Option<uuid::Uuid>,
     #[serde(rename = "oneTimeAddress", skip_serializing_if = "Option::is_none")]
     pub one_time_address: Option<models::OneTimeAddress>,
+    /// Indicates whether the destination is a collateral account
+    #[serde(rename = "isCollateral", skip_serializing_if = "Option::is_none")]
+    pub is_collateral: Option<bool>,
 }
 
 impl DestinationTransferPeerPath {
@@ -38,6 +41,7 @@ impl DestinationTransferPeerPath {
             name: None,
             wallet_id: None,
             one_time_address: None,
+            is_collateral: None,
         }
     }
 }

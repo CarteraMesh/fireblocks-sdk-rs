@@ -17,7 +17,7 @@ pub struct WriteCallFunctionDto {
     #[serde(rename = "vaultAccountId")]
     pub vault_account_id: String,
     #[serde(rename = "abiFunction")]
-    pub abi_function: models::WriteAbiFunction,
+    pub abi_function: models::WriteCallFunctionDtoAbiFunction,
     /// Amount in base asset. Being used in payable functions
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
     pub amount: Option<String>,
@@ -49,7 +49,7 @@ pub struct WriteCallFunctionDto {
 impl WriteCallFunctionDto {
     pub fn new(
         vault_account_id: String,
-        abi_function: models::WriteAbiFunction,
+        abi_function: models::WriteCallFunctionDtoAbiFunction,
     ) -> WriteCallFunctionDto {
         WriteCallFunctionDto {
             vault_account_id,

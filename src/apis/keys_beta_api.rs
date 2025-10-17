@@ -50,7 +50,8 @@ impl KeysBetaApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`get_mpc_keys_list_by_user`]
+/// struct for passing parameters to the method
+/// [`KeysBetaApi::get_mpc_keys_list_by_user`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetMpcKeysListByUserParams {
@@ -186,7 +187,7 @@ impl KeysBetaApi for KeysBetaApiClient {
     }
 }
 
-/// struct for typed errors of method [`get_mpc_keys_list`]
+/// struct for typed errors of method [`KeysBetaApi::get_mpc_keys_list`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetMpcKeysListError {
@@ -194,7 +195,7 @@ pub enum GetMpcKeysListError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_mpc_keys_list_by_user`]
+/// struct for typed errors of method [`KeysBetaApi::get_mpc_keys_list_by_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetMpcKeysListByUserError {

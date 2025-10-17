@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **name** | Option<**String**> |  | [optional]
 **wallet_id** | Option<[**uuid::Uuid**](uuid::Uuid.md)> |  | [optional]
 **one_time_address** | Option<[**models::OneTimeAddress**](OneTimeAddress.md)> |  | [optional]
+**is_collateral** | Option<**bool**> | Indicates whether the destination is a collateral account | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -32,12 +32,8 @@ pub struct NetworkRecord {
     pub r#type: Option<String>,
     #[serde(rename = "destinationAddress", skip_serializing_if = "Option::is_none")]
     pub destination_address: Option<String>,
-    #[serde(rename = "sourceAddress", skip_serializing_if = "Option::is_none")]
-    pub source_address: Option<String>,
     #[serde(rename = "amountUSD", skip_serializing_if = "Option::is_none")]
     pub amount_usd: Option<String>,
-    #[serde(rename = "index", skip_serializing_if = "Option::is_none")]
-    pub index: Option<f64>,
     #[serde(rename = "rewardInfo", skip_serializing_if = "Option::is_none")]
     pub reward_info: Option<models::RewardInfo>,
 }
@@ -54,9 +50,7 @@ impl NetworkRecord {
             is_dropped: None,
             r#type: None,
             destination_address: None,
-            source_address: None,
             amount_usd: None,
-            index: None,
             reward_info: None,
         }
     }

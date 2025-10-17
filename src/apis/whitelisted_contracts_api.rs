@@ -77,7 +77,7 @@ pub trait WhitelistedContractsApi: Send + Sync {
     /// GET /contracts
     ///
     /// Gets a list of whitelisted contracts. </br>Endpoint Permission: Admin,
-    /// Non-Signing Admin, Signer, Approver, Editor.
+    /// Non-Signing Admin, Signer, Approver, Editor, Viewer.
     async fn get_contracts(&self)
     -> Result<Vec<models::UnmanagedWallet>, Error<GetContractsError>>;
 }
@@ -92,7 +92,8 @@ impl WhitelistedContractsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`add_contract_asset`]
+/// struct for passing parameters to the method
+/// [`WhitelistedContractsApi::add_contract_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct AddContractAssetParams {
@@ -108,7 +109,8 @@ pub struct AddContractAssetParams {
     pub add_contract_asset_request: Option<models::AddContractAssetRequest>,
 }
 
-/// struct for passing parameters to the method [`create_contract`]
+/// struct for passing parameters to the method
+/// [`WhitelistedContractsApi::create_contract`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateContractParams {
@@ -120,7 +122,8 @@ pub struct CreateContractParams {
     pub create_contract_request: Option<models::CreateContractRequest>,
 }
 
-/// struct for passing parameters to the method [`delete_contract`]
+/// struct for passing parameters to the method
+/// [`WhitelistedContractsApi::delete_contract`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteContractParams {
@@ -128,7 +131,8 @@ pub struct DeleteContractParams {
     pub contract_id: String,
 }
 
-/// struct for passing parameters to the method [`delete_contract_asset`]
+/// struct for passing parameters to the method
+/// [`WhitelistedContractsApi::delete_contract_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteContractAssetParams {
@@ -138,7 +142,8 @@ pub struct DeleteContractAssetParams {
     pub asset_id: String,
 }
 
-/// struct for passing parameters to the method [`get_contract`]
+/// struct for passing parameters to the method
+/// [`WhitelistedContractsApi::get_contract`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetContractParams {
@@ -146,7 +151,8 @@ pub struct GetContractParams {
     pub contract_id: String,
 }
 
-/// struct for passing parameters to the method [`get_contract_asset`]
+/// struct for passing parameters to the method
+/// [`WhitelistedContractsApi::get_contract_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetContractAssetParams {
@@ -532,7 +538,7 @@ impl WhitelistedContractsApi for WhitelistedContractsApiClient {
     }
 
     /// Gets a list of whitelisted contracts. </br>Endpoint Permission: Admin,
-    /// Non-Signing Admin, Signer, Approver, Editor.
+    /// Non-Signing Admin, Signer, Approver, Editor, Viewer.
     async fn get_contracts(
         &self,
     ) -> Result<Vec<models::UnmanagedWallet>, Error<GetContractsError>> {
@@ -590,7 +596,8 @@ impl WhitelistedContractsApi for WhitelistedContractsApiClient {
     }
 }
 
-/// struct for typed errors of method [`add_contract_asset`]
+/// struct for typed errors of method
+/// [`WhitelistedContractsApi::add_contract_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddContractAssetError {
@@ -598,7 +605,8 @@ pub enum AddContractAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_contract`]
+/// struct for typed errors of method
+/// [`WhitelistedContractsApi::create_contract`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateContractError {
@@ -606,7 +614,8 @@ pub enum CreateContractError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_contract`]
+/// struct for typed errors of method
+/// [`WhitelistedContractsApi::delete_contract`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteContractError {
@@ -614,7 +623,8 @@ pub enum DeleteContractError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_contract_asset`]
+/// struct for typed errors of method
+/// [`WhitelistedContractsApi::delete_contract_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteContractAssetError {
@@ -622,7 +632,7 @@ pub enum DeleteContractAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_contract`]
+/// struct for typed errors of method [`WhitelistedContractsApi::get_contract`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetContractError {
@@ -630,7 +640,8 @@ pub enum GetContractError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_contract_asset`]
+/// struct for typed errors of method
+/// [`WhitelistedContractsApi::get_contract_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetContractAssetError {
@@ -638,7 +649,7 @@ pub enum GetContractAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_contracts`]
+/// struct for typed errors of method [`WhitelistedContractsApi::get_contracts`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetContractsError {

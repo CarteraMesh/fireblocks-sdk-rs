@@ -11,14 +11,14 @@ use {
     serde::{Deserialize, Serialize},
 };
 
-/// TransactionRequestFee : For UTXO-based blockchains, the fee per bytes in the
-/// asset’s smallest unit (Satoshi, Latoshi, etc.).  For Ripple, the fee for the
-/// transaction. Fireblocks recommends using a numeric string for accurate
-/// precision. Although a number input exists, it is deprecated. For UTXO-based
-/// blockchains, the fee per bytes in the asset’s smallest unit (Satoshi,
-/// Latoshi, etc.).  For Ripple, the fee for the transaction. Fireblocks
-/// recommends using a numeric string for accurate precision. Although a number
-/// input exists, it is deprecated.
+/// TransactionRequestFee : - **For UTXO-based blockchains**, the fee per bytes
+/// in the asset's smallest unit (Satoshi, Latoshi, etc.). - **For Ripple**, the
+/// fee for the transaction.  Note: - Fireblocks recommends using a numeric
+/// string for more precision. Although a number input exists, it is deprecated.
+/// - **For UTXO-based blockchains**, the fee per bytes in the asset's smallest
+///   unit (Satoshi, Latoshi, etc.). - **For Ripple**, the fee for the
+///   transaction.  Note: - Fireblocks recommends using a numeric string for
+///   more precision. Although a number input exists, it is deprecated.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TransactionRequestFee {

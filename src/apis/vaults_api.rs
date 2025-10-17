@@ -31,6 +31,14 @@ pub trait VaultsApi: Send + Sync {
         params: ActivateAssetForVaultAccountParams,
     ) -> Result<models::CreateVaultAssetResponse, Error<ActivateAssetForVaultAccountError>>;
 
+    /// POST /vault/accounts/attached/tags/attach
+    ///
+    /// Attach one or more tags to the requested vault accounts.
+    async fn attach_tags_to_vault_accounts(
+        &self,
+        params: AttachTagsToVaultAccountsParams,
+    ) -> Result<(), Error<AttachTagsToVaultAccountsError>>;
+
     /// POST /vault/accounts/{vaultAccountId}/{assetId}/addresses/{addressId}/
     /// create_legacy
     ///
@@ -41,15 +49,25 @@ pub trait VaultsApi: Send + Sync {
         params: CreateLegacyAddressParams,
     ) -> Result<models::CreateAddressResponse, Error<CreateLegacyAddressError>>;
 
+    /// POST /vault/accounts/bulk/
+    ///
+    /// Create multiple vault accounts by running an async job.       - The
+    /// HBAR, TON, SUI, TERRA, ALGO, and DOT blockchains are not supported. -
+    /// Limited to a maximum of 10,000 accounts per operation.  **Endpoint
+    /// Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
+    async fn create_multiple_accounts(
+        &self,
+        params: CreateMultipleAccountsParams,
+    ) -> Result<models::JobCreated, Error<CreateMultipleAccountsError>>;
+
     /// POST /vault/accounts/addresses/bulk
     ///
-    /// Create multiple deposit address by running an async job. </br> **Note**:
-    /// - We limit accounts to 10k per operation. - The target Vault Account
-    /// should already have the asset wallet created, or the deposit addresses
-    /// will fail. - This endpoint should be used for UTXO blockchains. - This
-    /// endpoint is currently in Early Availability. Please contact CSM to get
-    /// access to this endpoint.   Endpoint Permission: Admin, Non-Signing
-    /// Admin, Signer, Approver, Editor.
+    /// **For UTXO blockchains only.**  Create multiple deposit addresses by
+    /// running an async job. - The target Vault account should already have a
+    /// UTXO asset wallet with a permanent address. - Limited to a maximum of
+    /// 10,000 addresses per operation. Use multiple operations for the same
+    /// Vault account/permanent address if needed.  **Endpoint Permissions:**
+    /// Admin, Non-Signing Admin.
     async fn create_multiple_deposit_addresses(
         &self,
         params: CreateMultipleDepositAddressesParams,
@@ -82,6 +100,14 @@ pub trait VaultsApi: Send + Sync {
         params: CreateVaultAccountAssetAddressParams,
     ) -> Result<models::CreateAddressResponse, Error<CreateVaultAccountAssetAddressError>>;
 
+    /// POST /vault/accounts/attached/tags/detached
+    ///
+    /// Detach one or more tags from the requested vault account.
+    async fn detach_tags_from_vault_accounts(
+        &self,
+        params: DetachTagsFromVaultAccountsParams,
+    ) -> Result<(), Error<DetachTagsFromVaultAccountsError>>;
+
     /// GET /vault/asset_wallets
     ///
     /// Get all vault wallets of the vault accounts in your workspace.  A vault
@@ -95,12 +121,9 @@ pub trait VaultsApi: Send + Sync {
 
     /// GET /vault/accounts/addresses/bulk/{jobId}
     ///
-    /// Returns the status of the bulk creation of new deposit addresses job,
-    /// and the result or error. **Note**: - The target Vault Account should
-    /// already have the asset wallet created, or the deposit addresses will
-    /// fail. - This endpoint is currently in Early Availability. Please contact
-    /// CSM to get access to this endpoint. Endpoint Permission: Admin,
-    /// Non-Signing Admin, Signer, Approver, Editor.
+    /// Returns the current status of (or an error for) the specified deposit
+    /// addresss bulk creation job.  **Endpoint Permissions:** Admin,
+    /// Non-Signing Admin, Signer, Approver, Editor, and Viewer.
     async fn get_create_multiple_deposit_addresses_job_status(
         &self,
         params: GetCreateMultipleDepositAddressesJobStatusParams,
@@ -109,12 +132,25 @@ pub trait VaultsApi: Send + Sync {
         Error<GetCreateMultipleDepositAddressesJobStatusError>,
     >;
 
+    /// GET /vault/accounts/bulk/{jobId}
+    ///
+    /// Returns the current status of (or error for) the specified vault account
+    /// bulk creation job.  **Endpoint Permissions:** Admin, Non-Signing Admin,
+    /// Signer, Approver, Editor, Viewer.
+    async fn get_create_multiple_vault_accounts_job_status(
+        &self,
+        params: GetCreateMultipleVaultAccountsJobStatusParams,
+    ) -> Result<
+        models::CreateMultipleVaultAccountsJobStatus,
+        Error<GetCreateMultipleVaultAccountsJobStatusError>,
+    >;
+
     /// GET /vault/accounts/{vaultAccountId}/{assetId}/max_spendable_amount
     ///
-    /// Get the maximum amount of a particular asset that can be spent in a
-    /// single transaction from a specified vault account (UTXO assets only).
-    /// </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver,
-    /// Editor, Viewer.
+    /// **UTXO assets only.**  Retrieve the maximum amount of the specified
+    /// asset that can be spent in a single transaction from the specified vault
+    /// account.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer,
+    /// Approver, Editor, Viewer.
     async fn get_max_spendable_amount(
         &self,
         params: GetMaxSpendableAmountParams,
@@ -311,7 +347,7 @@ impl VaultsApiClient {
 }
 
 /// struct for passing parameters to the method
-/// [`activate_asset_for_vault_account`]
+/// [`VaultsApi::activate_asset_for_vault_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ActivateAssetForVaultAccountParams {
@@ -326,7 +362,21 @@ pub struct ActivateAssetForVaultAccountParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`create_legacy_address`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::attach_tags_to_vault_accounts`]
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+pub struct AttachTagsToVaultAccountsParams {
+    pub vault_accounts_tag_attachments_request: models::VaultAccountsTagAttachmentsRequest,
+    /// A unique identifier for the request. If the request is sent multiple
+    /// times with the same idempotency key, the server will return the same
+    /// response as the first request. The idempotency key is valid for 24
+    /// hours.
+    pub idempotency_key: Option<String>,
+}
+
+/// struct for passing parameters to the method
+/// [`VaultsApi::create_legacy_address`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateLegacyAddressParams {
@@ -344,7 +394,20 @@ pub struct CreateLegacyAddressParams {
 }
 
 /// struct for passing parameters to the method
-/// [`create_multiple_deposit_addresses`]
+/// [`VaultsApi::create_multiple_accounts`]
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+pub struct CreateMultipleAccountsParams {
+    pub create_multiple_accounts_request: models::CreateMultipleAccountsRequest,
+    /// A unique identifier for the request. If the request is sent multiple
+    /// times with the same idempotency key, the server will return the same
+    /// response as the first request. The idempotency key is valid for 24
+    /// hours.
+    pub idempotency_key: Option<String>,
+}
+
+/// struct for passing parameters to the method
+/// [`VaultsApi::create_multiple_deposit_addresses`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateMultipleDepositAddressesParams {
@@ -356,7 +419,8 @@ pub struct CreateMultipleDepositAddressesParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`create_vault_account`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::create_vault_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateVaultAccountParams {
@@ -368,7 +432,8 @@ pub struct CreateVaultAccountParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`create_vault_account_asset`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::create_vault_account_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateVaultAccountAssetParams {
@@ -386,7 +451,7 @@ pub struct CreateVaultAccountAssetParams {
 }
 
 /// struct for passing parameters to the method
-/// [`create_vault_account_asset_address`]
+/// [`VaultsApi::create_vault_account_asset_address`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateVaultAccountAssetAddressParams {
@@ -402,7 +467,20 @@ pub struct CreateVaultAccountAssetAddressParams {
     pub create_address_request: Option<models::CreateAddressRequest>,
 }
 
-/// struct for passing parameters to the method [`get_asset_wallets`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::detach_tags_from_vault_accounts`]
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+pub struct DetachTagsFromVaultAccountsParams {
+    pub vault_accounts_tag_attachments_request: models::VaultAccountsTagAttachmentsRequest,
+    /// A unique identifier for the request. If the request is sent multiple
+    /// times with the same idempotency key, the server will return the same
+    /// response as the first request. The idempotency key is valid for 24
+    /// hours.
+    pub idempotency_key: Option<String>,
+}
+
+/// struct for passing parameters to the method [`VaultsApi::get_asset_wallets`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetAssetWalletsParams {
@@ -424,7 +502,7 @@ pub struct GetAssetWalletsParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_create_multiple_deposit_addresses_job_status`]
+/// [`VaultsApi::get_create_multiple_deposit_addresses_job_status`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetCreateMultipleDepositAddressesJobStatusParams {
@@ -432,7 +510,17 @@ pub struct GetCreateMultipleDepositAddressesJobStatusParams {
     pub job_id: String,
 }
 
-/// struct for passing parameters to the method [`get_max_spendable_amount`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::get_create_multiple_vault_accounts_job_status`]
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+pub struct GetCreateMultipleVaultAccountsJobStatusParams {
+    /// The ID of the job to create addresses
+    pub job_id: String,
+}
+
+/// struct for passing parameters to the method
+/// [`VaultsApi::get_max_spendable_amount`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetMaxSpendableAmountParams {
@@ -440,13 +528,14 @@ pub struct GetMaxSpendableAmountParams {
     pub vault_account_id: String,
     /// The ID of the asset
     pub asset_id: String,
-    /// False by default. The maximum number of inputs depends if the
+    /// False by default. The maximum number of inputs depends on whether the
     /// transaction will be signed by an automated co-signer server or on a
     /// mobile device.
-    pub manual_signging: Option<bool>,
+    pub manual_signing: Option<bool>,
 }
 
-/// struct for passing parameters to the method [`get_paged_vault_accounts`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::get_paged_vault_accounts`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetPagedVaultAccountsParams {
@@ -461,9 +550,12 @@ pub struct GetPagedVaultAccountsParams {
     pub before: Option<String>,
     pub after: Option<String>,
     pub limit: Option<f64>,
+    /// List of tag IDs to filter vault accounts.
+    pub tag_ids: Option<Vec<uuid::Uuid>>,
 }
 
-/// struct for passing parameters to the method [`get_public_key_info`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::get_public_key_info`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetPublicKeyInfoParams {
@@ -475,7 +567,7 @@ pub struct GetPublicKeyInfoParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_public_key_info_for_address`]
+/// [`VaultsApi::get_public_key_info_for_address`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetPublicKeyInfoForAddressParams {
@@ -489,7 +581,8 @@ pub struct GetPublicKeyInfoForAddressParams {
     pub compressed: Option<bool>,
 }
 
-/// struct for passing parameters to the method [`get_unspent_inputs`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::get_unspent_inputs`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetUnspentInputsParams {
@@ -499,7 +592,7 @@ pub struct GetUnspentInputsParams {
     pub asset_id: String,
 }
 
-/// struct for passing parameters to the method [`get_vault_account`]
+/// struct for passing parameters to the method [`VaultsApi::get_vault_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaultAccountParams {
@@ -507,7 +600,8 @@ pub struct GetVaultAccountParams {
     pub vault_account_id: String,
 }
 
-/// struct for passing parameters to the method [`get_vault_account_asset`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::get_vault_account_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaultAccountAssetParams {
@@ -518,7 +612,7 @@ pub struct GetVaultAccountAssetParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_vault_account_asset_addresses`]
+/// [`VaultsApi::get_vault_account_asset_addresses`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaultAccountAssetAddressesParams {
@@ -529,7 +623,7 @@ pub struct GetVaultAccountAssetAddressesParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_vault_account_asset_addresses_paginated`]
+/// [`VaultsApi::get_vault_account_asset_addresses_paginated`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaultAccountAssetAddressesPaginatedParams {
@@ -545,7 +639,7 @@ pub struct GetVaultAccountAssetAddressesPaginatedParams {
     pub after: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_vault_assets`]
+/// struct for passing parameters to the method [`VaultsApi::get_vault_assets`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaultAssetsParams {
@@ -553,14 +647,16 @@ pub struct GetVaultAssetsParams {
     pub account_name_suffix: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_vault_balance_by_asset`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::get_vault_balance_by_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaultBalanceByAssetParams {
     pub asset_id: String,
 }
 
-/// struct for passing parameters to the method [`hide_vault_account`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::hide_vault_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct HideVaultAccountParams {
@@ -574,7 +670,7 @@ pub struct HideVaultAccountParams {
 }
 
 /// struct for passing parameters to the method
-/// [`set_customer_ref_id_for_address`]
+/// [`VaultsApi::set_customer_ref_id_for_address`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetCustomerRefIdForAddressParams {
@@ -593,7 +689,8 @@ pub struct SetCustomerRefIdForAddressParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`set_vault_account_auto_fuel`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::set_vault_account_auto_fuel`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetVaultAccountAutoFuelParams {
@@ -608,7 +705,7 @@ pub struct SetVaultAccountAutoFuelParams {
 }
 
 /// struct for passing parameters to the method
-/// [`set_vault_account_customer_ref_id`]
+/// [`VaultsApi::set_vault_account_customer_ref_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetVaultAccountCustomerRefIdParams {
@@ -622,7 +719,8 @@ pub struct SetVaultAccountCustomerRefIdParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`unhide_vault_account`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::unhide_vault_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UnhideVaultAccountParams {
@@ -635,7 +733,8 @@ pub struct UnhideVaultAccountParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`update_vault_account`]
+/// struct for passing parameters to the method
+/// [`VaultsApi::update_vault_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateVaultAccountParams {
@@ -650,7 +749,7 @@ pub struct UpdateVaultAccountParams {
 }
 
 /// struct for passing parameters to the method
-/// [`update_vault_account_asset_address`]
+/// [`VaultsApi::update_vault_account_asset_address`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateVaultAccountAssetAddressParams {
@@ -671,7 +770,7 @@ pub struct UpdateVaultAccountAssetAddressParams {
 }
 
 /// struct for passing parameters to the method
-/// [`update_vault_account_asset_balance`]
+/// [`VaultsApi::update_vault_account_asset_balance`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateVaultAccountAssetBalanceParams {
@@ -764,6 +863,57 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
+    /// Attach one or more tags to the requested vault accounts.
+    async fn attach_tags_to_vault_accounts(
+        &self,
+        params: AttachTagsToVaultAccountsParams,
+    ) -> Result<(), Error<AttachTagsToVaultAccountsError>> {
+        let AttachTagsToVaultAccountsParams {
+            vault_accounts_tag_attachments_request,
+            idempotency_key,
+        } = params;
+
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!(
+            "{}/vault/accounts/attached/tags/attach",
+            local_var_configuration.base_path
+        );
+        let mut local_var_req_builder =
+            local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder
+                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(local_var_param_value) = idempotency_key {
+            local_var_req_builder =
+                local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
+        }
+        local_var_req_builder = local_var_req_builder.json(&vault_accounts_tag_attachments_request);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            Ok(())
+        } else {
+            let local_var_entity: Option<AttachTagsToVaultAccountsError> =
+                serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
     /// Converts an existing segwit address to the legacy format. </br>Endpoint
     /// Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn create_legacy_address(
@@ -840,13 +990,84 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
-    /// Create multiple deposit address by running an async job. </br> **Note**:
-    /// - We limit accounts to 10k per operation. - The target Vault Account
-    /// should already have the asset wallet created, or the deposit addresses
-    /// will fail. - This endpoint should be used for UTXO blockchains. - This
-    /// endpoint is currently in Early Availability. Please contact CSM to get
-    /// access to this endpoint.   Endpoint Permission: Admin, Non-Signing
-    /// Admin, Signer, Approver, Editor.
+    /// Create multiple vault accounts by running an async job.       - The
+    /// HBAR, TON, SUI, TERRA, ALGO, and DOT blockchains are not supported. -
+    /// Limited to a maximum of 10,000 accounts per operation.  **Endpoint
+    /// Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
+    async fn create_multiple_accounts(
+        &self,
+        params: CreateMultipleAccountsParams,
+    ) -> Result<models::JobCreated, Error<CreateMultipleAccountsError>> {
+        let CreateMultipleAccountsParams {
+            create_multiple_accounts_request,
+            idempotency_key,
+        } = params;
+
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str =
+            format!("{}/vault/accounts/bulk/", local_var_configuration.base_path);
+        let mut local_var_req_builder =
+            local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder
+                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(local_var_param_value) = idempotency_key {
+            local_var_req_builder =
+                local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
+        }
+        local_var_req_builder = local_var_req_builder.json(&create_multiple_accounts_request);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => {
+                    return Err(Error::from(serde_json::Error::custom(
+                        "Received `text/plain` content type response that cannot be converted to \
+                         `models::JobCreated`",
+                    )));
+                }
+                ContentType::Unsupported(local_var_unknown_type) => {
+                    return Err(Error::from(serde_json::Error::custom(format!(
+                        "Received `{local_var_unknown_type}` content type response that cannot be \
+                         converted to `models::JobCreated`"
+                    ))));
+                }
+            }
+        } else {
+            let local_var_entity: Option<CreateMultipleAccountsError> =
+                serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    /// **For UTXO blockchains only.**  Create multiple deposit addresses by
+    /// running an async job. - The target Vault account should already have a
+    /// UTXO asset wallet with a permanent address. - Limited to a maximum of
+    /// 10,000 addresses per operation. Use multiple operations for the same
+    /// Vault account/permanent address if needed.  **Endpoint Permissions:**
+    /// Admin, Non-Signing Admin.
     async fn create_multiple_deposit_addresses(
         &self,
         params: CreateMultipleDepositAddressesParams,
@@ -1139,6 +1360,57 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
+    /// Detach one or more tags from the requested vault account.
+    async fn detach_tags_from_vault_accounts(
+        &self,
+        params: DetachTagsFromVaultAccountsParams,
+    ) -> Result<(), Error<DetachTagsFromVaultAccountsError>> {
+        let DetachTagsFromVaultAccountsParams {
+            vault_accounts_tag_attachments_request,
+            idempotency_key,
+        } = params;
+
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!(
+            "{}/vault/accounts/attached/tags/detached",
+            local_var_configuration.base_path
+        );
+        let mut local_var_req_builder =
+            local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder
+                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(local_var_param_value) = idempotency_key {
+            local_var_req_builder =
+                local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
+        }
+        local_var_req_builder = local_var_req_builder.json(&vault_accounts_tag_attachments_request);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            Ok(())
+        } else {
+            let local_var_entity: Option<DetachTagsFromVaultAccountsError> =
+                serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
     /// Get all vault wallets of the vault accounts in your workspace.  A vault
     /// wallet is an asset in a vault account.   This method allows fast
     /// traversal of all account balances. </br>Endpoint Permission: Admin,
@@ -1165,29 +1437,29 @@ impl VaultsApi for VaultsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = total_amount_larger_than {
-            local_var_req_builder = local_var_req_builder
-                .query(&[("totalAmountLargerThan", &local_var_str.to_string())]);
-        }
-        if let Some(ref local_var_str) = asset_id {
+        if let Some(ref param_value) = total_amount_larger_than {
             local_var_req_builder =
-                local_var_req_builder.query(&[("assetId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("totalAmountLargerThan", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = order_by {
+        if let Some(ref param_value) = asset_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("orderBy", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("assetId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = before {
+        if let Some(ref param_value) = order_by {
             local_var_req_builder =
-                local_var_req_builder.query(&[("before", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("orderBy", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = after {
+        if let Some(ref param_value) = before {
             local_var_req_builder =
-                local_var_req_builder.query(&[("after", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("before", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = limit {
+        if let Some(ref param_value) = after {
             local_var_req_builder =
-                local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("after", &param_value.to_string())]);
+        }
+        if let Some(ref param_value) = limit {
+            local_var_req_builder =
+                local_var_req_builder.query(&[("limit", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1234,12 +1506,9 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
-    /// Returns the status of the bulk creation of new deposit addresses job,
-    /// and the result or error. **Note**: - The target Vault Account should
-    /// already have the asset wallet created, or the deposit addresses will
-    /// fail. - This endpoint is currently in Early Availability. Please contact
-    /// CSM to get access to this endpoint. Endpoint Permission: Admin,
-    /// Non-Signing Admin, Signer, Approver, Editor.
+    /// Returns the current status of (or an error for) the specified deposit
+    /// addresss bulk creation job.  **Endpoint Permissions:** Admin,
+    /// Non-Signing Admin, Signer, Approver, Editor, and Viewer.
     async fn get_create_multiple_deposit_addresses_job_status(
         &self,
         params: GetCreateMultipleDepositAddressesJobStatusParams,
@@ -1306,10 +1575,79 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
-    /// Get the maximum amount of a particular asset that can be spent in a
-    /// single transaction from a specified vault account (UTXO assets only).
-    /// </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver,
-    /// Editor, Viewer.
+    /// Returns the current status of (or error for) the specified vault account
+    /// bulk creation job.  **Endpoint Permissions:** Admin, Non-Signing Admin,
+    /// Signer, Approver, Editor, Viewer.
+    async fn get_create_multiple_vault_accounts_job_status(
+        &self,
+        params: GetCreateMultipleVaultAccountsJobStatusParams,
+    ) -> Result<
+        models::CreateMultipleVaultAccountsJobStatus,
+        Error<GetCreateMultipleVaultAccountsJobStatusError>,
+    > {
+        let GetCreateMultipleVaultAccountsJobStatusParams { job_id } = params;
+
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!(
+            "{}/vault/accounts/bulk/{jobId}",
+            local_var_configuration.base_path,
+            jobId = crate::apis::urlencode(job_id)
+        );
+        let mut local_var_req_builder =
+            local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder
+                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => {
+                    return Err(Error::from(serde_json::Error::custom(
+                        "Received `text/plain` content type response that cannot be converted to \
+                         `models::CreateMultipleVaultAccountsJobStatus`",
+                    )));
+                }
+                ContentType::Unsupported(local_var_unknown_type) => {
+                    return Err(Error::from(serde_json::Error::custom(format!(
+                        "Received `{local_var_unknown_type}` content type response that cannot be \
+                         converted to `models::CreateMultipleVaultAccountsJobStatus`"
+                    ))));
+                }
+            }
+        } else {
+            let local_var_entity: Option<GetCreateMultipleVaultAccountsJobStatusError> =
+                serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    /// **UTXO assets only.**  Retrieve the maximum amount of the specified
+    /// asset that can be spent in a single transaction from the specified vault
+    /// account.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer,
+    /// Approver, Editor, Viewer.
     async fn get_max_spendable_amount(
         &self,
         params: GetMaxSpendableAmountParams,
@@ -1317,7 +1655,7 @@ impl VaultsApi for VaultsApiClient {
         let GetMaxSpendableAmountParams {
             vault_account_id,
             asset_id,
-            manual_signging,
+            manual_signing,
         } = params;
 
         let local_var_configuration = &self.configuration;
@@ -1333,9 +1671,9 @@ impl VaultsApi for VaultsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = manual_signging {
+        if let Some(ref param_value) = manual_signing {
             local_var_req_builder =
-                local_var_req_builder.query(&[("manualSignging", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("manualSigning", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1398,6 +1736,7 @@ impl VaultsApi for VaultsApiClient {
             before,
             after,
             limit,
+            tag_ids,
         } = params;
 
         let local_var_configuration = &self.configuration;
@@ -1409,37 +1748,56 @@ impl VaultsApi for VaultsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = name_prefix {
+        if let Some(ref param_value) = name_prefix {
             local_var_req_builder =
-                local_var_req_builder.query(&[("namePrefix", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("namePrefix", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = name_suffix {
+        if let Some(ref param_value) = name_suffix {
             local_var_req_builder =
-                local_var_req_builder.query(&[("nameSuffix", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("nameSuffix", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = min_amount_threshold {
+        if let Some(ref param_value) = min_amount_threshold {
             local_var_req_builder =
-                local_var_req_builder.query(&[("minAmountThreshold", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("minAmountThreshold", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = asset_id {
+        if let Some(ref param_value) = asset_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("assetId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("assetId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = order_by {
+        if let Some(ref param_value) = order_by {
             local_var_req_builder =
-                local_var_req_builder.query(&[("orderBy", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("orderBy", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = before {
+        if let Some(ref param_value) = before {
             local_var_req_builder =
-                local_var_req_builder.query(&[("before", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("before", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = after {
+        if let Some(ref param_value) = after {
             local_var_req_builder =
-                local_var_req_builder.query(&[("after", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("after", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = limit {
+        if let Some(ref param_value) = limit {
             local_var_req_builder =
-                local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("limit", &param_value.to_string())]);
+        }
+        if let Some(ref param_value) = tag_ids {
+            local_var_req_builder = match "multi" {
+                "multi" => local_var_req_builder.query(
+                    &param_value
+                        .into_iter()
+                        .map(|p| ("tagIds".to_owned(), p.to_string()))
+                        .collect::<Vec<(std::string::String, std::string::String)>>(),
+                ),
+                _ => local_var_req_builder.query(&[(
+                    "tagIds",
+                    &param_value
+                        .into_iter()
+                        .map(|p| p.to_string())
+                        .collect::<Vec<String>>()
+                        .join(",")
+                        .to_string(),
+                )]),
+            };
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1528,9 +1886,9 @@ impl VaultsApi for VaultsApiClient {
         };
         local_var_req_builder =
             local_var_req_builder.query(&[("algorithm", &algorithm.to_string())]);
-        if let Some(ref local_var_str) = compressed {
+        if let Some(ref param_value) = compressed {
             local_var_req_builder =
-                local_var_req_builder.query(&[("compressed", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("compressed", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1606,9 +1964,9 @@ impl VaultsApi for VaultsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = compressed {
+        if let Some(ref param_value) = compressed {
             local_var_req_builder =
-                local_var_req_builder.query(&[("compressed", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("compressed", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1967,17 +2325,17 @@ impl VaultsApi for VaultsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = limit {
+        if let Some(ref param_value) = limit {
             local_var_req_builder =
-                local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("limit", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = before {
+        if let Some(ref param_value) = before {
             local_var_req_builder =
-                local_var_req_builder.query(&[("before", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("before", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = after {
+        if let Some(ref param_value) = after {
             local_var_req_builder =
-                local_var_req_builder.query(&[("after", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("after", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -2044,13 +2402,13 @@ impl VaultsApi for VaultsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = account_name_prefix {
+        if let Some(ref param_value) = account_name_prefix {
             local_var_req_builder =
-                local_var_req_builder.query(&[("accountNamePrefix", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("accountNamePrefix", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = account_name_suffix {
+        if let Some(ref param_value) = account_name_suffix {
             local_var_req_builder =
-                local_var_req_builder.query(&[("accountNameSuffix", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("accountNameSuffix", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -2763,7 +3121,8 @@ impl VaultsApi for VaultsApiClient {
     }
 }
 
-/// struct for typed errors of method [`activate_asset_for_vault_account`]
+/// struct for typed errors of method
+/// [`VaultsApi::activate_asset_for_vault_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ActivateAssetForVaultAccountError {
@@ -2771,7 +3130,15 @@ pub enum ActivateAssetForVaultAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_legacy_address`]
+/// struct for typed errors of method
+/// [`VaultsApi::attach_tags_to_vault_accounts`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AttachTagsToVaultAccountsError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`VaultsApi::create_legacy_address`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateLegacyAddressError {
@@ -2779,7 +3146,16 @@ pub enum CreateLegacyAddressError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_multiple_deposit_addresses`]
+/// struct for typed errors of method [`VaultsApi::create_multiple_accounts`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateMultipleAccountsError {
+    DefaultResponse(models::ErrorSchema),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method
+/// [`VaultsApi::create_multiple_deposit_addresses`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateMultipleDepositAddressesError {
@@ -2787,7 +3163,7 @@ pub enum CreateMultipleDepositAddressesError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_vault_account`]
+/// struct for typed errors of method [`VaultsApi::create_vault_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateVaultAccountError {
@@ -2795,7 +3171,7 @@ pub enum CreateVaultAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_vault_account_asset`]
+/// struct for typed errors of method [`VaultsApi::create_vault_account_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateVaultAccountAssetError {
@@ -2803,7 +3179,8 @@ pub enum CreateVaultAccountAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_vault_account_asset_address`]
+/// struct for typed errors of method
+/// [`VaultsApi::create_vault_account_asset_address`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateVaultAccountAssetAddressError {
@@ -2811,7 +3188,15 @@ pub enum CreateVaultAccountAssetAddressError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_asset_wallets`]
+/// struct for typed errors of method
+/// [`VaultsApi::detach_tags_from_vault_accounts`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DetachTagsFromVaultAccountsError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`VaultsApi::get_asset_wallets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAssetWalletsError {
@@ -2819,7 +3204,7 @@ pub enum GetAssetWalletsError {
 }
 
 /// struct for typed errors of method
-/// [`get_create_multiple_deposit_addresses_job_status`]
+/// [`VaultsApi::get_create_multiple_deposit_addresses_job_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetCreateMultipleDepositAddressesJobStatusError {
@@ -2827,7 +3212,16 @@ pub enum GetCreateMultipleDepositAddressesJobStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_max_spendable_amount`]
+/// struct for typed errors of method
+/// [`VaultsApi::get_create_multiple_vault_accounts_job_status`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetCreateMultipleVaultAccountsJobStatusError {
+    DefaultResponse(models::ErrorSchema),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`VaultsApi::get_max_spendable_amount`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetMaxSpendableAmountError {
@@ -2835,14 +3229,14 @@ pub enum GetMaxSpendableAmountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_paged_vault_accounts`]
+/// struct for typed errors of method [`VaultsApi::get_paged_vault_accounts`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPagedVaultAccountsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_public_key_info`]
+/// struct for typed errors of method [`VaultsApi::get_public_key_info`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPublicKeyInfoError {
@@ -2850,7 +3244,8 @@ pub enum GetPublicKeyInfoError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_public_key_info_for_address`]
+/// struct for typed errors of method
+/// [`VaultsApi::get_public_key_info_for_address`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPublicKeyInfoForAddressError {
@@ -2858,7 +3253,7 @@ pub enum GetPublicKeyInfoForAddressError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_unspent_inputs`]
+/// struct for typed errors of method [`VaultsApi::get_unspent_inputs`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUnspentInputsError {
@@ -2866,7 +3261,7 @@ pub enum GetUnspentInputsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_vault_account`]
+/// struct for typed errors of method [`VaultsApi::get_vault_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaultAccountError {
@@ -2874,7 +3269,7 @@ pub enum GetVaultAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_vault_account_asset`]
+/// struct for typed errors of method [`VaultsApi::get_vault_account_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaultAccountAssetError {
@@ -2882,7 +3277,8 @@ pub enum GetVaultAccountAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_vault_account_asset_addresses`]
+/// struct for typed errors of method
+/// [`VaultsApi::get_vault_account_asset_addresses`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaultAccountAssetAddressesError {
@@ -2891,7 +3287,7 @@ pub enum GetVaultAccountAssetAddressesError {
 }
 
 /// struct for typed errors of method
-/// [`get_vault_account_asset_addresses_paginated`]
+/// [`VaultsApi::get_vault_account_asset_addresses_paginated`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaultAccountAssetAddressesPaginatedError {
@@ -2899,7 +3295,7 @@ pub enum GetVaultAccountAssetAddressesPaginatedError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_vault_assets`]
+/// struct for typed errors of method [`VaultsApi::get_vault_assets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaultAssetsError {
@@ -2907,7 +3303,7 @@ pub enum GetVaultAssetsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_vault_balance_by_asset`]
+/// struct for typed errors of method [`VaultsApi::get_vault_balance_by_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaultBalanceByAssetError {
@@ -2915,7 +3311,7 @@ pub enum GetVaultBalanceByAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`hide_vault_account`]
+/// struct for typed errors of method [`VaultsApi::hide_vault_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum HideVaultAccountError {
@@ -2923,7 +3319,8 @@ pub enum HideVaultAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_customer_ref_id_for_address`]
+/// struct for typed errors of method
+/// [`VaultsApi::set_customer_ref_id_for_address`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetCustomerRefIdForAddressError {
@@ -2931,7 +3328,7 @@ pub enum SetCustomerRefIdForAddressError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_vault_account_auto_fuel`]
+/// struct for typed errors of method [`VaultsApi::set_vault_account_auto_fuel`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetVaultAccountAutoFuelError {
@@ -2939,7 +3336,8 @@ pub enum SetVaultAccountAutoFuelError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_vault_account_customer_ref_id`]
+/// struct for typed errors of method
+/// [`VaultsApi::set_vault_account_customer_ref_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetVaultAccountCustomerRefIdError {
@@ -2947,7 +3345,7 @@ pub enum SetVaultAccountCustomerRefIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`unhide_vault_account`]
+/// struct for typed errors of method [`VaultsApi::unhide_vault_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UnhideVaultAccountError {
@@ -2955,7 +3353,7 @@ pub enum UnhideVaultAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_vault_account`]
+/// struct for typed errors of method [`VaultsApi::update_vault_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateVaultAccountError {
@@ -2963,7 +3361,8 @@ pub enum UpdateVaultAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_vault_account_asset_address`]
+/// struct for typed errors of method
+/// [`VaultsApi::update_vault_account_asset_address`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateVaultAccountAssetAddressError {
@@ -2971,7 +3370,8 @@ pub enum UpdateVaultAccountAssetAddressError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_vault_account_asset_balance`]
+/// struct for typed errors of method
+/// [`VaultsApi::update_vault_account_asset_balance`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateVaultAccountAssetBalanceError {

@@ -87,11 +87,12 @@ impl PolicyEditorBetaApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`publish_draft`]
+/// struct for passing parameters to the method
+/// [`PolicyEditorBetaApi::publish_draft`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct PublishDraftParams {
-    pub publish_draft_request: models::PublishDraftRequest,
+    pub publish_draft_request_v2: models::PublishDraftRequestV2,
     /// A unique identifier for the request. If the request is sent multiple
     /// times with the same idempotency key, the server will return the same
     /// response as the first request. The idempotency key is valid for 24
@@ -99,7 +100,8 @@ pub struct PublishDraftParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`publish_policy_rules`]
+/// struct for passing parameters to the method
+/// [`PolicyEditorBetaApi::publish_policy_rules`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct PublishPolicyRulesParams {
@@ -111,7 +113,8 @@ pub struct PublishPolicyRulesParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`update_draft`]
+/// struct for passing parameters to the method
+/// [`PolicyEditorBetaApi::update_draft`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateDraftParams {
@@ -258,7 +261,7 @@ impl PolicyEditorBetaApi for PolicyEditorBetaApiClient {
         params: PublishDraftParams,
     ) -> Result<models::PublishResult, Error<PublishDraftError>> {
         let PublishDraftParams {
-            publish_draft_request,
+            publish_draft_request_v2,
             idempotency_key,
         } = params;
 
@@ -278,7 +281,7 @@ impl PolicyEditorBetaApi for PolicyEditorBetaApiClient {
             local_var_req_builder =
                 local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
         }
-        local_var_req_builder = local_var_req_builder.json(&publish_draft_request);
+        local_var_req_builder = local_var_req_builder.json(&publish_draft_request_v2);
 
         let local_var_req = local_var_req_builder.build()?;
         let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -462,7 +465,7 @@ impl PolicyEditorBetaApi for PolicyEditorBetaApiClient {
     }
 }
 
-/// struct for typed errors of method [`get_active_policy`]
+/// struct for typed errors of method [`PolicyEditorBetaApi::get_active_policy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetActivePolicyError {
@@ -470,7 +473,7 @@ pub enum GetActivePolicyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_draft`]
+/// struct for typed errors of method [`PolicyEditorBetaApi::get_draft`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetDraftError {
@@ -478,7 +481,7 @@ pub enum GetDraftError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`publish_draft`]
+/// struct for typed errors of method [`PolicyEditorBetaApi::publish_draft`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PublishDraftError {
@@ -486,7 +489,8 @@ pub enum PublishDraftError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`publish_policy_rules`]
+/// struct for typed errors of method
+/// [`PolicyEditorBetaApi::publish_policy_rules`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PublishPolicyRulesError {
@@ -494,7 +498,7 @@ pub enum PublishPolicyRulesError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_draft`]
+/// struct for typed errors of method [`PolicyEditorBetaApi::update_draft`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateDraftError {

@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **vault_account_id** | **String** | The vault account id this contract was deploy from | 
-**abi_function** | [**models::WriteAbiFunction**](WriteAbiFunction.md) |  | 
+**abi_function** | [**models::WriteCallFunctionDtoAbiFunction**](WriteCallFunctionDto_abiFunction.md) |  | 
 **amount** | Option<**String**> | Amount in base asset. Being used in payable functions | [optional]
 **fee_level** | Option<**String**> | Fee level for the write function transaction. interchangeable with the 'fee' field | [optional]
 **fee** | Option<**String**> | Max fee amount for the write function transaction. interchangeable with the 'feeLevel' field | [optional]

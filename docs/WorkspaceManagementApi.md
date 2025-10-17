@@ -91,7 +91,7 @@ No authorization required
 > models::CreateUserGroupResponse create_user_group(user_group_create_request, idempotency_key)
 Create user group
 
-Create a new user group.  - Please note that this endpoint is available only for API keys with Admin/Non Signing Admin permissions. Learn more about Fireblocks Users management in the following [guide](https://developers.fireblocks.com/docs/manage-users). </br>Endpoint Permission: Admin, Non-Signing Admin.
+Create a new user group. Users with the Viewer role cannot be added to groups. </br>Endpoint Permission: Admin, Non-Signing Admin.
 
 ### Parameters
 

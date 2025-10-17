@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**provider** | Option<**String**> |  | [optional]
-**payload** | Option<[**serde_json::Value**](.md)> | The payload of the screening result. The payload is a JSON object that contains the screening result. The payload is different for each screening provider.  | [optional]
-**bypass_reason** | Option<**String**> |  | [optional]
+**provider** | Option<**String**> | Screening Provider | [optional]
+**payload** | Option<[**serde_json::Value**](.md)> | The payload of the screening result. - The payload is a JSON object that contains the screening result. - The payload is different for each screening provider.  | [optional]
+**bypass_reason** | Option<**String**> | Reason AML screening was bypassed | [optional]
 **screening_status** | Option<**String**> |  | [optional]
 **timestamp** | Option<**f64**> |  | [optional]
 

@@ -11,13 +11,13 @@ use {
     serde::{Deserialize, Serialize},
 };
 
-/// TransactionRequestPriorityFee : For Ethereum-based blockchains only, the fee
-/// for EIP-1559 transaction pricing mechanism. Value is in Gwei.  Fireblocks
-/// recommends using a numeric string for accurate precision. Although a number
-/// input exists, it is deprecated. For Ethereum-based blockchains only, the fee
-/// for EIP-1559 transaction pricing mechanism. Value is in Gwei.  Fireblocks
-/// recommends using a numeric string for accurate precision. Although a number
-/// input exists, it is deprecated.
+/// TransactionRequestPriorityFee : **For Ethereum-based blockchains only.** The
+/// fee (in Gwei) for EIP-1559 transaction pricing mechanism.  Note: -
+/// Fireblocks recommends using a numeric string for more precision. Although a
+/// number input exists, it is deprecated. **For Ethereum-based blockchains
+/// only.** The fee (in Gwei) for EIP-1559 transaction pricing mechanism.  Note:
+/// - Fireblocks recommends using a numeric string for more precision. Although
+/// a number input exists, it is deprecated.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TransactionRequestPriorityFee {

@@ -28,7 +28,7 @@
 | Coinbaseexchange | COINBASEEXCHANGE |
 | Korbit | KORBIT |
 | Hitbtc | HITBTC |
-| Geminis | GEMINIs |
+| Gemini | GEMINI |
 | Circle | CIRCLE |
 | Bitmex | BITMEX |
 | Huobi | HUOBI |

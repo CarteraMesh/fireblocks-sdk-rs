@@ -126,6 +126,15 @@ pub trait ComplianceApi: Send + Sync {
         Error<RetryRejectedTransactionBypassScreeningChecksError>,
     >;
 
+    /// POST /screening/aml/verdict/manual
+    ///
+    /// Set AML verdict for incoming transactions when the Manual Screening
+    /// Verdict feature is enabled.
+    async fn set_aml_verdict(
+        &self,
+        params: SetAmlVerdictParams,
+    ) -> Result<models::AmlVerdictManualResponse, Error<SetAmlVerdictError>>;
+
     /// POST /screening/travel_rule/vault/{vaultAccountId}/vasp
     ///
     /// Sets the VASP DID for a specific vault.  Pass empty string to remove an
@@ -206,7 +215,8 @@ impl ComplianceApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`get_screening_full_details`]
+/// struct for passing parameters to the method
+/// [`ComplianceApi::get_screening_full_details`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetScreeningFullDetailsParams {
@@ -214,7 +224,8 @@ pub struct GetScreeningFullDetailsParams {
     pub tx_id: String,
 }
 
-/// struct for passing parameters to the method [`get_vasp_for_vault`]
+/// struct for passing parameters to the method
+/// [`ComplianceApi::get_vasp_for_vault`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaspForVaultParams {
@@ -222,7 +233,8 @@ pub struct GetVaspForVaultParams {
     pub vault_account_id: String,
 }
 
-/// struct for passing parameters to the method [`get_vaspby_did`]
+/// struct for passing parameters to the method
+/// [`ComplianceApi::get_vaspby_did`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaspbyDidParams {
@@ -232,7 +244,7 @@ pub struct GetVaspbyDidParams {
     pub fields: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_vasps`]
+/// struct for passing parameters to the method [`ComplianceApi::get_vasps`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetVaspsParams {
@@ -255,7 +267,7 @@ pub struct GetVaspsParams {
 }
 
 /// struct for passing parameters to the method
-/// [`retry_rejected_transaction_bypass_screening_checks`]
+/// [`ComplianceApi::retry_rejected_transaction_bypass_screening_checks`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct RetryRejectedTransactionBypassScreeningChecksParams {
@@ -268,7 +280,21 @@ pub struct RetryRejectedTransactionBypassScreeningChecksParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`set_vasp_for_vault`]
+/// struct for passing parameters to the method
+/// [`ComplianceApi::set_aml_verdict`]
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+pub struct SetAmlVerdictParams {
+    pub aml_verdict_manual_request: models::AmlVerdictManualRequest,
+    /// A unique identifier for the request. If the request is sent multiple
+    /// times with the same idempotency key, the server will return the same
+    /// response as the first request. The idempotency key is valid for 24
+    /// hours.
+    pub idempotency_key: Option<String>,
+}
+
+/// struct for passing parameters to the method
+/// [`ComplianceApi::set_vasp_for_vault`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetVaspForVaultParams {
@@ -283,7 +309,7 @@ pub struct SetVaspForVaultParams {
 }
 
 /// struct for passing parameters to the method
-/// [`update_aml_screening_configuration`]
+/// [`ComplianceApi::update_aml_screening_configuration`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateAmlScreeningConfigurationParams {
@@ -295,7 +321,7 @@ pub struct UpdateAmlScreeningConfigurationParams {
 }
 
 /// struct for passing parameters to the method
-/// [`update_screening_configuration`]
+/// [`ComplianceApi::update_screening_configuration`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateScreeningConfigurationParams {
@@ -307,7 +333,8 @@ pub struct UpdateScreeningConfigurationParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`update_travel_rule_config`]
+/// struct for passing parameters to the method
+/// [`ComplianceApi::update_travel_rule_config`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateTravelRuleConfigParams {
@@ -318,7 +345,7 @@ pub struct UpdateTravelRuleConfigParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`update_vasp`]
+/// struct for passing parameters to the method [`ComplianceApi::update_vasp`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateVaspParams {
@@ -331,7 +358,7 @@ pub struct UpdateVaspParams {
 }
 
 /// struct for passing parameters to the method
-/// [`validate_full_travel_rule_transaction`]
+/// [`ComplianceApi::validate_full_travel_rule_transaction`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ValidateFullTravelRuleTransactionParams {
@@ -353,7 +380,7 @@ pub struct ValidateFullTravelRuleTransactionParams {
 }
 
 /// struct for passing parameters to the method
-/// [`validate_travel_rule_transaction`]
+/// [`ComplianceApi::validate_travel_rule_transaction`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ValidateTravelRuleTransactionParams {
@@ -899,9 +926,9 @@ impl ComplianceApi for ComplianceApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = fields {
+        if let Some(ref param_value) = fields {
             local_var_req_builder =
-                local_var_req_builder.query(&[("fields", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("fields", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -975,29 +1002,28 @@ impl ComplianceApi for ComplianceApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = order {
+        if let Some(ref param_value) = order {
             local_var_req_builder =
-                local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("order", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = per_page {
+        if let Some(ref param_value) = per_page {
             local_var_req_builder =
-                local_var_req_builder.query(&[("per_page", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("per_page", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page {
+        if let Some(ref param_value) = page {
             local_var_req_builder =
-                local_var_req_builder.query(&[("page", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("page", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = fields {
+        if let Some(ref param_value) = fields {
             local_var_req_builder =
-                local_var_req_builder.query(&[("fields", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("fields", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = q {
-            local_var_req_builder =
-                local_var_req_builder.query(&[("q", &local_var_str.to_string())]);
+        if let Some(ref param_value) = q {
+            local_var_req_builder = local_var_req_builder.query(&[("q", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = review_value {
+        if let Some(ref param_value) = review_value {
             local_var_req_builder =
-                local_var_req_builder.query(&[("reviewValue", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("reviewValue", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1112,6 +1138,78 @@ impl ComplianceApi for ComplianceApiClient {
             }
         } else {
             let local_var_entity: Option<RetryRejectedTransactionBypassScreeningChecksError> =
+                serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    /// Set AML verdict for incoming transactions when the Manual Screening
+    /// Verdict feature is enabled.
+    async fn set_aml_verdict(
+        &self,
+        params: SetAmlVerdictParams,
+    ) -> Result<models::AmlVerdictManualResponse, Error<SetAmlVerdictError>> {
+        let SetAmlVerdictParams {
+            aml_verdict_manual_request,
+            idempotency_key,
+        } = params;
+
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!(
+            "{}/screening/aml/verdict/manual",
+            local_var_configuration.base_path
+        );
+        let mut local_var_req_builder =
+            local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder
+                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(local_var_param_value) = idempotency_key {
+            local_var_req_builder =
+                local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
+        }
+        local_var_req_builder = local_var_req_builder.json(&aml_verdict_manual_request);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => {
+                    return Err(Error::from(serde_json::Error::custom(
+                        "Received `text/plain` content type response that cannot be converted to \
+                         `models::AmlVerdictManualResponse`",
+                    )));
+                }
+                ContentType::Unsupported(local_var_unknown_type) => {
+                    return Err(Error::from(serde_json::Error::custom(format!(
+                        "Received `{local_var_unknown_type}` content type response that cannot be \
+                         converted to `models::AmlVerdictManualResponse`"
+                    ))));
+                }
+            }
+        } else {
+            let local_var_entity: Option<SetAmlVerdictError> =
                 serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent {
                 status: local_var_status,
@@ -1505,9 +1603,9 @@ impl ComplianceApi for ComplianceApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = notation {
+        if let Some(ref param_value) = notation {
             local_var_req_builder =
-                local_var_req_builder.query(&[("notation", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("notation", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1585,9 +1683,9 @@ impl ComplianceApi for ComplianceApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = notation {
+        if let Some(ref param_value) = notation {
             local_var_req_builder =
-                local_var_req_builder.query(&[("notation", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("notation", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1641,42 +1739,48 @@ impl ComplianceApi for ComplianceApiClient {
     }
 }
 
-/// struct for typed errors of method [`get_aml_post_screening_policy`]
+/// struct for typed errors of method
+/// [`ComplianceApi::get_aml_post_screening_policy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAmlPostScreeningPolicyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_aml_screening_configuration`]
+/// struct for typed errors of method
+/// [`ComplianceApi::get_aml_screening_configuration`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAmlScreeningConfigurationError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_aml_screening_policy`]
+/// struct for typed errors of method
+/// [`ComplianceApi::get_aml_screening_policy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAmlScreeningPolicyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_post_screening_policy`]
+/// struct for typed errors of method
+/// [`ComplianceApi::get_post_screening_policy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPostScreeningPolicyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_screening_configuration`]
+/// struct for typed errors of method
+/// [`ComplianceApi::get_screening_configuration`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetScreeningConfigurationError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_screening_full_details`]
+/// struct for typed errors of method
+/// [`ComplianceApi::get_screening_full_details`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetScreeningFullDetailsError {
@@ -1684,14 +1788,14 @@ pub enum GetScreeningFullDetailsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_screening_policy`]
+/// struct for typed errors of method [`ComplianceApi::get_screening_policy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetScreeningPolicyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_vasp_for_vault`]
+/// struct for typed errors of method [`ComplianceApi::get_vasp_for_vault`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaspForVaultError {
@@ -1699,7 +1803,7 @@ pub enum GetVaspForVaultError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_vaspby_did`]
+/// struct for typed errors of method [`ComplianceApi::get_vaspby_did`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaspbyDidError {
@@ -1708,7 +1812,7 @@ pub enum GetVaspbyDidError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_vasps`]
+/// struct for typed errors of method [`ComplianceApi::get_vasps`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetVaspsError {
@@ -1716,7 +1820,7 @@ pub enum GetVaspsError {
 }
 
 /// struct for typed errors of method
-/// [`retry_rejected_transaction_bypass_screening_checks`]
+/// [`ComplianceApi::retry_rejected_transaction_bypass_screening_checks`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RetryRejectedTransactionBypassScreeningChecksError {
@@ -1724,7 +1828,18 @@ pub enum RetryRejectedTransactionBypassScreeningChecksError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_vasp_for_vault`]
+/// struct for typed errors of method [`ComplianceApi::set_aml_verdict`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum SetAmlVerdictError {
+    Status400(models::ErrorSchema),
+    Status425(models::ErrorSchema),
+    Status500(models::ErrorSchema),
+    DefaultResponse(models::ErrorSchema),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`ComplianceApi::set_vasp_for_vault`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetVaspForVaultError {
@@ -1732,28 +1847,31 @@ pub enum SetVaspForVaultError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_aml_screening_configuration`]
+/// struct for typed errors of method
+/// [`ComplianceApi::update_aml_screening_configuration`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateAmlScreeningConfigurationError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_screening_configuration`]
+/// struct for typed errors of method
+/// [`ComplianceApi::update_screening_configuration`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateScreeningConfigurationError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_travel_rule_config`]
+/// struct for typed errors of method
+/// [`ComplianceApi::update_travel_rule_config`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateTravelRuleConfigError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_vasp`]
+/// struct for typed errors of method [`ComplianceApi::update_vasp`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateVaspError {
@@ -1762,7 +1880,8 @@ pub enum UpdateVaspError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`validate_full_travel_rule_transaction`]
+/// struct for typed errors of method
+/// [`ComplianceApi::validate_full_travel_rule_transaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ValidateFullTravelRuleTransactionError {
@@ -1771,7 +1890,8 @@ pub enum ValidateFullTravelRuleTransactionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`validate_travel_rule_transaction`]
+/// struct for typed errors of method
+/// [`ComplianceApi::validate_travel_rule_transaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ValidateTravelRuleTransactionError {

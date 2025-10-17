@@ -62,7 +62,7 @@ impl DAppConnectionsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`create`]
+/// struct for passing parameters to the method [`DAppConnectionsApi::create`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateParams {
@@ -74,7 +74,7 @@ pub struct CreateParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get`]
+/// struct for passing parameters to the method [`DAppConnectionsApi::get`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetParams {
@@ -90,7 +90,7 @@ pub struct GetParams {
     pub next: Option<String>,
 }
 
-/// struct for passing parameters to the method [`remove`]
+/// struct for passing parameters to the method [`DAppConnectionsApi::remove`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct RemoveParams {
@@ -98,7 +98,7 @@ pub struct RemoveParams {
     pub id: String,
 }
 
-/// struct for passing parameters to the method [`submit`]
+/// struct for passing parameters to the method [`DAppConnectionsApi::submit`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SubmitParams {
@@ -204,26 +204,25 @@ impl DAppConnectionsApi for DAppConnectionsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = order {
+        if let Some(ref param_value) = order {
             local_var_req_builder =
-                local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("order", &param_value.to_string())]);
         }
-        if let Some(ref _local_var_str) = filter {
-            eprintln!("warning filter for dapp not available...skipping");
-            // local_var_req_builder = local_var_req_builder.query(&[("filter",
-            // &local_var_str.to_string())]);
-        }
-        if let Some(ref local_var_str) = sort {
+        if let Some(ref param_value) = filter {
             local_var_req_builder =
-                local_var_req_builder.query(&[("sort", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("filter", &serde_json::to_value(param_value)?)]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = sort {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("sort", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = next {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("next", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
+        }
+        if let Some(ref param_value) = next {
+            local_var_req_builder =
+                local_var_req_builder.query(&[("next", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -365,7 +364,7 @@ impl DAppConnectionsApi for DAppConnectionsApiClient {
     }
 }
 
-/// struct for typed errors of method [`create`]
+/// struct for typed errors of method [`DAppConnectionsApi::create`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateError {
@@ -374,7 +373,7 @@ pub enum CreateError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get`]
+/// struct for typed errors of method [`DAppConnectionsApi::get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetError {
@@ -383,7 +382,7 @@ pub enum GetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`remove`]
+/// struct for typed errors of method [`DAppConnectionsApi::remove`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RemoveError {
@@ -392,7 +391,7 @@ pub enum RemoveError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`submit`]
+/// struct for typed errors of method [`DAppConnectionsApi::submit`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SubmitError {

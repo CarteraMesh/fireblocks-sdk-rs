@@ -13,15 +13,17 @@ use {
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ComplianceScreeningResult {
+    /// Screening Provider
     #[serde(rename = "provider", skip_serializing_if = "Option::is_none")]
-    pub provider: Option<String>,
-    /// The payload of the screening result. The payload is a JSON object that
-    /// contains the screening result. The payload is different for each
+    pub provider: Option<Provider>,
+    /// The payload of the screening result. - The payload is a JSON object that
+    /// contains the screening result. - The payload is different for each
     /// screening provider.
     #[serde(rename = "payload", skip_serializing_if = "Option::is_none")]
     pub payload: Option<serde_json::Value>,
+    /// Reason AML screening was bypassed
     #[serde(rename = "bypassReason", skip_serializing_if = "Option::is_none")]
-    pub bypass_reason: Option<String>,
+    pub bypass_reason: Option<BypassReason>,
     #[serde(rename = "screeningStatus", skip_serializing_if = "Option::is_none")]
     pub screening_status: Option<ScreeningStatus>,
     #[serde(rename = "timestamp", skip_serializing_if = "Option::is_none")]
@@ -37,6 +39,56 @@ impl ComplianceScreeningResult {
             screening_status: None,
             timestamp: None,
         }
+    }
+}
+/// Screening Provider
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Provider {
+    #[serde(rename = "CHAINALYSIS")]
+    Chainalysis,
+    #[serde(rename = "ELLIPTIC")]
+    Elliptic,
+    #[serde(rename = "CHAINALYSIS_V2")]
+    ChainalysisV2,
+    #[serde(rename = "ELLIPTIC_HOLISTIC")]
+    EllipticHolistic,
+    #[serde(rename = "NONE")]
+    None,
+}
+
+impl Default for Provider {
+    fn default() -> Provider {
+        Self::Chainalysis
+    }
+}
+/// Reason AML screening was bypassed
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum BypassReason {
+    #[serde(rename = "MANUAL")]
+    Manual,
+    #[serde(rename = "UNSUPPORTED_ASSET")]
+    UnsupportedAsset,
+    #[serde(rename = "BYPASSED_FAILURE")]
+    BypassedFailure,
+    #[serde(rename = "UNSUPPORTED_ROUTE")]
+    UnsupportedRoute,
+    #[serde(rename = "PASSED_BY_POLICY")]
+    PassedByPolicy,
+    #[serde(rename = "TIMED_OUT")]
+    TimedOut,
+    #[serde(rename = "BAD_CREDENTIALS")]
+    BadCredentials,
+    #[serde(rename = "CONFIGURATION_ERROR")]
+    ConfigurationError,
+    #[serde(rename = "DROPPED_BY_BLOCKCHAIN")]
+    DroppedByBlockchain,
+    #[serde(rename = "PROCESS_DISMISSED")]
+    ProcessDismissed,
+}
+
+impl Default for BypassReason {
+    fn default() -> BypassReason {
+        Self::Manual
     }
 }
 ///

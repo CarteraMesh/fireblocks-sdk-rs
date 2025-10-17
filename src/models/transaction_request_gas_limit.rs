@@ -11,16 +11,16 @@ use {
     serde::{Deserialize, Serialize},
 };
 
-/// TransactionRequestGasLimit : For EVM-based blockchains only. Units of gas
-/// required to process the transaction. Note: Only two of the three arguments
-/// can be specified in a single transaction: `gasLimit`, `gasPrice` and
-/// `networkFee`. Fireblocks recommends using a numeric string for accurate
-/// precision. Although a number input exists, it is deprecated. For EVM-based
-/// blockchains only. Units of gas required to process the transaction. Note:
-/// Only two of the three arguments can be specified in a single transaction:
-/// `gasLimit`, `gasPrice` and `networkFee`. Fireblocks recommends using a
-/// numeric string for accurate precision. Although a number input exists, it is
-/// deprecated.
+/// TransactionRequestGasLimit : **For EVM-based blockchains only.**  Units of
+/// gas required to process the transaction.  Notes: - Only two of the three
+/// arguments can be specified in a single transaction: `gasLimit`, `gasPrice`,
+/// and/or `networkFee`. - Fireblocks recommends using a numeric string for more
+/// precision. Although a number input exists, it is deprecated. **For EVM-based
+/// blockchains only.**  Units of gas required to process the transaction.
+/// Notes: - Only two of the three arguments can be specified in a single
+/// transaction: `gasLimit`, `gasPrice`, and/or `networkFee`. - Fireblocks
+/// recommends using a numeric string for more precision. Although a number
+/// input exists, it is deprecated.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TransactionRequestGasLimit {

@@ -71,7 +71,8 @@ impl GasStationApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`get_gas_station_by_asset_id`]
+/// struct for passing parameters to the method
+/// [`GasStationApi::get_gas_station_by_asset_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetGasStationByAssetIdParams {
@@ -80,7 +81,7 @@ pub struct GetGasStationByAssetIdParams {
 }
 
 /// struct for passing parameters to the method
-/// [`update_gas_station_configuration`]
+/// [`GasStationApi::update_gas_station_configuration`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateGasStationConfigurationParams {
@@ -93,7 +94,7 @@ pub struct UpdateGasStationConfigurationParams {
 }
 
 /// struct for passing parameters to the method
-/// [`update_gas_station_configuration_by_asset_id`]
+/// [`GasStationApi::update_gas_station_configuration_by_asset_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateGasStationConfigurationByAssetIdParams {
@@ -384,7 +385,8 @@ impl GasStationApi for GasStationApiClient {
     }
 }
 
-/// struct for typed errors of method [`get_gas_station_by_asset_id`]
+/// struct for typed errors of method
+/// [`GasStationApi::get_gas_station_by_asset_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetGasStationByAssetIdError {
@@ -392,7 +394,7 @@ pub enum GetGasStationByAssetIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_gas_station_info`]
+/// struct for typed errors of method [`GasStationApi::get_gas_station_info`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetGasStationInfoError {
@@ -400,7 +402,8 @@ pub enum GetGasStationInfoError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_gas_station_configuration`]
+/// struct for typed errors of method
+/// [`GasStationApi::update_gas_station_configuration`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateGasStationConfigurationError {
@@ -409,7 +412,7 @@ pub enum UpdateGasStationConfigurationError {
 }
 
 /// struct for typed errors of method
-/// [`update_gas_station_configuration_by_asset_id`]
+/// [`GasStationApi::update_gas_station_configuration_by_asset_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateGasStationConfigurationByAssetIdError {

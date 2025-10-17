@@ -11,12 +11,12 @@ use {
     serde::{Deserialize, Serialize},
 };
 
-/// NodeControls : Configure special node requirements.  For routing
-/// transactions to a custom node please set the `type` to `NODE_ROUTER` and the
-/// `tag` to the pre-configured tag value. For MEV protection, set only the
-/// `type` property to `MEV` (`tag` is not required at this stage)  * Note: This
-/// is a premium feature that should be enabled in your workspace.   Please
-/// contract your Customer Success Manager/Fireblocks Support for more info.
+/// NodeControls : Configure special node requirements. - For routing
+/// transactions to a custom node, set the `type` to `NODE_ROUTER` and the `tag`
+/// to the pre-configured tag value. - For MEV protection, set only the `type`
+/// property to `MEV` (`tag` is not required at this stage).  **Note:** This is
+/// a premium feature that should be enabled in your workspace. Please contact
+/// your Customer Success Manager or Fireblocks Support for more information.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct NodeControls {
     /// `NODE_ROUTER` - used for transaction routing to a custom node `MEV` -
@@ -29,12 +29,13 @@ pub struct NodeControls {
 }
 
 impl NodeControls {
-    /// Configure special node requirements.  For routing transactions to a
-    /// custom node please set the `type` to `NODE_ROUTER` and the `tag` to the
-    /// pre-configured tag value. For MEV protection, set only the `type`
-    /// property to `MEV` (`tag` is not required at this stage)  * Note: This is
-    /// a premium feature that should be enabled in your workspace.   Please
-    /// contract your Customer Success Manager/Fireblocks Support for more info.
+    /// Configure special node requirements. - For routing transactions to a
+    /// custom node, set the `type` to `NODE_ROUTER` and the `tag` to the
+    /// pre-configured tag value. - For MEV protection, set only the `type`
+    /// property to `MEV` (`tag` is not required at this stage).  **Note:** This
+    /// is a premium feature that should be enabled in your workspace. Please
+    /// contact your Customer Success Manager or Fireblocks Support for more
+    /// information.
     pub fn new() -> NodeControls {
         NodeControls {
             r#type: None,

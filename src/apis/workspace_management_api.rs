@@ -38,7 +38,8 @@ pub trait WorkspaceManagementApi: Send + Sync {
 
     /// POST /management/user_groups
     ///
-    /// Create a new user group.  - Please note that this endpoint is available only for API keys with Admin/Non Signing Admin permissions. Learn more about Fireblocks Users management in the following [guide](https://developers.fireblocks.com/docs/manage-users). </br>Endpoint Permission: Admin, Non-Signing Admin.
+    /// Create a new user group. Users with the Viewer role cannot be added to
+    /// groups. </br>Endpoint Permission: Admin, Non-Signing Admin.
     async fn create_user_group(
         &self,
         params: CreateUserGroupParams,
@@ -180,7 +181,8 @@ impl WorkspaceManagementApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`create_api_user`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::create_api_user`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateApiUserParams {
@@ -192,7 +194,8 @@ pub struct CreateApiUserParams {
     pub create_api_user: Option<models::CreateApiUser>,
 }
 
-/// struct for passing parameters to the method [`create_console_user`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::create_console_user`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateConsoleUserParams {
@@ -204,7 +207,8 @@ pub struct CreateConsoleUserParams {
     pub create_console_user: Option<models::CreateConsoleUser>,
 }
 
-/// struct for passing parameters to the method [`create_user_group`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::create_user_group`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateUserGroupParams {
@@ -216,7 +220,8 @@ pub struct CreateUserGroupParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`delete_user_group`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::delete_user_group`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteUserGroupParams {
@@ -224,7 +229,8 @@ pub struct DeleteUserGroupParams {
     pub group_id: String,
 }
 
-/// struct for passing parameters to the method [`get_audit_logs`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::get_audit_logs`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetAuditLogsParams {
@@ -234,7 +240,8 @@ pub struct GetAuditLogsParams {
     pub cursor: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_audits`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::get_audits`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetAuditsParams {
@@ -242,7 +249,8 @@ pub struct GetAuditsParams {
     pub time_period: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_user_group`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::get_user_group`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetUserGroupParams {
@@ -250,7 +258,8 @@ pub struct GetUserGroupParams {
     pub group_id: String,
 }
 
-/// struct for passing parameters to the method [`get_whitelist_ip_addresses`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::get_whitelist_ip_addresses`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetWhitelistIpAddressesParams {
@@ -258,7 +267,8 @@ pub struct GetWhitelistIpAddressesParams {
     pub user_id: String,
 }
 
-/// struct for passing parameters to the method [`reset_device`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::reset_device`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ResetDeviceParams {
@@ -271,7 +281,8 @@ pub struct ResetDeviceParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`set_ota_status`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::set_ota_status`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetOtaStatusParams {
@@ -283,7 +294,8 @@ pub struct SetOtaStatusParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`update_user_group`]
+/// struct for passing parameters to the method
+/// [`WorkspaceManagementApi::update_user_group`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateUserGroupParams {
@@ -396,7 +408,8 @@ impl WorkspaceManagementApi for WorkspaceManagementApiClient {
         }
     }
 
-    /// Create a new user group.  - Please note that this endpoint is available only for API keys with Admin/Non Signing Admin permissions. Learn more about Fireblocks Users management in the following [guide](https://developers.fireblocks.com/docs/manage-users). </br>Endpoint Permission: Admin, Non-Signing Admin.
+    /// Create a new user group. Users with the Viewer role cannot be added to
+    /// groups. </br>Endpoint Permission: Admin, Non-Signing Admin.
     async fn create_user_group(
         &self,
         params: CreateUserGroupParams,
@@ -594,13 +607,13 @@ impl WorkspaceManagementApi for WorkspaceManagementApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = time_period {
+        if let Some(ref param_value) = time_period {
             local_var_req_builder =
-                local_var_req_builder.query(&[("timePeriod", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("timePeriod", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = cursor {
+        if let Some(ref param_value) = cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("cursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("cursor", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -663,9 +676,9 @@ impl WorkspaceManagementApi for WorkspaceManagementApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = time_period {
+        if let Some(ref param_value) = time_period {
             local_var_req_builder =
-                local_var_req_builder.query(&[("timePeriod", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("timePeriod", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1338,7 +1351,8 @@ impl WorkspaceManagementApi for WorkspaceManagementApiClient {
     }
 }
 
-/// struct for typed errors of method [`create_api_user`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::create_api_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateApiUserError {
@@ -1350,7 +1364,8 @@ pub enum CreateApiUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_console_user`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::create_console_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateConsoleUserError {
@@ -1362,7 +1377,8 @@ pub enum CreateConsoleUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_user_group`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::create_user_group`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUserGroupError {
@@ -1370,7 +1386,8 @@ pub enum CreateUserGroupError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_user_group`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::delete_user_group`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteUserGroupError {
@@ -1378,7 +1395,7 @@ pub enum DeleteUserGroupError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_api_users`]
+/// struct for typed errors of method [`WorkspaceManagementApi::get_api_users`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetApiUsersError {
@@ -1389,7 +1406,7 @@ pub enum GetApiUsersError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_audit_logs`]
+/// struct for typed errors of method [`WorkspaceManagementApi::get_audit_logs`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAuditLogsError {
@@ -1397,7 +1414,7 @@ pub enum GetAuditLogsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_audits`]
+/// struct for typed errors of method [`WorkspaceManagementApi::get_audits`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAuditsError {
@@ -1405,7 +1422,8 @@ pub enum GetAuditsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_console_users`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::get_console_users`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetConsoleUsersError {
@@ -1416,7 +1434,7 @@ pub enum GetConsoleUsersError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_ota_status`]
+/// struct for typed errors of method [`WorkspaceManagementApi::get_ota_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOtaStatusError {
@@ -1424,7 +1442,7 @@ pub enum GetOtaStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_user_group`]
+/// struct for typed errors of method [`WorkspaceManagementApi::get_user_group`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserGroupError {
@@ -1432,7 +1450,8 @@ pub enum GetUserGroupError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_user_groups`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::get_user_groups`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserGroupsError {
@@ -1440,7 +1459,7 @@ pub enum GetUserGroupsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_users`]
+/// struct for typed errors of method [`WorkspaceManagementApi::get_users`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUsersError {
@@ -1448,7 +1467,8 @@ pub enum GetUsersError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_whitelist_ip_addresses`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::get_whitelist_ip_addresses`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetWhitelistIpAddressesError {
@@ -1459,7 +1479,8 @@ pub enum GetWhitelistIpAddressesError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_workspace_status`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::get_workspace_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetWorkspaceStatusError {
@@ -1467,7 +1488,7 @@ pub enum GetWorkspaceStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`reset_device`]
+/// struct for typed errors of method [`WorkspaceManagementApi::reset_device`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ResetDeviceError {
@@ -1478,7 +1499,7 @@ pub enum ResetDeviceError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_ota_status`]
+/// struct for typed errors of method [`WorkspaceManagementApi::set_ota_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetOtaStatusError {
@@ -1488,7 +1509,8 @@ pub enum SetOtaStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_user_group`]
+/// struct for typed errors of method
+/// [`WorkspaceManagementApi::update_user_group`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateUserGroupError {

@@ -37,19 +37,14 @@ impl Client {
         }
         req.source = Some(SourceTransferPeerPath {
             r#type: TransferPeerPathType::VaultAccount,
-            sub_type: None,
             id: Some(String::from(vault_id)),
-            name: None,
-            wallet_id: None,
+            ..Default::default()
         });
         let uuid = uuid::Uuid::try_from(dest_id)?;
         req.destination = Some(DestinationTransferPeerPath {
             r#type: peer,
-            sub_type: None,
             id: Some(uuid.to_string()),
-            name: None,
-            wallet_id: None,
-            one_time_address: None,
+            ..Default::default()
         });
         req.asset_id = Some(asset_id.into());
         req.amount = Some(crate::models::TransactionRequestAmount::String(

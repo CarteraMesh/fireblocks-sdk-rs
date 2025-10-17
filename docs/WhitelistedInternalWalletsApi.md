@@ -146,7 +146,7 @@ No authorization required
 > models::UnmanagedWallet get_internal_wallet(wallet_id)
 Get assets for internal wallet
 
-Returns information for an asset in an internal wallet. This endpoint will be deprecated after 6 months. As part of the depreciation process this endpoint will no longer return balances, only addresses. Until it is deprecated, this endpoint will behave the same way. Internal Wallets are whitelisted wallets that belong to you outside of Fireblocks.    - You can see the balance of the Internal Wallet via Fireblocks   - You cannot initiate transactions from Internal Wallets through Fireblocks  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
+**This endpoint will be deprecated on December 31, 2025. Currently, the endpoint will only return a wallet's addresses and not any balances.**  Retrieves information about all the assets in an internal wallet, which is a wallet owned by you outside of your Fireblocks workspace. Please note that you cannot initiate transactions through Fireblocks using an internal wallet.  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
 
 ### Parameters
 

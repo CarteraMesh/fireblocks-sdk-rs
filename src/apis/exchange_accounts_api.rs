@@ -82,7 +82,8 @@ impl ExchangeAccountsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`add_exchange_account`]
+/// struct for passing parameters to the method
+/// [`ExchangeAccountsApi::add_exchange_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct AddExchangeAccountParams {
@@ -94,7 +95,8 @@ pub struct AddExchangeAccountParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`convert_assets`]
+/// struct for passing parameters to the method
+/// [`ExchangeAccountsApi::convert_assets`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ConvertAssetsParams {
@@ -110,7 +112,8 @@ pub struct ConvertAssetsParams {
     pub convert_assets_request: Option<models::ConvertAssetsRequest>,
 }
 
-/// struct for passing parameters to the method [`get_exchange_account`]
+/// struct for passing parameters to the method
+/// [`ExchangeAccountsApi::get_exchange_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetExchangeAccountParams {
@@ -118,7 +121,8 @@ pub struct GetExchangeAccountParams {
     pub exchange_account_id: String,
 }
 
-/// struct for passing parameters to the method [`get_exchange_account_asset`]
+/// struct for passing parameters to the method
+/// [`ExchangeAccountsApi::get_exchange_account_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetExchangeAccountAssetParams {
@@ -128,7 +132,8 @@ pub struct GetExchangeAccountAssetParams {
     pub asset_id: String,
 }
 
-/// struct for passing parameters to the method [`get_paged_exchange_accounts`]
+/// struct for passing parameters to the method
+/// [`ExchangeAccountsApi::get_paged_exchange_accounts`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetPagedExchangeAccountsParams {
@@ -138,7 +143,8 @@ pub struct GetPagedExchangeAccountsParams {
     pub after: Option<String>,
 }
 
-/// struct for passing parameters to the method [`internal_transfer`]
+/// struct for passing parameters to the method
+/// [`ExchangeAccountsApi::internal_transfer`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct InternalTransferParams {
@@ -454,13 +460,13 @@ impl ExchangeAccountsApi for ExchangeAccountsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = before {
+        if let Some(ref param_value) = before {
             local_var_req_builder =
-                local_var_req_builder.query(&[("before", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("before", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = after {
+        if let Some(ref param_value) = after {
             local_var_req_builder =
-                local_var_req_builder.query(&[("after", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("after", &param_value.to_string())]);
         }
         local_var_req_builder = local_var_req_builder.query(&[("limit", &limit.to_string())]);
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -582,7 +588,8 @@ impl ExchangeAccountsApi for ExchangeAccountsApiClient {
     }
 }
 
-/// struct for typed errors of method [`add_exchange_account`]
+/// struct for typed errors of method
+/// [`ExchangeAccountsApi::add_exchange_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddExchangeAccountError {
@@ -590,7 +597,7 @@ pub enum AddExchangeAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`convert_assets`]
+/// struct for typed errors of method [`ExchangeAccountsApi::convert_assets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ConvertAssetsError {
@@ -598,7 +605,8 @@ pub enum ConvertAssetsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_exchange_account`]
+/// struct for typed errors of method
+/// [`ExchangeAccountsApi::get_exchange_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetExchangeAccountError {
@@ -606,7 +614,8 @@ pub enum GetExchangeAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_exchange_account_asset`]
+/// struct for typed errors of method
+/// [`ExchangeAccountsApi::get_exchange_account_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetExchangeAccountAssetError {
@@ -614,7 +623,8 @@ pub enum GetExchangeAccountAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_paged_exchange_accounts`]
+/// struct for typed errors of method
+/// [`ExchangeAccountsApi::get_paged_exchange_accounts`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPagedExchangeAccountsError {
@@ -622,7 +632,7 @@ pub enum GetPagedExchangeAccountsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`internal_transfer`]
+/// struct for typed errors of method [`ExchangeAccountsApi::internal_transfer`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum InternalTransferError {

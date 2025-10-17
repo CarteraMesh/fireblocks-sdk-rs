@@ -49,19 +49,17 @@ pub trait BlockchainsAssetsApi: Send + Sync {
 
     /// GET /supported_assets
     ///
-    /// Legacy Endpoint – Retrieves all assets supported by Fireblocks in your workspace without extended information.</br>  **Note**:  - This endpoint will remain available for the foreseeable future and is not deprecated.</br> - The [List assets](https://developers.fireblocks.com/reference/listassets) endpoint provides more detailed asset information and improved performance.</br> - We recommend transitioning to the [List assets](https://developers.fireblocks.com/reference/listassets) endpoint for better results.  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// **This legacy endpoint has not been deprecated but it should not be used in your operations. Instead, use the new [List assets](https://developers.fireblocks.com/reference/listassets) endpoint for better performance and to retrieve more detailed asset information.**  Retrieves all assets supported by Fireblocks in your workspace.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn get_supported_assets(
         &self,
     ) -> Result<Vec<models::AssetTypeResponse>, Error<GetSupportedAssetsError>>;
 
     /// GET /assets
     ///
-    /// Retrieves all assets supported by Fireblocks in your workspace,
-    /// providing extended information and enhanced performance compared to the
-    /// legacy `supported_assets` endpoint.</br>   **Note**:  - We will continue
-    /// displaying and supporting the legacy ID (API ID). Since not all
-    /// Fireblocks services fully support the new Assets UUID, please use only
-    /// the legacy ID until further notice.</br>
+    /// Retrieves a paginated list of all assets supported by Fireblocks in your
+    /// workspace.  **Note:** We will continue to support and display the legacy
+    /// ID (API ID). Since not all Fireblocks services fully support the new
+    /// Assets UUID, please use only the legacy ID until further notice.
     async fn list_assets(
         &self,
         params: ListAssetsParams,
@@ -92,6 +90,15 @@ pub trait BlockchainsAssetsApi: Send + Sync {
         params: SetAssetPriceParams,
     ) -> Result<models::AssetPriceResponse, Error<SetAssetPriceError>>;
 
+    /// PATCH /assets/{id}
+    ///
+    /// Update the user’s metadata for an asset.  **Endpoint Permissions:**
+    /// Owner, Admin, Non-Signing Admin, NCW Admin, Signer, Editor.
+    async fn update_asset_user_metadata(
+        &self,
+        params: UpdateAssetUserMetadataParams,
+    ) -> Result<models::Asset, Error<UpdateAssetUserMetadataError>>;
+
     /// GET /transactions/validate_address/{assetId}/{address}
     ///
     /// Checks if an address is valid and active (for XRP, DOT, XLM, and EOS).
@@ -113,7 +120,8 @@ impl BlockchainsAssetsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`estimate_network_fee`]
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::estimate_network_fee`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct EstimateNetworkFeeParams {
@@ -121,7 +129,8 @@ pub struct EstimateNetworkFeeParams {
     pub asset_id: String,
 }
 
-/// struct for passing parameters to the method [`get_asset`]
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::get_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetAssetParams {
@@ -134,7 +143,8 @@ pub struct GetAssetParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_blockchain`]
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::get_blockchain`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetBlockchainParams {
@@ -142,7 +152,8 @@ pub struct GetBlockchainParams {
     pub id: String,
 }
 
-/// struct for passing parameters to the method [`list_assets`]
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::list_assets`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ListAssetsParams {
@@ -169,7 +180,8 @@ pub struct ListAssetsParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`list_blockchains`]
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::list_blockchains`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ListBlockchainsParams {
@@ -187,7 +199,8 @@ pub struct ListBlockchainsParams {
     pub page_size: Option<f64>,
 }
 
-/// struct for passing parameters to the method [`register_new_asset`]
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::register_new_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct RegisterNewAssetParams {
@@ -199,7 +212,8 @@ pub struct RegisterNewAssetParams {
     pub register_new_asset_request: Option<models::RegisterNewAssetRequest>,
 }
 
-/// struct for passing parameters to the method [`set_asset_price`]
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::set_asset_price`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetAssetPriceParams {
@@ -213,7 +227,23 @@ pub struct SetAssetPriceParams {
     pub set_asset_price_request: Option<models::SetAssetPriceRequest>,
 }
 
-/// struct for passing parameters to the method [`validate_address`]
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::update_asset_user_metadata`]
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+pub struct UpdateAssetUserMetadataParams {
+    /// The ID or legacyId of the asset
+    pub id: String,
+    /// A unique identifier for the request. If the request is sent multiple
+    /// times with the same idempotency key, the server will return the same
+    /// response as the first request. The idempotency key is valid for 24
+    /// hours.
+    pub idempotency_key: Option<String>,
+    pub update_asset_user_metadata_request: Option<models::UpdateAssetUserMetadataRequest>,
+}
+
+/// struct for passing parameters to the method
+/// [`BlockchainsAssetsApi::validate_address`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ValidateAddressParams {
@@ -425,7 +455,7 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
         }
     }
 
-    /// Legacy Endpoint – Retrieves all assets supported by Fireblocks in your workspace without extended information.</br>  **Note**:  - This endpoint will remain available for the foreseeable future and is not deprecated.</br> - The [List assets](https://developers.fireblocks.com/reference/listassets) endpoint provides more detailed asset information and improved performance.</br> - We recommend transitioning to the [List assets](https://developers.fireblocks.com/reference/listassets) endpoint for better results.  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// **This legacy endpoint has not been deprecated but it should not be used in your operations. Instead, use the new [List assets](https://developers.fireblocks.com/reference/listassets) endpoint for better performance and to retrieve more detailed asset information.**  Retrieves all assets supported by Fireblocks in your workspace.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn get_supported_assets(
         &self,
     ) -> Result<Vec<models::AssetTypeResponse>, Error<GetSupportedAssetsError>> {
@@ -482,12 +512,10 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
         }
     }
 
-    /// Retrieves all assets supported by Fireblocks in your workspace,
-    /// providing extended information and enhanced performance compared to the
-    /// legacy `supported_assets` endpoint.</br>   **Note**:  - We will continue
-    /// displaying and supporting the legacy ID (API ID). Since not all
-    /// Fireblocks services fully support the new Assets UUID, please use only
-    /// the legacy ID until further notice.</br>
+    /// Retrieves a paginated list of all assets supported by Fireblocks in your
+    /// workspace.  **Note:** We will continue to support and display the legacy
+    /// ID (API ID). Since not all Fireblocks services fully support the new
+    /// Assets UUID, please use only the legacy ID until further notice.
     async fn list_assets(
         &self,
         params: ListAssetsParams,
@@ -512,37 +540,37 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = blockchain_id {
+        if let Some(ref param_value) = blockchain_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("blockchainId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("blockchainId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = asset_class {
+        if let Some(ref param_value) = asset_class {
             local_var_req_builder =
-                local_var_req_builder.query(&[("assetClass", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("assetClass", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = symbol {
+        if let Some(ref param_value) = symbol {
             local_var_req_builder =
-                local_var_req_builder.query(&[("symbol", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("symbol", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = scope {
+        if let Some(ref param_value) = scope {
             local_var_req_builder =
-                local_var_req_builder.query(&[("scope", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("scope", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = deprecated {
+        if let Some(ref param_value) = deprecated {
             local_var_req_builder =
-                local_var_req_builder.query(&[("deprecated", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("deprecated", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = ids {
+        if let Some(ref param_value) = ids {
             local_var_req_builder = match "multi" {
                 "multi" => local_var_req_builder.query(
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| ("ids".to_owned(), p.to_string()))
                         .collect::<Vec<(std::string::String, std::string::String)>>(),
                 ),
                 _ => local_var_req_builder.query(&[(
                     "ids",
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| p.to_string())
                         .collect::<Vec<String>>()
@@ -551,13 +579,13 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
                 )]),
             };
         }
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -630,29 +658,29 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = protocol {
+        if let Some(ref param_value) = protocol {
             local_var_req_builder =
-                local_var_req_builder.query(&[("protocol", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("protocol", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = deprecated {
+        if let Some(ref param_value) = deprecated {
             local_var_req_builder =
-                local_var_req_builder.query(&[("deprecated", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("deprecated", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = test {
+        if let Some(ref param_value) = test {
             local_var_req_builder =
-                local_var_req_builder.query(&[("test", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("test", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = ids {
+        if let Some(ref param_value) = ids {
             local_var_req_builder = match "multi" {
                 "multi" => local_var_req_builder.query(
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| ("ids".to_owned(), p.to_string()))
                         .collect::<Vec<(std::string::String, std::string::String)>>(),
                 ),
                 _ => local_var_req_builder.query(&[(
                     "ids",
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| p.to_string())
                         .collect::<Vec<String>>()
@@ -661,13 +689,13 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
                 )]),
             };
         }
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -856,6 +884,80 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
         }
     }
 
+    /// Update the user’s metadata for an asset.  **Endpoint Permissions:**
+    /// Owner, Admin, Non-Signing Admin, NCW Admin, Signer, Editor.
+    async fn update_asset_user_metadata(
+        &self,
+        params: UpdateAssetUserMetadataParams,
+    ) -> Result<models::Asset, Error<UpdateAssetUserMetadataError>> {
+        let UpdateAssetUserMetadataParams {
+            id,
+            idempotency_key,
+            update_asset_user_metadata_request,
+        } = params;
+
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!(
+            "{}/assets/{id}",
+            local_var_configuration.base_path,
+            id = crate::apis::urlencode(id)
+        );
+        let mut local_var_req_builder =
+            local_var_client.request(reqwest::Method::PATCH, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder
+                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(local_var_param_value) = idempotency_key {
+            local_var_req_builder =
+                local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
+        }
+        local_var_req_builder = local_var_req_builder.json(&update_asset_user_metadata_request);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => {
+                    return Err(Error::from(serde_json::Error::custom(
+                        "Received `text/plain` content type response that cannot be converted to \
+                         `models::Asset`",
+                    )));
+                }
+                ContentType::Unsupported(local_var_unknown_type) => {
+                    return Err(Error::from(serde_json::Error::custom(format!(
+                        "Received `{local_var_unknown_type}` content type response that cannot be \
+                         converted to `models::Asset`"
+                    ))));
+                }
+            }
+        } else {
+            let local_var_entity: Option<UpdateAssetUserMetadataError> =
+                serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
     /// Checks if an address is valid and active (for XRP, DOT, XLM, and EOS).
     /// </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver,
     /// Editor.
@@ -924,7 +1026,8 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
     }
 }
 
-/// struct for typed errors of method [`estimate_network_fee`]
+/// struct for typed errors of method
+/// [`BlockchainsAssetsApi::estimate_network_fee`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum EstimateNetworkFeeError {
@@ -932,7 +1035,7 @@ pub enum EstimateNetworkFeeError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_asset`]
+/// struct for typed errors of method [`BlockchainsAssetsApi::get_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAssetError {
@@ -942,7 +1045,7 @@ pub enum GetAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_blockchain`]
+/// struct for typed errors of method [`BlockchainsAssetsApi::get_blockchain`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetBlockchainError {
@@ -952,7 +1055,8 @@ pub enum GetBlockchainError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_supported_assets`]
+/// struct for typed errors of method
+/// [`BlockchainsAssetsApi::get_supported_assets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetSupportedAssetsError {
@@ -960,7 +1064,7 @@ pub enum GetSupportedAssetsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`list_assets`]
+/// struct for typed errors of method [`BlockchainsAssetsApi::list_assets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ListAssetsError {
@@ -969,7 +1073,7 @@ pub enum ListAssetsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`list_blockchains`]
+/// struct for typed errors of method [`BlockchainsAssetsApi::list_blockchains`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ListBlockchainsError {
@@ -978,7 +1082,8 @@ pub enum ListBlockchainsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`register_new_asset`]
+/// struct for typed errors of method
+/// [`BlockchainsAssetsApi::register_new_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RegisterNewAssetError {
@@ -991,7 +1096,7 @@ pub enum RegisterNewAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_asset_price`]
+/// struct for typed errors of method [`BlockchainsAssetsApi::set_asset_price`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetAssetPriceError {
@@ -1001,7 +1106,18 @@ pub enum SetAssetPriceError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`validate_address`]
+/// struct for typed errors of method
+/// [`BlockchainsAssetsApi::update_asset_user_metadata`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdateAssetUserMetadataError {
+    Status404(models::AssetNotFoundErrorResponse),
+    Status500(models::AssetInternalServerErrorResponse),
+    DefaultResponse(models::ErrorSchema),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`BlockchainsAssetsApi::validate_address`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ValidateAddressError {

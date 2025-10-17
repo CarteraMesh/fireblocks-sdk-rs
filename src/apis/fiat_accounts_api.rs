@@ -65,7 +65,7 @@ impl FiatAccountsApiClient {
 }
 
 /// struct for passing parameters to the method
-/// [`deposit_funds_from_linked_dda`]
+/// [`FiatAccountsApi::deposit_funds_from_linked_dda`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DepositFundsFromLinkedDdaParams {
@@ -79,7 +79,8 @@ pub struct DepositFundsFromLinkedDdaParams {
     pub funds: Option<models::Funds>,
 }
 
-/// struct for passing parameters to the method [`get_fiat_account`]
+/// struct for passing parameters to the method
+/// [`FiatAccountsApi::get_fiat_account`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetFiatAccountParams {
@@ -87,7 +88,8 @@ pub struct GetFiatAccountParams {
     pub account_id: String,
 }
 
-/// struct for passing parameters to the method [`redeem_funds_to_linked_dda`]
+/// struct for passing parameters to the method
+/// [`FiatAccountsApi::redeem_funds_to_linked_dda`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct RedeemFundsToLinkedDdaParams {
@@ -374,7 +376,8 @@ impl FiatAccountsApi for FiatAccountsApiClient {
     }
 }
 
-/// struct for typed errors of method [`deposit_funds_from_linked_dda`]
+/// struct for typed errors of method
+/// [`FiatAccountsApi::deposit_funds_from_linked_dda`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DepositFundsFromLinkedDdaError {
@@ -382,7 +385,7 @@ pub enum DepositFundsFromLinkedDdaError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_fiat_account`]
+/// struct for typed errors of method [`FiatAccountsApi::get_fiat_account`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetFiatAccountError {
@@ -390,7 +393,7 @@ pub enum GetFiatAccountError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_fiat_accounts`]
+/// struct for typed errors of method [`FiatAccountsApi::get_fiat_accounts`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetFiatAccountsError {
@@ -398,7 +401,8 @@ pub enum GetFiatAccountsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`redeem_funds_to_linked_dda`]
+/// struct for typed errors of method
+/// [`FiatAccountsApi::redeem_funds_to_linked_dda`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RedeemFundsToLinkedDdaError {

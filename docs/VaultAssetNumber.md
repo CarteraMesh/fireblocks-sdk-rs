@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
-**total** | **f64** | The total wallet balance.   Total = available + pending + lockedAmount + frozen  - In EOS this value includes the network balance, self staking and pending refund.   - For all other coins it is the balance as it appears on the blockchain.  | 
-**balance** | Option<**String**> | Deprecated - replaced by \"total\" | [optional]
+**total** | **f64** | The total wallet balance. (Total = available + pending + lockedAmount + frozen) - In EOS, this value includes the network balance, self-staking, and pending refund.  - For all other coins, it is the balance as it appears on the blockchain.  | 
+**balance** | Option<**String**> | Deprecated, replaced by \"total\" | [optional]
 **available** | **String** | Funds available for transfer. Equals: \"total\" minus \"lockedAmount\" minus \"frozen\" minus \"pending\"  | 
 **pending** | **f64** | The cumulative balance of all transactions pending to be cleared | 
 **frozen** | **f64** | The cumulative frozen balance | 

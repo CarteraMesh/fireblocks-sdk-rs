@@ -100,7 +100,7 @@ impl ContractTemplatesApiClient {
 }
 
 /// struct for passing parameters to the method
-/// [`delete_contract_template_by_id`]
+/// [`ContractTemplatesApi::delete_contract_template_by_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteContractTemplateByIdParams {
@@ -108,7 +108,8 @@ pub struct DeleteContractTemplateByIdParams {
     pub contract_template_id: String,
 }
 
-/// struct for passing parameters to the method [`deploy_contract`]
+/// struct for passing parameters to the method
+/// [`ContractTemplatesApi::deploy_contract`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeployContractParams {
@@ -123,7 +124,7 @@ pub struct DeployContractParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_constructor_by_contract_template_id`]
+/// [`ContractTemplatesApi::get_constructor_by_contract_template_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetConstructorByContractTemplateIdParams {
@@ -133,7 +134,8 @@ pub struct GetConstructorByContractTemplateIdParams {
     pub with_docs: Option<bool>,
 }
 
-/// struct for passing parameters to the method [`get_contract_template_by_id`]
+/// struct for passing parameters to the method
+/// [`ContractTemplatesApi::get_contract_template_by_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetContractTemplateByIdParams {
@@ -141,7 +143,8 @@ pub struct GetContractTemplateByIdParams {
     pub contract_template_id: String,
 }
 
-/// struct for passing parameters to the method [`get_contract_templates`]
+/// struct for passing parameters to the method
+/// [`ContractTemplatesApi::get_contract_templates`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetContractTemplatesParams {
@@ -162,7 +165,7 @@ pub struct GetContractTemplatesParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_function_abi_by_contract_template_id`]
+/// [`ContractTemplatesApi::get_function_abi_by_contract_template_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetFunctionAbiByContractTemplateIdParams {
@@ -172,7 +175,8 @@ pub struct GetFunctionAbiByContractTemplateIdParams {
     pub function_signature: String,
 }
 
-/// struct for passing parameters to the method [`upload_contract_template`]
+/// struct for passing parameters to the method
+/// [`ContractTemplatesApi::upload_contract_template`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UploadContractTemplateParams {
@@ -333,9 +337,9 @@ impl ContractTemplatesApi for ContractTemplatesApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = with_docs {
+        if let Some(ref param_value) = with_docs {
             local_var_req_builder =
-                local_var_req_builder.query(&[("withDocs", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("withDocs", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -476,29 +480,29 @@ impl ContractTemplatesApi for ContractTemplatesApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = limit {
+        if let Some(ref param_value) = limit {
             local_var_req_builder =
-                local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("limit", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = offset {
+        if let Some(ref param_value) = offset {
             local_var_req_builder =
-                local_var_req_builder.query(&[("offset", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("offset", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = r#type {
+        if let Some(ref param_value) = r#type {
             local_var_req_builder =
-                local_var_req_builder.query(&[("type", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("type", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = initialization_phase {
+        if let Some(ref param_value) = initialization_phase {
             local_var_req_builder =
-                local_var_req_builder.query(&[("initializationPhase", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("initializationPhase", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -689,7 +693,8 @@ impl ContractTemplatesApi for ContractTemplatesApiClient {
     }
 }
 
-/// struct for typed errors of method [`delete_contract_template_by_id`]
+/// struct for typed errors of method
+/// [`ContractTemplatesApi::delete_contract_template_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteContractTemplateByIdError {
@@ -698,7 +703,7 @@ pub enum DeleteContractTemplateByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`deploy_contract`]
+/// struct for typed errors of method [`ContractTemplatesApi::deploy_contract`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeployContractError {
@@ -708,7 +713,7 @@ pub enum DeployContractError {
 }
 
 /// struct for typed errors of method
-/// [`get_constructor_by_contract_template_id`]
+/// [`ContractTemplatesApi::get_constructor_by_contract_template_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetConstructorByContractTemplateIdError {
@@ -717,7 +722,8 @@ pub enum GetConstructorByContractTemplateIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_contract_template_by_id`]
+/// struct for typed errors of method
+/// [`ContractTemplatesApi::get_contract_template_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetContractTemplateByIdError {
@@ -726,7 +732,8 @@ pub enum GetContractTemplateByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_contract_templates`]
+/// struct for typed errors of method
+/// [`ContractTemplatesApi::get_contract_templates`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetContractTemplatesError {
@@ -735,7 +742,7 @@ pub enum GetContractTemplatesError {
 }
 
 /// struct for typed errors of method
-/// [`get_function_abi_by_contract_template_id`]
+/// [`ContractTemplatesApi::get_function_abi_by_contract_template_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetFunctionAbiByContractTemplateIdError {
@@ -744,7 +751,8 @@ pub enum GetFunctionAbiByContractTemplateIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`upload_contract_template`]
+/// struct for typed errors of method
+/// [`ContractTemplatesApi::upload_contract_template`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadContractTemplateError {

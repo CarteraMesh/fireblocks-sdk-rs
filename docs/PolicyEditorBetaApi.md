@@ -68,7 +68,7 @@ No authorization required
 
 ## publish_draft
 
-> models::PublishResult publish_draft(publish_draft_request, idempotency_key)
+> models::PublishResult publish_draft(publish_draft_request_v2, idempotency_key)
 Send publish request for a certain draft id
 
 Send publish request of certain draft id and returns the response. </br> **Note:** These endpoints are currently in beta and might be subject to changes. If you want to participate and learn more about the Fireblocks TAP, please contact your Fireblocks Customer Success Manager or send an email to CSM@fireblocks.com. </br>Endpoint Permission: Admin, Non-Signing Admin.
@@ -78,7 +78,7 @@ Send publish request of certain draft id and returns the response. </br> **Note:
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**publish_draft_request** | [**PublishDraftRequest**](PublishDraftRequest.md) |  | [required] |
+**publish_draft_request_v2** | [**PublishDraftRequestV2**](PublishDraftRequestV2.md) |  | [required] |
 **idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
 
 ### Return type

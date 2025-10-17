@@ -77,7 +77,8 @@ impl ContractInteractionsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`get_deployed_contract_abi`]
+/// struct for passing parameters to the method
+/// [`ContractInteractionsApi::get_deployed_contract_abi`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetDeployedContractAbiParams {
@@ -92,7 +93,8 @@ pub struct GetDeployedContractAbiParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_transaction_receipt`]
+/// struct for passing parameters to the method
+/// [`ContractInteractionsApi::get_transaction_receipt`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetTransactionReceiptParams {
@@ -102,7 +104,8 @@ pub struct GetTransactionReceiptParams {
     pub tx_hash: String,
 }
 
-/// struct for passing parameters to the method [`read_call_function`]
+/// struct for passing parameters to the method
+/// [`ContractInteractionsApi::read_call_function`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ReadCallFunctionParams {
@@ -118,7 +121,8 @@ pub struct ReadCallFunctionParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`write_call_function`]
+/// struct for passing parameters to the method
+/// [`ContractInteractionsApi::write_call_function`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct WriteCallFunctionParams {
@@ -441,7 +445,8 @@ impl ContractInteractionsApi for ContractInteractionsApiClient {
     }
 }
 
-/// struct for typed errors of method [`get_deployed_contract_abi`]
+/// struct for typed errors of method
+/// [`ContractInteractionsApi::get_deployed_contract_abi`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetDeployedContractAbiError {
@@ -449,7 +454,8 @@ pub enum GetDeployedContractAbiError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_transaction_receipt`]
+/// struct for typed errors of method
+/// [`ContractInteractionsApi::get_transaction_receipt`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTransactionReceiptError {
@@ -457,7 +463,8 @@ pub enum GetTransactionReceiptError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`read_call_function`]
+/// struct for typed errors of method
+/// [`ContractInteractionsApi::read_call_function`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ReadCallFunctionError {
@@ -465,7 +472,8 @@ pub enum ReadCallFunctionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`write_call_function`]
+/// struct for typed errors of method
+/// [`ContractInteractionsApi::write_call_function`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum WriteCallFunctionError {

@@ -16,16 +16,19 @@ pub struct EvmTokenCreateParamsDto {
     /// The id of the contract template that will be used to create the token
     #[serde(rename = "contractId")]
     pub contract_id: String,
-    /// The constructor parameters and values of the contract template
-    #[serde(rename = "constructorParams", skip_serializing_if = "Option::is_none")]
-    pub constructor_params: Option<Vec<Vec<models::ParameterWithValue>>>,
+    /// The deploy function parameters and values of the contract template
+    #[serde(
+        rename = "deployFunctionParams",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub deploy_function_params: Option<Vec<models::ParameterWithValue>>,
 }
 
 impl EvmTokenCreateParamsDto {
     pub fn new(contract_id: String) -> EvmTokenCreateParamsDto {
         EvmTokenCreateParamsDto {
             contract_id,
-            constructor_params: None,
+            deploy_function_params: None,
         }
     }
 }

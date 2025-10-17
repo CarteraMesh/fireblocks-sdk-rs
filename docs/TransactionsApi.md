@@ -12,7 +12,6 @@ Method | HTTP request | Description
 [**get_transaction**](TransactionsApi.md#get_transaction) | **GET** /transactions/{txId} | Get a specific transaction by Fireblocks transaction ID
 [**get_transaction_by_external_id**](TransactionsApi.md#get_transaction_by_external_id) | **GET** /transactions/external_tx_id/{externalTxId} | Get a specific transaction by external transaction ID
 [**get_transactions**](TransactionsApi.md#get_transactions) | **GET** /transactions | Get transaction history
-[**rescan_transactions_beta**](TransactionsApi.md#rescan_transactions_beta) | **POST** /transactions/rescan | Rescan an array of transactions
 [**set_confirmation_threshold_by_transaction_hash**](TransactionsApi.md#set_confirmation_threshold_by_transaction_hash) | **POST** /txHash/{txHash}/set_confirmation_threshold | Set confirmation threshold by transaction hash
 [**set_transaction_confirmation_threshold**](TransactionsApi.md#set_transaction_confirmation_threshold) | **POST** /transactions/{txId}/set_confirmation_threshold | Set confirmation threshold by Fireblocks Transaction ID
 [**unfreeze_transaction**](TransactionsApi.md#unfreeze_transaction) | **POST** /transactions/{txId}/unfreeze | Unfreeze a transaction
@@ -244,7 +243,7 @@ No authorization required
 > Vec<models::TransactionResponse> get_transactions(before, after, status, order_by, sort, limit, source_type, source_id, dest_type, dest_id, assets, tx_hash, source_wallet_id, dest_wallet_id)
 Get transaction history
 
-Get the transaction history for your workspace. </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
+Get the transaction history for your workspace.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer. 
 
 ### Parameters
 
@@ -254,7 +253,7 @@ Name | Type | Description  | Required | Notes
 **before** | Option<**String**> | Unix timestamp in milliseconds. Returns only transactions created before the specified date. Provides an explicit end time. If not provided, default value will be applied, and may change over time.  The current default value is the past 90 days.  |  |
 **after** | Option<**String**> | Unix timestamp in milliseconds. Returns only transactions created after the specified date. Provides an explicit start time. If not provided, default value will be applied, and may change over time.  The current default value is the past 90 days.  |  |
 **status** | Option<[**TransactionStatus**](.md)> | You can filter by one of the statuses. |  |
-**order_by** | Option<**String**> | The field to order the results by  **Note**: Ordering by a field that is not createdAt may result with transactions that receive updates as you request the next or previous pages of results, resulting with missing those transactions. |  |
+**order_by** | Option<**String**> | The field to order the results by.  **Note:** Ordering by a field that is not `createdAt` may result in transactions that receive updates as you request the next or previous pages of results, resulting in missing those transactions.  |  |
 **sort** | Option<**String**> | The direction to order the results by |  |
 **limit** | Option<**u32**> | Limits the number of results. If not provided, a limit of 200 will be used. The maximum allowed limit is 500 |  |[default to 200]
 **source_type** | Option<**String**> | The source type of the transaction |  |
@@ -277,37 +276,6 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-
-## rescan_transactions_beta
-
-> Vec<models::ValidatedTransactionsForRescan> rescan_transactions_beta(rescan_transaction, idempotency_key)
-Rescan an array of transactions
-
-Rescan transaction by running an async job. </br>  **Note**: - These endpoints are currently in beta and might be subject to changes. - We limit the amount of the transaction to 16 per request. - Please contact to CSM to get access to this endpoint. - This operation can only be enabled under `BROADCASTING` or `CONFIRMING`  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor. 
-
-### Parameters
-
-
-Name | Type | Description  | Required | Notes
-------------- | ------------- | ------------- | ------------- | -------------
-**rescan_transaction** | [**Vec<models::RescanTransaction>**](RescanTransaction.md) |  | [required] |
-**idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
-
-### Return type
-
-[**Vec<models::ValidatedTransactionsForRescan>**](ValidatedTransactionsForRescan.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

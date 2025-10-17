@@ -14,12 +14,12 @@ use {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddAssetToExternalWalletRequest {
-    AddAssetToExternalWalletRequestOneOf(models::AddAssetToExternalWalletRequestOneOf),
-    AddAssetToExternalWalletRequestOneOf1(models::AddAssetToExternalWalletRequestOneOf1),
+    BasicAddressRequest(models::BasicAddressRequest),
+    AdditionalInfoRequest(models::AdditionalInfoRequest),
 }
 
 impl Default for AddAssetToExternalWalletRequest {
     fn default() -> Self {
-        Self::AddAssetToExternalWalletRequestOneOf(Default::default())
+        Self::BasicAddressRequest(Default::default())
     }
 }

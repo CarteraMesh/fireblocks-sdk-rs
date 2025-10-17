@@ -77,7 +77,8 @@ impl OffExchangeApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`add_off_exchange`]
+/// struct for passing parameters to the method
+/// [`OffExchangeApi::add_off_exchange`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct AddOffExchangeParams {
@@ -90,7 +91,7 @@ pub struct AddOffExchangeParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_off_exchange_collateral_accounts`]
+/// [`OffExchangeApi::get_off_exchange_collateral_accounts`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetOffExchangeCollateralAccountsParams {
@@ -100,14 +101,15 @@ pub struct GetOffExchangeCollateralAccountsParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_off_exchange_settlement_transactions`]
+/// [`OffExchangeApi::get_off_exchange_settlement_transactions`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetOffExchangeSettlementTransactionsParams {
     pub main_exchange_account_id: String,
 }
 
-/// struct for passing parameters to the method [`remove_off_exchange`]
+/// struct for passing parameters to the method
+/// [`OffExchangeApi::remove_off_exchange`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct RemoveOffExchangeParams {
@@ -119,7 +121,8 @@ pub struct RemoveOffExchangeParams {
     pub remove_collateral_request_body: Option<models::RemoveCollateralRequestBody>,
 }
 
-/// struct for passing parameters to the method [`settle_off_exchange_trades`]
+/// struct for passing parameters to the method
+/// [`OffExchangeApi::settle_off_exchange_trades`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SettleOffExchangeTradesParams {
@@ -483,7 +486,7 @@ impl OffExchangeApi for OffExchangeApiClient {
     }
 }
 
-/// struct for typed errors of method [`add_off_exchange`]
+/// struct for typed errors of method [`OffExchangeApi::add_off_exchange`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddOffExchangeError {
@@ -491,7 +494,8 @@ pub enum AddOffExchangeError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_off_exchange_collateral_accounts`]
+/// struct for typed errors of method
+/// [`OffExchangeApi::get_off_exchange_collateral_accounts`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOffExchangeCollateralAccountsError {
@@ -500,7 +504,7 @@ pub enum GetOffExchangeCollateralAccountsError {
 }
 
 /// struct for typed errors of method
-/// [`get_off_exchange_settlement_transactions`]
+/// [`OffExchangeApi::get_off_exchange_settlement_transactions`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOffExchangeSettlementTransactionsError {
@@ -508,7 +512,7 @@ pub enum GetOffExchangeSettlementTransactionsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`remove_off_exchange`]
+/// struct for typed errors of method [`OffExchangeApi::remove_off_exchange`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RemoveOffExchangeError {
@@ -516,7 +520,8 @@ pub enum RemoveOffExchangeError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`settle_off_exchange_trades`]
+/// struct for typed errors of method
+/// [`OffExchangeApi::settle_off_exchange_trades`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SettleOffExchangeTradesError {

@@ -11,16 +11,16 @@ use {
     serde::{Deserialize, Serialize},
 };
 
-/// TransactionRequestGasPrice : For non-EIP-1559, EVM-based transactions. Price
-/// per gas unit (in Ethereum this is specified in Gwei).  Note: Only two of the
+/// TransactionRequestGasPrice : **For non-EIP-1559, EVM-based transactions.**
+/// Price per gas unit. In Ethereum, this is specified in Gwei.  Notes: - Only
+/// two of the three arguments can be specified in a single transaction:
+/// `gasLimit`, `gasPrice`, and/or `networkFee`. - Fireblocks recommends using a
+/// numeric string for more precision. Although a number input exists, it is
+/// deprecated. **For non-EIP-1559, EVM-based transactions.** Price per gas
+/// unit. In Ethereum, this is specified in Gwei.  Notes: - Only two of the
 /// three arguments can be specified in a single transaction: `gasLimit`,
-/// `gasPrice` and `networkFee`. Fireblocks recommends using a numeric string
-/// for accurate precision.  Although a number input exists, it is deprecated.
-/// For non-EIP-1559, EVM-based transactions. Price per gas unit (in Ethereum
-/// this is specified in Gwei).  Note: Only two of the three arguments can be
-/// specified in a single transaction: `gasLimit`, `gasPrice` and `networkFee`.
-/// Fireblocks recommends using a numeric string for accurate precision.
-/// Although a number input exists, it is deprecated.
+/// `gasPrice`, and/or `networkFee`. - Fireblocks recommends using a numeric
+/// string for more precision. Although a number input exists, it is deprecated.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TransactionRequestGasPrice {

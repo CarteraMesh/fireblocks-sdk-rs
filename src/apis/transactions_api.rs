@@ -33,7 +33,7 @@ pub trait TransactionsApi: Send + Sync {
 
     /// POST /transactions
     ///
-    /// Creates a new transaction. This endpoint can be used for regular Transfers, Contract Calls, Raw & Typed message signing. - For Transfers, the required parameters are: `assetId`, `source`, `destination` and `amount`.  - For Contract Calls, the required parameters are: `operation.CONTRACT_CALL`, `assetId` (Base Asset), `source`, `destination`, `amount` (usually 0) and `extraParameters` object with `contractCallData` string. - For Solana Program Calls, the required parameters are: `operation.PROGRAM_CALL`, `assetId` (SOL/SOL_TEST), `source`,  and `extraParameters` object with `programCallData` key while the value is a Base64 encoded unsigned serialized Solana transaction object.  This feature is currently in beta and might be subject to changes - Please contact your CSM for any additional information.   - Typed Message Signing is supported for the following asset IDs: 'ETH', 'BTC' and 'TRX'. [Typed Message Signing Guide](https://developers.fireblocks.com/docs/typed-message-signing-overview). - To create ZEC transaction, please call [Get unspent UTXO Input endpoint](https://developers.fireblocks.com/reference/getunspentinputs) to get the amount and use it as an input under `networkfee` on this endpoint. Please use this formula `(0.0001 + 0.00005*N) where N is the number of inputs` to calculate the fee needed and use it as an input under networkFee field - When using `maxFee` and a boost is needed, the user should set a custom `gasPrice` to force the override. Learn more about Fireblocks Transactions management in the following [guide](https://developers.fireblocks.com/reference/create-transactions). </br>Endpoint Permission: Admin, Signer, Editor.
+    /// Creates a new transaction. This endpoint can be used for regular Transfers, Contract Calls, Raw & Typed message signing. - For Transfers, the required parameters are: `assetId`, `source`, `destination` and `amount`.  - For Contract Calls, the required parameters are: `operation.CONTRACT_CALL`, `assetId` (Base Asset), `source`, `destination`, `amount` (usually 0) and `extraParameters` object with `contractCallData` string. - For Solana Program Calls, the required parameters are: `operation.PROGRAM_CALL`, `assetId` (SOL/SOL_TEST), `source`,  and `extraParameters` object with `programCallData` key while the value is a Base64 encoded unsigned serialized Solana transaction object.   - Typed Message Signing is supported for the following asset IDs: 'ETH', 'BTC' and 'TRX'. [Typed Message Signing Guide](https://developers.fireblocks.com/docs/typed-message-signing-overview). - To create ZEC transaction, please call [Get unspent UTXO Input endpoint](https://developers.fireblocks.com/reference/getunspentinputs) to get the amount and use it as an input under `networkfee` on this endpoint. Please use this formula `(0.0001 + 0.00005*N) where N is the number of inputs` to calculate the fee needed and use it as an input under networkFee field - When using `maxFee` and a boost is needed, the user should set a custom `gasPrice` to force the override. Learn more about Fireblocks Transactions management in the following [guide](https://developers.fireblocks.com/reference/create-transactions). </br>Endpoint Permission: Admin, Signer, Editor.
     async fn create_transaction(
         &self,
         params: CreateTransactionParams,
@@ -90,25 +90,13 @@ pub trait TransactionsApi: Send + Sync {
 
     /// GET /transactions
     ///
-    /// Get the transaction history for your workspace. </br>Endpoint
-    /// Permission: Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
+    /// Get the transaction history for your workspace.  **Endpoint
+    /// Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor,
+    /// Viewer.
     async fn get_transactions(
         &self,
         params: GetTransactionsParams,
     ) -> Result<Vec<models::TransactionResponse>, Error<GetTransactionsError>>;
-
-    /// POST /transactions/rescan
-    ///
-    /// Rescan transaction by running an async job. </br>  **Note**: - These
-    /// endpoints are currently in beta and might be subject to changes. - We
-    /// limit the amount of the transaction to 16 per request. - Please contact
-    /// to CSM to get access to this endpoint. - This operation can only be
-    /// enabled under `BROADCASTING` or `CONFIRMING`  </br>Endpoint Permission:
-    /// Admin, Non-Signing Admin, Signer, Approver, Editor.
-    async fn rescan_transactions_beta(
-        &self,
-        params: RescanTransactionsBetaParams,
-    ) -> Result<Vec<models::ValidatedTransactionsForRescan>, Error<RescanTransactionsBetaError>>;
 
     /// POST /txHash/{txHash}/set_confirmation_threshold
     ///
@@ -157,7 +145,8 @@ impl TransactionsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`cancel_transaction`]
+/// struct for passing parameters to the method
+/// [`TransactionsApi::cancel_transaction`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CancelTransactionParams {
@@ -173,7 +162,8 @@ pub struct CancelTransactionParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`create_transaction`]
+/// struct for passing parameters to the method
+/// [`TransactionsApi::create_transaction`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateTransactionParams {
@@ -188,7 +178,8 @@ pub struct CreateTransactionParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`drop_transaction`]
+/// struct for passing parameters to the method
+/// [`TransactionsApi::drop_transaction`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DropTransactionParams {
@@ -205,7 +196,8 @@ pub struct DropTransactionParams {
     pub drop_transaction_request: Option<models::DropTransactionRequest>,
 }
 
-/// struct for passing parameters to the method [`estimate_transaction_fee`]
+/// struct for passing parameters to the method
+/// [`TransactionsApi::estimate_transaction_fee`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct EstimateTransactionFeeParams {
@@ -217,7 +209,8 @@ pub struct EstimateTransactionFeeParams {
     pub transaction_request: Option<models::TransactionRequest>,
 }
 
-/// struct for passing parameters to the method [`freeze_transaction`]
+/// struct for passing parameters to the method
+/// [`TransactionsApi::freeze_transaction`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct FreezeTransactionParams {
@@ -233,7 +226,8 @@ pub struct FreezeTransactionParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_transaction`]
+/// struct for passing parameters to the method
+/// [`TransactionsApi::get_transaction`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetTransactionParams {
@@ -242,7 +236,7 @@ pub struct GetTransactionParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_transaction_by_external_id`]
+/// [`TransactionsApi::get_transaction_by_external_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetTransactionByExternalIdParams {
@@ -250,7 +244,8 @@ pub struct GetTransactionByExternalIdParams {
     pub external_tx_id: String,
 }
 
-/// struct for passing parameters to the method [`get_transactions`]
+/// struct for passing parameters to the method
+/// [`TransactionsApi::get_transactions`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetTransactionsParams {
@@ -266,9 +261,9 @@ pub struct GetTransactionsParams {
     pub after: Option<String>,
     /// You can filter by one of the statuses.
     pub status: Option<models::TransactionStatus>,
-    /// The field to order the results by  **Note**: Ordering by a field that is
-    /// not createdAt may result with transactions that receive updates as you
-    /// request the next or previous pages of results, resulting with missing
+    /// The field to order the results by.  **Note:** Ordering by a field that
+    /// is not `createdAt` may result in transactions that receive updates as
+    /// you request the next or previous pages of results, resulting in missing
     /// those transactions.
     pub order_by: Option<String>,
     /// The direction to order the results by
@@ -294,20 +289,8 @@ pub struct GetTransactionsParams {
     pub dest_wallet_id: Option<String>,
 }
 
-/// struct for passing parameters to the method [`rescan_transactions_beta`]
-#[derive(Clone, Debug)]
-#[cfg_attr(feature = "bon", derive(::bon::Builder))]
-pub struct RescanTransactionsBetaParams {
-    pub rescan_transaction: Vec<models::RescanTransaction>,
-    /// A unique identifier for the request. If the request is sent multiple
-    /// times with the same idempotency key, the server will return the same
-    /// response as the first request. The idempotency key is valid for 24
-    /// hours.
-    pub idempotency_key: Option<String>,
-}
-
 /// struct for passing parameters to the method
-/// [`set_confirmation_threshold_by_transaction_hash`]
+/// [`TransactionsApi::set_confirmation_threshold_by_transaction_hash`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetConfirmationThresholdByTransactionHashParams {
@@ -322,7 +305,7 @@ pub struct SetConfirmationThresholdByTransactionHashParams {
 }
 
 /// struct for passing parameters to the method
-/// [`set_transaction_confirmation_threshold`]
+/// [`TransactionsApi::set_transaction_confirmation_threshold`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetTransactionConfirmationThresholdParams {
@@ -336,7 +319,8 @@ pub struct SetTransactionConfirmationThresholdParams {
     pub set_confirmations_threshold_request: Option<models::SetConfirmationsThresholdRequest>,
 }
 
-/// struct for passing parameters to the method [`unfreeze_transaction`]
+/// struct for passing parameters to the method
+/// [`TransactionsApi::unfreeze_transaction`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UnfreezeTransactionParams {
@@ -433,7 +417,7 @@ impl TransactionsApi for TransactionsApiClient {
         }
     }
 
-    /// Creates a new transaction. This endpoint can be used for regular Transfers, Contract Calls, Raw & Typed message signing. - For Transfers, the required parameters are: `assetId`, `source`, `destination` and `amount`.  - For Contract Calls, the required parameters are: `operation.CONTRACT_CALL`, `assetId` (Base Asset), `source`, `destination`, `amount` (usually 0) and `extraParameters` object with `contractCallData` string. - For Solana Program Calls, the required parameters are: `operation.PROGRAM_CALL`, `assetId` (SOL/SOL_TEST), `source`,  and `extraParameters` object with `programCallData` key while the value is a Base64 encoded unsigned serialized Solana transaction object.  This feature is currently in beta and might be subject to changes - Please contact your CSM for any additional information.   - Typed Message Signing is supported for the following asset IDs: 'ETH', 'BTC' and 'TRX'. [Typed Message Signing Guide](https://developers.fireblocks.com/docs/typed-message-signing-overview). - To create ZEC transaction, please call [Get unspent UTXO Input endpoint](https://developers.fireblocks.com/reference/getunspentinputs) to get the amount and use it as an input under `networkfee` on this endpoint. Please use this formula `(0.0001 + 0.00005*N) where N is the number of inputs` to calculate the fee needed and use it as an input under networkFee field - When using `maxFee` and a boost is needed, the user should set a custom `gasPrice` to force the override. Learn more about Fireblocks Transactions management in the following [guide](https://developers.fireblocks.com/reference/create-transactions). </br>Endpoint Permission: Admin, Signer, Editor.
+    /// Creates a new transaction. This endpoint can be used for regular Transfers, Contract Calls, Raw & Typed message signing. - For Transfers, the required parameters are: `assetId`, `source`, `destination` and `amount`.  - For Contract Calls, the required parameters are: `operation.CONTRACT_CALL`, `assetId` (Base Asset), `source`, `destination`, `amount` (usually 0) and `extraParameters` object with `contractCallData` string. - For Solana Program Calls, the required parameters are: `operation.PROGRAM_CALL`, `assetId` (SOL/SOL_TEST), `source`,  and `extraParameters` object with `programCallData` key while the value is a Base64 encoded unsigned serialized Solana transaction object.   - Typed Message Signing is supported for the following asset IDs: 'ETH', 'BTC' and 'TRX'. [Typed Message Signing Guide](https://developers.fireblocks.com/docs/typed-message-signing-overview). - To create ZEC transaction, please call [Get unspent UTXO Input endpoint](https://developers.fireblocks.com/reference/getunspentinputs) to get the amount and use it as an input under `networkfee` on this endpoint. Please use this formula `(0.0001 + 0.00005*N) where N is the number of inputs` to calculate the fee needed and use it as an input under networkFee field - When using `maxFee` and a boost is needed, the user should set a custom `gasPrice` to force the override. Learn more about Fireblocks Transactions management in the following [guide](https://developers.fireblocks.com/reference/create-transactions). </br>Endpoint Permission: Admin, Signer, Editor.
     async fn create_transaction(
         &self,
         params: CreateTransactionParams,
@@ -868,8 +852,9 @@ impl TransactionsApi for TransactionsApiClient {
         }
     }
 
-    /// Get the transaction history for your workspace. </br>Endpoint
-    /// Permission: Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
+    /// Get the transaction history for your workspace.  **Endpoint
+    /// Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor,
+    /// Viewer.
     async fn get_transactions(
         &self,
         params: GetTransactionsParams,
@@ -899,61 +884,61 @@ impl TransactionsApi for TransactionsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = before {
+        if let Some(ref param_value) = before {
             local_var_req_builder =
-                local_var_req_builder.query(&[("before", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("before", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = after {
+        if let Some(ref param_value) = after {
             local_var_req_builder =
-                local_var_req_builder.query(&[("after", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("after", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = status {
+        if let Some(ref param_value) = status {
             local_var_req_builder =
-                local_var_req_builder.query(&[("status", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("status", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = order_by {
+        if let Some(ref param_value) = order_by {
             local_var_req_builder =
-                local_var_req_builder.query(&[("orderBy", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("orderBy", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = sort {
+        if let Some(ref param_value) = sort {
             local_var_req_builder =
-                local_var_req_builder.query(&[("sort", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("sort", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = limit {
+        if let Some(ref param_value) = limit {
             local_var_req_builder =
-                local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("limit", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = source_type {
+        if let Some(ref param_value) = source_type {
             local_var_req_builder =
-                local_var_req_builder.query(&[("sourceType", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("sourceType", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = source_id {
+        if let Some(ref param_value) = source_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("sourceId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("sourceId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = dest_type {
+        if let Some(ref param_value) = dest_type {
             local_var_req_builder =
-                local_var_req_builder.query(&[("destType", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("destType", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = dest_id {
+        if let Some(ref param_value) = dest_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("destId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("destId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = assets {
+        if let Some(ref param_value) = assets {
             local_var_req_builder =
-                local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("assets", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = tx_hash {
+        if let Some(ref param_value) = tx_hash {
             local_var_req_builder =
-                local_var_req_builder.query(&[("txHash", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("txHash", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = source_wallet_id {
+        if let Some(ref param_value) = source_wallet_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("sourceWalletId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("sourceWalletId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = dest_wallet_id {
+        if let Some(ref param_value) = dest_wallet_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("destWalletId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("destWalletId", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -990,81 +975,6 @@ impl TransactionsApi for TransactionsApiClient {
             }
         } else {
             let local_var_entity: Option<GetTransactionsError> =
-                serde_json::from_str(&local_var_content).ok();
-            let local_var_error = ResponseContent {
-                status: local_var_status,
-                content: local_var_content,
-                entity: local_var_entity,
-            };
-            Err(Error::ResponseError(local_var_error))
-        }
-    }
-
-    /// Rescan transaction by running an async job. </br>  **Note**: - These
-    /// endpoints are currently in beta and might be subject to changes. - We
-    /// limit the amount of the transaction to 16 per request. - Please contact
-    /// to CSM to get access to this endpoint. - This operation can only be
-    /// enabled under `BROADCASTING` or `CONFIRMING`  </br>Endpoint Permission:
-    /// Admin, Non-Signing Admin, Signer, Approver, Editor.
-    async fn rescan_transactions_beta(
-        &self,
-        params: RescanTransactionsBetaParams,
-    ) -> Result<Vec<models::ValidatedTransactionsForRescan>, Error<RescanTransactionsBetaError>>
-    {
-        let RescanTransactionsBetaParams {
-            rescan_transaction,
-            idempotency_key,
-        } = params;
-
-        let local_var_configuration = &self.configuration;
-
-        let local_var_client = &local_var_configuration.client;
-
-        let local_var_uri_str =
-            format!("{}/transactions/rescan", local_var_configuration.base_path);
-        let mut local_var_req_builder =
-            local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-            local_var_req_builder = local_var_req_builder
-                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-        }
-        if let Some(local_var_param_value) = idempotency_key {
-            local_var_req_builder =
-                local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
-        }
-        local_var_req_builder = local_var_req_builder.json(&rescan_transaction);
-
-        let local_var_req = local_var_req_builder.build()?;
-        let local_var_resp = local_var_client.execute(local_var_req).await?;
-
-        let local_var_status = local_var_resp.status();
-        let local_var_content_type = local_var_resp
-            .headers()
-            .get("content-type")
-            .and_then(|v| v.to_str().ok())
-            .unwrap_or("application/octet-stream");
-        let local_var_content_type = super::ContentType::from(local_var_content_type);
-        let local_var_content = local_var_resp.text().await?;
-
-        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
-                ContentType::Text => {
-                    return Err(Error::from(serde_json::Error::custom(
-                        "Received `text/plain` content type response that cannot be converted to \
-                         `Vec&lt;models::ValidatedTransactionsForRescan&gt;`",
-                    )));
-                }
-                ContentType::Unsupported(local_var_unknown_type) => {
-                    return Err(Error::from(serde_json::Error::custom(format!(
-                        "Received `{local_var_unknown_type}` content type response that cannot be \
-                         converted to `Vec&lt;models::ValidatedTransactionsForRescan&gt;`"
-                    ))));
-                }
-            }
-        } else {
-            let local_var_entity: Option<RescanTransactionsBetaError> =
                 serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent {
                 status: local_var_status,
@@ -1310,7 +1220,7 @@ impl TransactionsApi for TransactionsApiClient {
     }
 }
 
-/// struct for typed errors of method [`cancel_transaction`]
+/// struct for typed errors of method [`TransactionsApi::cancel_transaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CancelTransactionError {
@@ -1318,7 +1228,7 @@ pub enum CancelTransactionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_transaction`]
+/// struct for typed errors of method [`TransactionsApi::create_transaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateTransactionError {
@@ -1326,7 +1236,7 @@ pub enum CreateTransactionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`drop_transaction`]
+/// struct for typed errors of method [`TransactionsApi::drop_transaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DropTransactionError {
@@ -1334,7 +1244,8 @@ pub enum DropTransactionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`estimate_transaction_fee`]
+/// struct for typed errors of method
+/// [`TransactionsApi::estimate_transaction_fee`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum EstimateTransactionFeeError {
@@ -1342,14 +1253,14 @@ pub enum EstimateTransactionFeeError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`freeze_transaction`]
+/// struct for typed errors of method [`TransactionsApi::freeze_transaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FreezeTransactionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_transaction`]
+/// struct for typed errors of method [`TransactionsApi::get_transaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTransactionError {
@@ -1358,7 +1269,8 @@ pub enum GetTransactionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_transaction_by_external_id`]
+/// struct for typed errors of method
+/// [`TransactionsApi::get_transaction_by_external_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTransactionByExternalIdError {
@@ -1366,7 +1278,7 @@ pub enum GetTransactionByExternalIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_transactions`]
+/// struct for typed errors of method [`TransactionsApi::get_transactions`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTransactionsError {
@@ -1374,16 +1286,8 @@ pub enum GetTransactionsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`rescan_transactions_beta`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum RescanTransactionsBetaError {
-    DefaultResponse(models::ErrorSchema),
-    UnknownValue(serde_json::Value),
-}
-
 /// struct for typed errors of method
-/// [`set_confirmation_threshold_by_transaction_hash`]
+/// [`TransactionsApi::set_confirmation_threshold_by_transaction_hash`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetConfirmationThresholdByTransactionHashError {
@@ -1391,7 +1295,8 @@ pub enum SetConfirmationThresholdByTransactionHashError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_transaction_confirmation_threshold`]
+/// struct for typed errors of method
+/// [`TransactionsApi::set_transaction_confirmation_threshold`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetTransactionConfirmationThresholdError {
@@ -1399,7 +1304,7 @@ pub enum SetTransactionConfirmationThresholdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`unfreeze_transaction`]
+/// struct for typed errors of method [`TransactionsApi::unfreeze_transaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UnfreezeTransactionError {

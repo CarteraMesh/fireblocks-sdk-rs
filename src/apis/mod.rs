@@ -123,6 +123,7 @@ impl From<&str> for ContentType {
 
 pub mod blockchains_assets_api;
 pub mod compliance_api;
+pub mod connected_accounts_beta_api;
 pub mod contract_interactions_api;
 pub mod contract_templates_api;
 pub mod d_app_connections_api;
@@ -138,13 +139,16 @@ pub mod nfts_api;
 pub mod off_exchange_api;
 pub mod payments_payout_api;
 pub mod policy_editor_beta_api;
+pub mod policy_editor_v2_beta_api;
 pub mod smart_transfers_api;
 pub mod staking_api;
+pub mod tags_api;
 pub mod tokenization_api;
+pub mod trading_beta_api;
 pub mod transactions_api;
 pub mod vaults_api;
 pub mod webhooks_api;
-pub mod webhooks_v2_beta_api;
+pub mod webhooks_v2_api;
 pub mod whitelisted_contracts_api;
 pub mod whitelisted_external_wallets_api;
 pub mod whitelisted_internal_wallets_api;
@@ -157,6 +161,9 @@ use std::sync::Arc;
 pub trait Api {
     fn blockchains_assets_api(&self) -> &dyn blockchains_assets_api::BlockchainsAssetsApi;
     fn compliance_api(&self) -> &dyn compliance_api::ComplianceApi;
+    fn connected_accounts_beta_api(
+        &self,
+    ) -> &dyn connected_accounts_beta_api::ConnectedAccountsBetaApi;
     fn contract_interactions_api(&self) -> &dyn contract_interactions_api::ContractInteractionsApi;
     fn contract_templates_api(&self) -> &dyn contract_templates_api::ContractTemplatesApi;
     fn d_app_connections_api(&self) -> &dyn d_app_connections_api::DAppConnectionsApi;
@@ -172,13 +179,16 @@ pub trait Api {
     fn off_exchange_api(&self) -> &dyn off_exchange_api::OffExchangeApi;
     fn payments_payout_api(&self) -> &dyn payments_payout_api::PaymentsPayoutApi;
     fn policy_editor_beta_api(&self) -> &dyn policy_editor_beta_api::PolicyEditorBetaApi;
+    fn policy_editor_v2_beta_api(&self) -> &dyn policy_editor_v2_beta_api::PolicyEditorV2BetaApi;
     fn smart_transfers_api(&self) -> &dyn smart_transfers_api::SmartTransfersApi;
     fn staking_api(&self) -> &dyn staking_api::StakingApi;
+    fn tags_api(&self) -> &dyn tags_api::TagsApi;
     fn tokenization_api(&self) -> &dyn tokenization_api::TokenizationApi;
+    fn trading_beta_api(&self) -> &dyn trading_beta_api::TradingBetaApi;
     fn transactions_api(&self) -> &dyn transactions_api::TransactionsApi;
     fn vaults_api(&self) -> &dyn vaults_api::VaultsApi;
     fn webhooks_api(&self) -> &dyn webhooks_api::WebhooksApi;
-    fn webhooks_v2_beta_api(&self) -> &dyn webhooks_v2_beta_api::WebhooksV2BetaApi;
+    fn webhooks_v2_api(&self) -> &dyn webhooks_v2_api::WebhooksV2Api;
     fn whitelisted_contracts_api(&self) -> &dyn whitelisted_contracts_api::WhitelistedContractsApi;
     fn whitelisted_external_wallets_api(
         &self,
@@ -192,6 +202,7 @@ pub trait Api {
 pub struct ApiClient {
     blockchains_assets_api: Box<dyn blockchains_assets_api::BlockchainsAssetsApi>,
     compliance_api: Box<dyn compliance_api::ComplianceApi>,
+    connected_accounts_beta_api: Box<dyn connected_accounts_beta_api::ConnectedAccountsBetaApi>,
     contract_interactions_api: Box<dyn contract_interactions_api::ContractInteractionsApi>,
     contract_templates_api: Box<dyn contract_templates_api::ContractTemplatesApi>,
     d_app_connections_api: Box<dyn d_app_connections_api::DAppConnectionsApi>,
@@ -207,13 +218,16 @@ pub struct ApiClient {
     off_exchange_api: Box<dyn off_exchange_api::OffExchangeApi>,
     payments_payout_api: Box<dyn payments_payout_api::PaymentsPayoutApi>,
     policy_editor_beta_api: Box<dyn policy_editor_beta_api::PolicyEditorBetaApi>,
+    policy_editor_v2_beta_api: Box<dyn policy_editor_v2_beta_api::PolicyEditorV2BetaApi>,
     smart_transfers_api: Box<dyn smart_transfers_api::SmartTransfersApi>,
     staking_api: Box<dyn staking_api::StakingApi>,
+    tags_api: Box<dyn tags_api::TagsApi>,
     tokenization_api: Box<dyn tokenization_api::TokenizationApi>,
+    trading_beta_api: Box<dyn trading_beta_api::TradingBetaApi>,
     transactions_api: Box<dyn transactions_api::TransactionsApi>,
     vaults_api: Box<dyn vaults_api::VaultsApi>,
     webhooks_api: Box<dyn webhooks_api::WebhooksApi>,
-    webhooks_v2_beta_api: Box<dyn webhooks_v2_beta_api::WebhooksV2BetaApi>,
+    webhooks_v2_api: Box<dyn webhooks_v2_api::WebhooksV2Api>,
     whitelisted_contracts_api: Box<dyn whitelisted_contracts_api::WhitelistedContractsApi>,
     whitelisted_external_wallets_api:
         Box<dyn whitelisted_external_wallets_api::WhitelistedExternalWalletsApi>,
@@ -231,6 +245,11 @@ impl ApiClient {
             compliance_api: Box::new(compliance_api::ComplianceApiClient::new(
                 configuration.clone(),
             )),
+            connected_accounts_beta_api: Box::new(
+                connected_accounts_beta_api::ConnectedAccountsBetaApiClient::new(
+                    configuration.clone(),
+                ),
+            ),
             contract_interactions_api: Box::new(
                 contract_interactions_api::ContractInteractionsApiClient::new(
                     configuration.clone(),
@@ -272,11 +291,18 @@ impl ApiClient {
             policy_editor_beta_api: Box::new(
                 policy_editor_beta_api::PolicyEditorBetaApiClient::new(configuration.clone()),
             ),
+            policy_editor_v2_beta_api: Box::new(
+                policy_editor_v2_beta_api::PolicyEditorV2BetaApiClient::new(configuration.clone()),
+            ),
             smart_transfers_api: Box::new(smart_transfers_api::SmartTransfersApiClient::new(
                 configuration.clone(),
             )),
             staking_api: Box::new(staking_api::StakingApiClient::new(configuration.clone())),
+            tags_api: Box::new(tags_api::TagsApiClient::new(configuration.clone())),
             tokenization_api: Box::new(tokenization_api::TokenizationApiClient::new(
+                configuration.clone(),
+            )),
+            trading_beta_api: Box::new(trading_beta_api::TradingBetaApiClient::new(
                 configuration.clone(),
             )),
             transactions_api: Box::new(transactions_api::TransactionsApiClient::new(
@@ -284,7 +310,7 @@ impl ApiClient {
             )),
             vaults_api: Box::new(vaults_api::VaultsApiClient::new(configuration.clone())),
             webhooks_api: Box::new(webhooks_api::WebhooksApiClient::new(configuration.clone())),
-            webhooks_v2_beta_api: Box::new(webhooks_v2_beta_api::WebhooksV2BetaApiClient::new(
+            webhooks_v2_api: Box::new(webhooks_v2_api::WebhooksV2ApiClient::new(
                 configuration.clone(),
             )),
             whitelisted_contracts_api: Box::new(
@@ -316,6 +342,12 @@ impl Api for ApiClient {
 
     fn compliance_api(&self) -> &dyn compliance_api::ComplianceApi {
         self.compliance_api.as_ref()
+    }
+
+    fn connected_accounts_beta_api(
+        &self,
+    ) -> &dyn connected_accounts_beta_api::ConnectedAccountsBetaApi {
+        self.connected_accounts_beta_api.as_ref()
     }
 
     fn contract_interactions_api(&self) -> &dyn contract_interactions_api::ContractInteractionsApi {
@@ -378,6 +410,10 @@ impl Api for ApiClient {
         self.policy_editor_beta_api.as_ref()
     }
 
+    fn policy_editor_v2_beta_api(&self) -> &dyn policy_editor_v2_beta_api::PolicyEditorV2BetaApi {
+        self.policy_editor_v2_beta_api.as_ref()
+    }
+
     fn smart_transfers_api(&self) -> &dyn smart_transfers_api::SmartTransfersApi {
         self.smart_transfers_api.as_ref()
     }
@@ -386,8 +422,16 @@ impl Api for ApiClient {
         self.staking_api.as_ref()
     }
 
+    fn tags_api(&self) -> &dyn tags_api::TagsApi {
+        self.tags_api.as_ref()
+    }
+
     fn tokenization_api(&self) -> &dyn tokenization_api::TokenizationApi {
         self.tokenization_api.as_ref()
+    }
+
+    fn trading_beta_api(&self) -> &dyn trading_beta_api::TradingBetaApi {
+        self.trading_beta_api.as_ref()
     }
 
     fn transactions_api(&self) -> &dyn transactions_api::TransactionsApi {
@@ -402,8 +446,8 @@ impl Api for ApiClient {
         self.webhooks_api.as_ref()
     }
 
-    fn webhooks_v2_beta_api(&self) -> &dyn webhooks_v2_beta_api::WebhooksV2BetaApi {
-        self.webhooks_v2_beta_api.as_ref()
+    fn webhooks_v2_api(&self) -> &dyn webhooks_v2_api::WebhooksV2Api {
+        self.webhooks_v2_api.as_ref()
     }
 
     fn whitelisted_contracts_api(&self) -> &dyn whitelisted_contracts_api::WhitelistedContractsApi {

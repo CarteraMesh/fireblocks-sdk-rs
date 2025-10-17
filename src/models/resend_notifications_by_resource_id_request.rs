@@ -17,10 +17,12 @@ pub struct ResendNotificationsByResourceIdRequest {
     #[serde(rename = "resourceId")]
     pub resource_id: uuid::Uuid,
     /// (optional) List of notification statuses to exclude from the resend
-    /// operation     - Empty array means all statuses will be included     - If
-    /// you want to exclude some statuses, you can use the following example: [
-    /// IN_PROGRESS, FAILED ]     - Default if missing, means all statuses other
-    /// than \"COMPLETED\" will be included
+    /// operation     - It's optional but it must be included. For example, if
+    /// there is no status, the syntax will be \"excludeStatuses\": []     -
+    /// Empty array means all statuses will be included     - If you want to
+    /// exclude some statuses, you can use the following example: [ IN_PROGRESS,
+    /// FAILED ]     - Default if missing, means all statuses other than
+    /// \"COMPLETED\" will be included
     #[serde(rename = "excludeStatuses", skip_serializing_if = "Option::is_none")]
     pub exclude_statuses: Option<Vec<models::NotificationStatus>>,
 }

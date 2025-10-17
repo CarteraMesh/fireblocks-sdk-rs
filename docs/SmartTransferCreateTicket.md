@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **created_by_network_id** | **String** |  | 
-**r#type** | **String** |  | 
+**r#type** | **String** | **Note:** The `DVP` value is in Early Access and should only be used if Fireblocks has enabled it in your workspace. Contact your Customer Success Manager for more information. | 
 **expires_in** | Option<**f64**> | Number of hours after which an OPEN ticket will expire if no term is funded. | [optional]
 **terms** | Option<[**Vec<models::SmartTransferCreateTicketTerm>**](SmartTransferCreateTicketTerm.md)> |  | [optional]
 **external_ref_id** | Option<**String**> |  | [optional]

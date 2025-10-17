@@ -79,7 +79,8 @@ impl DeployedContractsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`add_contract_abi`]
+/// struct for passing parameters to the method
+/// [`DeployedContractsApi::add_contract_abi`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct AddContractAbiParams {
@@ -91,7 +92,8 @@ pub struct AddContractAbiParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`fetch_contract_abi`]
+/// struct for passing parameters to the method
+/// [`DeployedContractsApi::fetch_contract_abi`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct FetchContractAbiParams {
@@ -104,7 +106,7 @@ pub struct FetchContractAbiParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_deployed_contract_by_address`]
+/// [`DeployedContractsApi::get_deployed_contract_by_address`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetDeployedContractByAddressParams {
@@ -114,7 +116,8 @@ pub struct GetDeployedContractByAddressParams {
     pub asset_id: String,
 }
 
-/// struct for passing parameters to the method [`get_deployed_contract_by_id`]
+/// struct for passing parameters to the method
+/// [`DeployedContractsApi::get_deployed_contract_by_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetDeployedContractByIdParams {
@@ -122,7 +125,8 @@ pub struct GetDeployedContractByIdParams {
     pub id: String,
 }
 
-/// struct for passing parameters to the method [`get_deployed_contracts`]
+/// struct for passing parameters to the method
+/// [`DeployedContractsApi::get_deployed_contracts`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetDeployedContractsParams {
@@ -446,25 +450,25 @@ impl DeployedContractsApi for DeployedContractsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = contract_address {
+        if let Some(ref param_value) = contract_address {
             local_var_req_builder =
-                local_var_req_builder.query(&[("contractAddress", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("contractAddress", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = base_asset_id {
+        if let Some(ref param_value) = base_asset_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("baseAssetId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("baseAssetId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = contract_template_id {
+        if let Some(ref param_value) = contract_template_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("contractTemplateId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("contractTemplateId", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -512,7 +516,7 @@ impl DeployedContractsApi for DeployedContractsApiClient {
     }
 }
 
-/// struct for typed errors of method [`add_contract_abi`]
+/// struct for typed errors of method [`DeployedContractsApi::add_contract_abi`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddContractAbiError {
@@ -521,7 +525,8 @@ pub enum AddContractAbiError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`fetch_contract_abi`]
+/// struct for typed errors of method
+/// [`DeployedContractsApi::fetch_contract_abi`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FetchContractAbiError {
@@ -530,7 +535,8 @@ pub enum FetchContractAbiError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_deployed_contract_by_address`]
+/// struct for typed errors of method
+/// [`DeployedContractsApi::get_deployed_contract_by_address`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetDeployedContractByAddressError {
@@ -538,7 +544,8 @@ pub enum GetDeployedContractByAddressError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_deployed_contract_by_id`]
+/// struct for typed errors of method
+/// [`DeployedContractsApi::get_deployed_contract_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetDeployedContractByIdError {
@@ -546,7 +553,8 @@ pub enum GetDeployedContractByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_deployed_contracts`]
+/// struct for typed errors of method
+/// [`DeployedContractsApi::get_deployed_contracts`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetDeployedContractsError {

@@ -32,6 +32,9 @@ pub struct VaultAccount {
     /// not
     #[serde(rename = "autoFuel", skip_serializing_if = "Option::is_none")]
     pub auto_fuel: Option<bool>,
+    /// List of tags attached to the vault account
+    #[serde(rename = "tags", skip_serializing_if = "Option::is_none")]
+    pub tags: Option<Vec<models::Tag>>,
 }
 
 impl VaultAccount {
@@ -48,6 +51,7 @@ impl VaultAccount {
             hidden_on_ui,
             customer_ref_id: None,
             auto_fuel: None,
+            tags: None,
         }
     }
 }
