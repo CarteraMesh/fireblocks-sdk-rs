@@ -13,7 +13,8 @@ env:
   FIREBLOCKS_SECRET: ${{ secrets.FIREBLOCKS_SECRET }}
   FIREBLOCKS_CREATE_TX: "true"
   FIREBLOCKS_CREATE_VAULT: "true"
-  RUST_LOG: "info"
+  RUST_LOG: "info,fireblocks_sdk=debug"
+  RUST_BACKTRACE: "1"
 
 on:
   push:

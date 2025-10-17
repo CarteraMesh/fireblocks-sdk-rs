@@ -9,17 +9,16 @@ static INIT: Once = Once::new();
 #[allow(clippy::unwrap_used, clippy::missing_panics_doc)]
 pub fn setup() {
     INIT.call_once(|| {
+        let env = dotenvy::dotenv_override();
+        if env.is_err() {
+            tracing::debug!("no .env file");
+        }
         tracing_subscriber::fmt()
             .with_target(true)
             .with_level(true)
             .with_span_events(FmtSpan::CLOSE)
             .with_env_filter(EnvFilter::from_default_env())
             .init();
-
-        let env = dotenvy::dotenv();
-        if env.is_err() {
-            tracing::debug!("no .env file");
-        }
     });
 }
 
