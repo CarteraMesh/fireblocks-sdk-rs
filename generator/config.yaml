@@ -41,6 +41,18 @@ files:
     templateType: SupportingFiles
     destinationFilename: chain_descriptor.rs
     folder: src/models
+
+  custom/models/wallet_asset.rs:
+    templateType: SupportingFiles
+    destinationFilename: wallet_asset.rs
+    folder: src/models
+
+
+  custom/models/external_wallet_asset.rs:
+    templateType: SupportingFiles
+    destinationFilename: exteral_wallet_asset.rs
+    folder: src/models
+ 
   # custom/models/signed_message_signature.rs:
   #   templateType: SupportingFiles
   #   destinationFilename: signed_message_signature.rs

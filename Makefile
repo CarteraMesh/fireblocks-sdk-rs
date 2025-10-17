@@ -10,7 +10,8 @@ generate: $(OUT)
 	rsync -a --delete $(OUT)/src/models/ src/models/
 	rsync -a --delete $(OUT)/src/apis/ src/apis/
 	rsync -a --delete $(OUT)/docs/ docs/
-  sed -i 's/models::serde_json::/serde_json::/g' src/apis/*.rs
+	sed -i 's/models::serde_json::/serde_json::/g' src/apis/*.rs
+	sed -i 's/serde_json::from_str(\&local_var_content)\.map_err/crate::deserialize_wrapper(\&local_var_content).map_err/g' src/apis/*.rs
 	cargo +nightly fmt --all
 
 update:
