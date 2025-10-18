@@ -21,17 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - uses: ubicloud/rust-cache@v2
+        with:
+          cache-on-failure: "true"
+          cache-all-crates: "true"
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
-
-      - name: Cache Cargo registry
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.toml') }}
 
       - name: Get current version
         id: version
@@ -47,6 +42,19 @@ jobs:
           echo "Would publish version: ${{ steps.version.outputs.current_version }}"
           cargo publish --dry-run
 
+      - name: Create GitHub Release
+        if: ${{ !inputs.dry_run }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.current_version }}
+          name: Release release
+          body: |
+            See [CHANGELOG.md](./CHANGELOG.md) for detailed changes.
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to crates.io
         if: ${{ !inputs.dry_run }}
         env:
