@@ -123,7 +123,7 @@ impl NftsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`get_nft`]
+/// struct for passing parameters to the method [`NftsApi::get_nft`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetNftParams {
@@ -131,7 +131,7 @@ pub struct GetNftParams {
     pub id: String,
 }
 
-/// struct for passing parameters to the method [`get_nfts`]
+/// struct for passing parameters to the method [`NftsApi::get_nfts`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetNftsParams {
@@ -149,7 +149,8 @@ pub struct GetNftsParams {
     pub order: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_ownership_tokens`]
+/// struct for passing parameters to the method
+/// [`NftsApi::get_ownership_tokens`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetOwnershipTokensParams {
@@ -192,7 +193,8 @@ pub struct GetOwnershipTokensParams {
     pub spam: Option<String>,
 }
 
-/// struct for passing parameters to the method [`list_owned_collections`]
+/// struct for passing parameters to the method
+/// [`NftsApi::list_owned_collections`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ListOwnedCollectionsParams {
@@ -216,7 +218,7 @@ pub struct ListOwnedCollectionsParams {
     pub status: Option<String>,
 }
 
-/// struct for passing parameters to the method [`list_owned_tokens`]
+/// struct for passing parameters to the method [`NftsApi::list_owned_tokens`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ListOwnedTokensParams {
@@ -241,7 +243,8 @@ pub struct ListOwnedTokensParams {
     pub spam: Option<String>,
 }
 
-/// struct for passing parameters to the method [`refresh_nft_metadata`]
+/// struct for passing parameters to the method
+/// [`NftsApi::refresh_nft_metadata`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct RefreshNftMetadataParams {
@@ -254,7 +257,8 @@ pub struct RefreshNftMetadataParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`update_ownership_tokens`]
+/// struct for passing parameters to the method
+/// [`NftsApi::update_ownership_tokens`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateOwnershipTokensParams {
@@ -270,7 +274,7 @@ pub struct UpdateOwnershipTokensParams {
 }
 
 /// struct for passing parameters to the method
-/// [`update_token_ownership_status`]
+/// [`NftsApi::update_token_ownership_status`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateTokenOwnershipStatusParams {
@@ -284,7 +288,8 @@ pub struct UpdateTokenOwnershipStatusParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`update_tokens_ownership_spam`]
+/// struct for passing parameters to the method
+/// [`NftsApi::update_tokens_ownership_spam`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateTokensOwnershipSpamParams {
@@ -297,7 +302,7 @@ pub struct UpdateTokensOwnershipSpamParams {
 }
 
 /// struct for passing parameters to the method
-/// [`update_tokens_ownership_status`]
+/// [`NftsApi::update_tokens_ownership_status`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateTokensOwnershipStatusParams {
@@ -350,7 +355,9 @@ impl NftsApi for NftsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -399,25 +406,25 @@ impl NftsApi for NftsApiClient {
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
         local_var_req_builder = local_var_req_builder.query(&[("ids", &ids.to_string())]);
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = sort {
+        if let Some(ref param_value) = sort {
             local_var_req_builder = match "multi" {
                 "multi" => local_var_req_builder.query(
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| ("sort".to_owned(), p.to_string()))
                         .collect::<Vec<(std::string::String, std::string::String)>>(),
                 ),
                 _ => local_var_req_builder.query(&[(
                     "sort",
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| p.to_string())
                         .collect::<Vec<String>>()
@@ -426,9 +433,9 @@ impl NftsApi for NftsApiClient {
                 )]),
             };
         }
-        if let Some(ref local_var_str) = order {
+        if let Some(ref param_value) = order {
             local_var_req_builder =
-                local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("order", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -449,7 +456,9 @@ impl NftsApi for NftsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -509,53 +518,53 @@ impl NftsApi for NftsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = blockchain_descriptor {
-            local_var_req_builder = local_var_req_builder
-                .query(&[("blockchainDescriptor", &local_var_str.to_string())]);
-        }
-        if let Some(ref local_var_str) = vault_account_ids {
+        if let Some(ref param_value) = blockchain_descriptor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("vaultAccountIds", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("blockchainDescriptor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = ncw_id {
+        if let Some(ref param_value) = vault_account_ids {
             local_var_req_builder =
-                local_var_req_builder.query(&[("ncwId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("vaultAccountIds", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = ncw_account_ids {
+        if let Some(ref param_value) = ncw_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("ncwAccountIds", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("ncwId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = wallet_type {
+        if let Some(ref param_value) = ncw_account_ids {
             local_var_req_builder =
-                local_var_req_builder.query(&[("walletType", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("ncwAccountIds", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = ids {
+        if let Some(ref param_value) = wallet_type {
             local_var_req_builder =
-                local_var_req_builder.query(&[("ids", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("walletType", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = collection_ids {
+        if let Some(ref param_value) = ids {
             local_var_req_builder =
-                local_var_req_builder.query(&[("collectionIds", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("ids", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = collection_ids {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("collectionIds", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = sort {
+        if let Some(ref param_value) = page_size {
+            local_var_req_builder =
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
+        }
+        if let Some(ref param_value) = sort {
             local_var_req_builder = match "multi" {
                 "multi" => local_var_req_builder.query(
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| ("sort".to_owned(), p.to_string()))
                         .collect::<Vec<(std::string::String, std::string::String)>>(),
                 ),
                 _ => local_var_req_builder.query(&[(
                     "sort",
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| p.to_string())
                         .collect::<Vec<String>>()
@@ -564,21 +573,21 @@ impl NftsApi for NftsApiClient {
                 )]),
             };
         }
-        if let Some(ref local_var_str) = order {
+        if let Some(ref param_value) = order {
             local_var_req_builder =
-                local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("order", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = status {
+        if let Some(ref param_value) = status {
             local_var_req_builder =
-                local_var_req_builder.query(&[("status", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("status", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = search {
+        if let Some(ref param_value) = search {
             local_var_req_builder =
-                local_var_req_builder.query(&[("search", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("search", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = spam {
+        if let Some(ref param_value) = spam {
             local_var_req_builder =
-                local_var_req_builder.query(&[("spam", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("spam", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -599,7 +608,9 @@ impl NftsApi for NftsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -653,37 +664,37 @@ impl NftsApi for NftsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = ncw_id {
+        if let Some(ref param_value) = ncw_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("ncwId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("ncwId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = wallet_type {
+        if let Some(ref param_value) = wallet_type {
             local_var_req_builder =
-                local_var_req_builder.query(&[("walletType", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("walletType", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = search {
+        if let Some(ref param_value) = search {
             local_var_req_builder =
-                local_var_req_builder.query(&[("search", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("search", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = sort {
+        if let Some(ref param_value) = sort {
             local_var_req_builder = match "multi" {
                 "multi" => local_var_req_builder.query(
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| ("sort".to_owned(), p.to_string()))
                         .collect::<Vec<(std::string::String, std::string::String)>>(),
                 ),
                 _ => local_var_req_builder.query(&[(
                     "sort",
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| p.to_string())
                         .collect::<Vec<String>>()
@@ -692,13 +703,13 @@ impl NftsApi for NftsApiClient {
                 )]),
             };
         }
-        if let Some(ref local_var_str) = order {
+        if let Some(ref param_value) = order {
             local_var_req_builder =
-                local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("order", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = status {
+        if let Some(ref param_value) = status {
             local_var_req_builder =
-                local_var_req_builder.query(&[("status", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("status", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -719,7 +730,9 @@ impl NftsApi for NftsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -775,33 +788,33 @@ impl NftsApi for NftsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = ncw_id {
+        if let Some(ref param_value) = ncw_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("ncwId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("ncwId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = wallet_type {
+        if let Some(ref param_value) = wallet_type {
             local_var_req_builder =
-                local_var_req_builder.query(&[("walletType", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("walletType", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = sort {
+        if let Some(ref param_value) = sort {
             local_var_req_builder = match "multi" {
                 "multi" => local_var_req_builder.query(
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| ("sort".to_owned(), p.to_string()))
                         .collect::<Vec<(std::string::String, std::string::String)>>(),
                 ),
                 _ => local_var_req_builder.query(&[(
                     "sort",
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| p.to_string())
                         .collect::<Vec<String>>()
@@ -810,21 +823,21 @@ impl NftsApi for NftsApiClient {
                 )]),
             };
         }
-        if let Some(ref local_var_str) = order {
+        if let Some(ref param_value) = order {
             local_var_req_builder =
-                local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("order", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = status {
+        if let Some(ref param_value) = status {
             local_var_req_builder =
-                local_var_req_builder.query(&[("status", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("status", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = search {
+        if let Some(ref param_value) = search {
             local_var_req_builder =
-                local_var_req_builder.query(&[("search", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("search", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = spam {
+        if let Some(ref param_value) = spam {
             local_var_req_builder =
-                local_var_req_builder.query(&[("spam", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("spam", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -845,7 +858,9 @@ impl NftsApi for NftsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1139,63 +1154,63 @@ impl NftsApi for NftsApiClient {
     }
 }
 
-/// struct for typed errors of method [`get_nft`]
+/// struct for typed errors of method [`NftsApi::get_nft`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetNftError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_nfts`]
+/// struct for typed errors of method [`NftsApi::get_nfts`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetNftsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_ownership_tokens`]
+/// struct for typed errors of method [`NftsApi::get_ownership_tokens`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOwnershipTokensError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`list_owned_collections`]
+/// struct for typed errors of method [`NftsApi::list_owned_collections`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ListOwnedCollectionsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`list_owned_tokens`]
+/// struct for typed errors of method [`NftsApi::list_owned_tokens`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ListOwnedTokensError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`refresh_nft_metadata`]
+/// struct for typed errors of method [`NftsApi::refresh_nft_metadata`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RefreshNftMetadataError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_ownership_tokens`]
+/// struct for typed errors of method [`NftsApi::update_ownership_tokens`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateOwnershipTokensError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_token_ownership_status`]
+/// struct for typed errors of method [`NftsApi::update_token_ownership_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateTokenOwnershipStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_tokens_ownership_spam`]
+/// struct for typed errors of method [`NftsApi::update_tokens_ownership_spam`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateTokensOwnershipSpamError {
@@ -1204,7 +1219,8 @@ pub enum UpdateTokensOwnershipSpamError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_tokens_ownership_status`]
+/// struct for typed errors of method
+/// [`NftsApi::update_tokens_ownership_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateTokensOwnershipStatusError {

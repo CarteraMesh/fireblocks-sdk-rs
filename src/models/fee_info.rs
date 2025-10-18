@@ -11,27 +11,58 @@ use {
     serde::{Deserialize, Serialize},
 };
 
-/// FeeInfo : Details of the transaction's fee.
+/// FeeInfo : Details of the transaction fees.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct FeeInfo {
-    /// The fee paid to the network
+    /// The fee paid to the network.
     #[serde(rename = "networkFee", skip_serializing_if = "Option::is_none")]
     pub network_fee: Option<String>,
     /// The total fee deducted by the exchange from the actual requested amount
-    /// (serviceFee = amount - netAmount)
+    /// (serviceFee = amount - netAmount).
     #[serde(rename = "serviceFee", skip_serializing_if = "Option::is_none")]
     pub service_fee: Option<String>,
+    /// The amount of gas required by/paid to the network to process the
+    /// transaction.
     #[serde(rename = "gasPrice", skip_serializing_if = "Option::is_none")]
     pub gas_price: Option<String>,
+    /// Layer 1 network fee for Layer 2 blockchain transactions
+    #[serde(rename = "L1networkFee", skip_serializing_if = "Option::is_none")]
+    pub l1network_fee: Option<String>,
+    /// Layer 2 network fee (gas price component for Layer 2 transactions)
+    #[serde(rename = "L2networkFee", skip_serializing_if = "Option::is_none")]
+    pub l2network_fee: Option<String>,
+    /// Indicates whether the relay paid the fee.
+    #[serde(rename = "paidByRelay", skip_serializing_if = "Option::is_none")]
+    pub paid_by_relay: Option<bool>,
+    /// Indicates whether the relay is the same tenant (`LOCAL`) or another
+    /// tenant (`THIRD_PARTY`).
+    #[serde(rename = "relayType", skip_serializing_if = "Option::is_none")]
+    pub relay_type: Option<String>,
+    /// The Vault account ID of the relay.
+    #[serde(rename = "relayId", skip_serializing_if = "Option::is_none")]
+    pub relay_id: Option<String>,
+    /// The name of the tenant hosting the third-party relay.
+    #[serde(rename = "relayName", skip_serializing_if = "Option::is_none")]
+    pub relay_name: Option<String>,
+    /// The USD equivalent value of the fee
+    #[serde(rename = "feeUSD", skip_serializing_if = "Option::is_none")]
+    pub fee_usd: Option<String>,
 }
 
 impl FeeInfo {
-    /// Details of the transaction's fee.
+    /// Details of the transaction fees.
     pub fn new() -> FeeInfo {
         FeeInfo {
             network_fee: None,
             service_fee: None,
             gas_price: None,
+            l1network_fee: None,
+            l2network_fee: None,
+            paid_by_relay: None,
+            relay_type: None,
+            relay_id: None,
+            relay_name: None,
+            fee_usd: None,
         }
     }
 }

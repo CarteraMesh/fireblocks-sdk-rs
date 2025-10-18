@@ -15,13 +15,13 @@ use {
 pub struct VaultAssetNumber {
     #[serde(rename = "id")]
     pub id: String,
-    /// The total wallet balance.   Total = available + pending + lockedAmount +
-    /// frozen  - In EOS this value includes the network balance, self staking
-    /// and pending refund.   - For all other coins it is the balance as it
+    /// The total wallet balance. (Total = available + pending + lockedAmount +
+    /// frozen) - In EOS, this value includes the network balance, self-staking,
+    /// and pending refund.  - For all other coins, it is the balance as it
     /// appears on the blockchain.
     #[serde(rename = "total")]
     pub total: f64,
-    /// Deprecated - replaced by \"total\"
+    /// Deprecated, replaced by \"total\"
     #[serde(rename = "balance", skip_serializing_if = "Option::is_none")]
     pub balance: Option<String>,
     /// Funds available for transfer. Equals: \"total\" minus \"lockedAmount\"

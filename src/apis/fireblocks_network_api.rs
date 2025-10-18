@@ -334,7 +334,8 @@ impl FireblocksNetworkApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`check_third_party_routing`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::check_third_party_routing`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CheckThirdPartyRoutingParams {
@@ -344,7 +345,8 @@ pub struct CheckThirdPartyRoutingParams {
     pub asset_type: String,
 }
 
-/// struct for passing parameters to the method [`create_network_connection`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::create_network_connection`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateNetworkConnectionParams {
@@ -356,7 +358,8 @@ pub struct CreateNetworkConnectionParams {
     pub network_connection: Option<models::NetworkConnection>,
 }
 
-/// struct for passing parameters to the method [`create_network_id`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::create_network_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateNetworkIdParams {
@@ -368,7 +371,8 @@ pub struct CreateNetworkIdParams {
     pub create_network_id_request: Option<models::CreateNetworkIdRequest>,
 }
 
-/// struct for passing parameters to the method [`delete_network_connection`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::delete_network_connection`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteNetworkConnectionParams {
@@ -376,7 +380,8 @@ pub struct DeleteNetworkConnectionParams {
     pub connection_id: String,
 }
 
-/// struct for passing parameters to the method [`delete_network_id`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::delete_network_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteNetworkIdParams {
@@ -384,7 +389,8 @@ pub struct DeleteNetworkIdParams {
     pub network_id: String,
 }
 
-/// struct for passing parameters to the method [`get_network`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::get_network`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetNetworkParams {
@@ -392,7 +398,8 @@ pub struct GetNetworkParams {
     pub connection_id: String,
 }
 
-/// struct for passing parameters to the method [`get_network_id`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::get_network_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetNetworkIdParams {
@@ -400,7 +407,8 @@ pub struct GetNetworkIdParams {
     pub network_id: String,
 }
 
-/// struct for passing parameters to the method [`search_network_ids`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::search_network_ids`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SearchNetworkIdsParams {
@@ -417,7 +425,7 @@ pub struct SearchNetworkIdsParams {
 }
 
 /// struct for passing parameters to the method
-/// [`set_network_id_discoverability`]
+/// [`FireblocksNetworkApi::set_network_id_discoverability`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetNetworkIdDiscoverabilityParams {
@@ -426,7 +434,8 @@ pub struct SetNetworkIdDiscoverabilityParams {
     pub set_network_id_discoverability_request: models::SetNetworkIdDiscoverabilityRequest,
 }
 
-/// struct for passing parameters to the method [`set_network_id_name`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::set_network_id_name`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetNetworkIdNameParams {
@@ -436,7 +445,7 @@ pub struct SetNetworkIdNameParams {
 }
 
 /// struct for passing parameters to the method
-/// [`set_network_id_routing_policy`]
+/// [`FireblocksNetworkApi::set_network_id_routing_policy`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetNetworkIdRoutingPolicyParams {
@@ -445,7 +454,8 @@ pub struct SetNetworkIdRoutingPolicyParams {
     pub set_network_id_routing_policy_request: Option<models::SetNetworkIdRoutingPolicyRequest>,
 }
 
-/// struct for passing parameters to the method [`set_routing_policy`]
+/// struct for passing parameters to the method
+/// [`FireblocksNetworkApi::set_routing_policy`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetRoutingPolicyParams {
@@ -502,7 +512,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -571,7 +583,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -655,7 +669,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -734,7 +750,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -812,7 +830,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -890,7 +910,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -962,7 +984,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1040,7 +1064,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1112,7 +1138,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1176,7 +1204,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1237,25 +1267,25 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = search {
+        if let Some(ref param_value) = search {
             local_var_req_builder =
-                local_var_req_builder.query(&[("search", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("search", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = exclude_self {
+        if let Some(ref param_value) = exclude_self {
             local_var_req_builder =
-                local_var_req_builder.query(&[("excludeSelf", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("excludeSelf", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = exclude_connected {
+        if let Some(ref param_value) = exclude_connected {
             local_var_req_builder =
-                local_var_req_builder.query(&[("excludeConnected", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("excludeConnected", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1276,7 +1306,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1359,7 +1391,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1441,7 +1475,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1525,7 +1561,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1609,7 +1647,9 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1636,7 +1676,8 @@ impl FireblocksNetworkApi for FireblocksNetworkApiClient {
     }
 }
 
-/// struct for typed errors of method [`check_third_party_routing`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::check_third_party_routing`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CheckThirdPartyRoutingError {
@@ -1644,7 +1685,8 @@ pub enum CheckThirdPartyRoutingError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_network_connection`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::create_network_connection`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateNetworkConnectionError {
@@ -1652,7 +1694,8 @@ pub enum CreateNetworkConnectionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_network_id`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::create_network_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateNetworkIdError {
@@ -1660,7 +1703,8 @@ pub enum CreateNetworkIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_network_connection`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::delete_network_connection`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteNetworkConnectionError {
@@ -1668,7 +1712,8 @@ pub enum DeleteNetworkConnectionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_network_id`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::delete_network_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteNetworkIdError {
@@ -1676,7 +1721,7 @@ pub enum DeleteNetworkIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_network`]
+/// struct for typed errors of method [`FireblocksNetworkApi::get_network`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetNetworkError {
@@ -1684,7 +1729,8 @@ pub enum GetNetworkError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_network_connections`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::get_network_connections`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetNetworkConnectionsError {
@@ -1692,7 +1738,7 @@ pub enum GetNetworkConnectionsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_network_id`]
+/// struct for typed errors of method [`FireblocksNetworkApi::get_network_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetNetworkIdError {
@@ -1700,7 +1746,7 @@ pub enum GetNetworkIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_network_ids`]
+/// struct for typed errors of method [`FireblocksNetworkApi::get_network_ids`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetNetworkIdsError {
@@ -1708,7 +1754,8 @@ pub enum GetNetworkIdsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_routing_policy_asset_groups`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::get_routing_policy_asset_groups`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetRoutingPolicyAssetGroupsError {
@@ -1716,7 +1763,8 @@ pub enum GetRoutingPolicyAssetGroupsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`search_network_ids`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::search_network_ids`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SearchNetworkIdsError {
@@ -1724,7 +1772,8 @@ pub enum SearchNetworkIdsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_network_id_discoverability`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::set_network_id_discoverability`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetNetworkIdDiscoverabilityError {
@@ -1732,7 +1781,8 @@ pub enum SetNetworkIdDiscoverabilityError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_network_id_name`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::set_network_id_name`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetNetworkIdNameError {
@@ -1740,7 +1790,8 @@ pub enum SetNetworkIdNameError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_network_id_routing_policy`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::set_network_id_routing_policy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetNetworkIdRoutingPolicyError {
@@ -1748,7 +1799,8 @@ pub enum SetNetworkIdRoutingPolicyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_routing_policy`]
+/// struct for typed errors of method
+/// [`FireblocksNetworkApi::set_routing_policy`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetRoutingPolicyError {

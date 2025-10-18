@@ -15,9 +15,9 @@ use {
 pub struct VaultAsset {
     #[serde(rename = "id")]
     pub id: String,
-    /// The total wallet balance.   Total = available + pending + lockedAmount +
-    /// frozen  - In EOS this value includes the network balance, self staking
-    /// and pending refund.   - For all other coins it is the balance as it
+    /// The total wallet balance.  Total = available + pending + lockedAmount +
+    /// frozen - In EOS this value includes the network balance, self staking
+    /// and pending refund.  - For all other coins it is the balance as it
     /// appears on the blockchain.
     #[serde(rename = "total")]
     pub total: String,

@@ -23,6 +23,12 @@ pub enum StakingProvider {
     Lido,
     #[serde(rename = "p2p")]
     P2p,
+    #[serde(rename = "pierTwo")]
+    PierTwo,
+    #[serde(rename = "blockdaemon")]
+    Blockdaemon,
+    #[serde(rename = "galaxy")]
+    Galaxy,
 }
 
 impl std::fmt::Display for StakingProvider {
@@ -32,6 +38,9 @@ impl std::fmt::Display for StakingProvider {
             Self::Figment => write!(f, "figment"),
             Self::Lido => write!(f, "lido"),
             Self::P2p => write!(f, "p2p"),
+            Self::PierTwo => write!(f, "pierTwo"),
+            Self::Blockdaemon => write!(f, "blockdaemon"),
+            Self::Galaxy => write!(f, "galaxy"),
         }
     }
 }

@@ -4,14 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** | Fireblocks Transaction ID | 
-**external_tx_id** | Option<**String**> | Unique externbal transaction identifier provided by the user. Fireblocks highly recommends setting an `externalTxId` for every transaction created, to avoid submitting the same transaction twice. | [optional]
-**status** | [**models::TransactionStatus**](TransactionStatus.md) |  | 
+**id** | Option<**String**> | Fireblocks Transaction ID | [optional]
+**external_tx_id** | Option<**String**> | Unique external transaction identifier provided by the user. Used to help prevent duplicate transactions. **Will become a required parameter for all transaction types on March 1, 2026.** | [optional]
+**status** | Option<[**models::TransactionStatus**](TransactionStatus.md)> |  | [optional]
 **sub_status** | Option<[**models::TransactionSubStatus**](TransactionSubStatus.md)> |  | [optional]
 **tx_hash** | Option<**String**> | The hash of the transaction on the blockchain.  * This parameter exists if at least one of the following conditions is met:       1. The transaction’s source type is `UNKNOWN`, `WHITELISTED_ADDRESS`, `NETWORK_CONNECTION`, `ONE_TIME_ADDRESS`, `FIAT_ACCOUNT` or `GAS_STATION`.       2. The transaction’s source type is `VAULT` and the status is either: `CONFIRMING`, `COMPLETED`, or was in any of these statuses prior to changing to `FAILED` or `REJECTED`. In some instances, transactions in status `BROADCASTING` will include the txHash as well.       3. The transaction’s source type is `EXCHANGE_ACCOUNT` and the transaction’s destination type is `VAULT`, and the status is either: `CONFIRMING`, `COMPLETED`, or was in any of these status prior to changing to `FAILED`.   * In addition, the following conditions must be met:      1. The asset is a crypto asset (not fiat).      2. The transaction operation is not `RAW` or `TYPED_MESSAGE`. | [optional]
-**operation** | [**models::GetTransactionOperation**](GetTransactionOperation.md) |  | 
+**operation** | Option<[**models::GetTransactionOperation**](GetTransactionOperation.md)> |  | [optional]
 **note** | Option<**String**> | Custom note, not sent to the blockchain, that describes the transaction at your Fireblocks workspace. | [optional]
-**asset_id** | Option<**String**> | The ID of the asset for `TRANSFER`, `MINT`, `BURN`, `ENABLE_ASSET`,`STAKE` ,`UNSTAKE` or `WITHDRAW` operations. [See the list of supported assets and their IDs on Fireblocks.](https://developers.fireblocks.com/reference/getsupportedassets) | [optional]
+**blockchain_info** | Option<**String**> | A JSON used to store additional blockchain-specific data.  **Example:** In HBAR, this property will have the txHash in addition to the txID.  | [optional]
+**asset_id** | Option<**String**> | The ID of the asset for `TRANSFER`, `MINT`, `BURN`, `ENABLE_ASSET`,`STAKE` ,`UNSTAKE` or `WITHDRAW` operations. See the [list of supported assets and their IDs on Fireblocks](https://developers.fireblocks.com/reference/getsupportedassets). | [optional]
+**asset_type** | Option<**String**> | Type classification of the asset | [optional]
 **source** | Option<[**models::SourceTransferPeerPathResponse**](SourceTransferPeerPathResponse.md)> |  | [optional]
 **source_address** | Option<**String**> | For account based assets only, the source address of the transaction. **Note:** If the status is `CONFIRMING`, `COMPLETED`, or has been `CONFIRMING`; then moved forward to `FAILED` or `REJECTED`, then this parameter will contain the source address. In any other case, this parameter will be empty. | [optional]
 **tag** | Option<**String**> | Source address tag for Tag/Memo supporting assets, or Bank Transfer Description for the fiat provider BLINC (by BCB Group). | [optional]
@@ -22,7 +24,7 @@ Name | Type | Description | Notes
 **destination_tag** | Option<**String**> | Destination address tag for Tag/Memo supporting assets, or Bank Transfer Description for the fiat provider BLINC (by BCB Group). | [optional]
 **contract_call_decoded_data** | Option<[**models::TransactionResponseContractCallDecodedData**](TransactionResponse_contractCallDecodedData.md)> |  | [optional]
 **amount_info** | Option<[**models::AmountInfo**](AmountInfo.md)> |  | [optional]
-**treat_as_gross_amount** | Option<**bool**> | For transactions initiated via this Fireblocks workspace, when set to `true`, the fee is deducted from the requested amount.  **Note**: This parameter can only be considered if a transaction's asset is a base asset, such as ETH or MATIC. If the asset can't be used for transaction fees, like USDC, this parameter is ignored and the fee is deducted from the relevant base asset wallet in the source account. | [optional]
+**treat_as_gross_amount** | Option<**bool**> | For transactions initiated via this Fireblocks workspace, when set to `true`, the fee is deducted from the requested amount.  **Note:** This parameter can only be considered if a transaction's asset is a base asset, such as ETH or MATIC. If the asset can't be used for transaction fees, like USDC, this parameter is ignored and the fee is deducted from the relevant base asset wallet in the source account. | [optional]
 **fee_info** | Option<[**models::FeeInfo**](FeeInfo.md)> |  | [optional]
 **fee_currency** | Option<**String**> | The asset which was withdrawn to pay the transaction fee, for example ETH for EVM-based blockchains, BTC for Tether Omni. | [optional]
 **network_records** | Option<[**Vec<models::NetworkRecord>**](NetworkRecord.md)> | In case a single transaction resulted with multiple transfers, for example a result of a contract call, then this parameter specifies each transfer that took place on the blockchain. | [optional]
@@ -36,12 +38,18 @@ Name | Type | Description | Notes
 **customer_ref_id** | Option<**String**> | The ID for AML providers to associate the owner of funds with transactions. | [optional]
 **aml_screening_result** | Option<[**models::AmlScreeningResult**](AmlScreeningResult.md)> |  | [optional]
 **compliance_result** | Option<[**models::ComplianceResult**](ComplianceResult.md)> |  | [optional]
+**not_broadcast_by_fireblocks** | Option<**bool**> | Indicates the transaction was not broadcast by Fireblocks | [optional]
+**dapp_url** | Option<**String**> | dApp URL for Web3 transactions | [optional]
+**gas_limit** | Option<**String**> | Gas limit for EVM-based blockchain transactions | [optional]
+**blockchain_index** | Option<**String**> | Blockchain-specific index or identifier for the transaction | [optional]
+**paid_rent** | Option<**String**> | Solana rent payment amount | [optional]
 **extra_parameters** | Option<[**models::ExtraParameters**](ExtraParameters.md)> |  | [optional]
 **signed_messages** | Option<[**Vec<models::SignedMessage>**](SignedMessage.md)> | An array of signed messages | [optional]
 **num_of_confirmations** | Option<**f64**> | The number of confirmations of the transaction. The number will increase until the transaction will be considered completed according to the confirmation policy. | [optional]
 **block_info** | Option<[**models::BlockInfo**](BlockInfo.md)> |  | [optional]
 **index** | Option<**f64**> | For UTXO based assets this is the vOut, for Ethereum based, this is the index of the event of the contract call.  **Note:** This field is not returned if a transaction uses the `destinations` object with more than one value. | [optional]
 **reward_info** | Option<[**models::RewardInfo**](RewardInfo.md)> |  | [optional]
+**fee_payer_info** | Option<[**models::FeePayerInfo**](FeePayerInfo.md)> |  | [optional]
 **system_messages** | Option<[**models::SystemMessageInfo**](SystemMessageInfo.md)> |  | [optional]
 **address_type** | Option<**String**> |  | [optional]
 **requested_amount** | Option<**f64**> | The amount requested by the user. Deprecated - please use the `amountInfo` field for accuracy. | [optional]
@@ -52,6 +60,8 @@ Name | Type | Description | Notes
 **fee** | Option<**f64**> | Deprecated - please use the `feeInfo` field for accuracy. | [optional]
 **network_fee** | Option<**f64**> | The fee paid to the network. Deprecated - please use the `feeInfo` field for accuracy. | [optional]
 **error_description** | Option<**String**> | The transaction's revert reason. This field will be returned when  `subStatus` =  'SMART_CONTRACT_EXECUTION_FAILED'. | [optional]
+**replaced_tx_by_hash** | Option<**String**> | If the transaction is a Replace-By-Fee (RBF) transaction, this is the hash of the transaction that was replaced. | [optional]
+**nonce** | Option<**String**> | Blockchain nonce for the transaction | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

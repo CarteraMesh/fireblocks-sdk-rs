@@ -75,7 +75,8 @@ impl PaymentsPayoutApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`create_payout`]
+/// struct for passing parameters to the method
+/// [`PaymentsPayoutApi::create_payout`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreatePayoutParams {
@@ -87,7 +88,8 @@ pub struct CreatePayoutParams {
     pub create_payout_request: Option<models::CreatePayoutRequest>,
 }
 
-/// struct for passing parameters to the method [`execute_payout_action`]
+/// struct for passing parameters to the method
+/// [`PaymentsPayoutApi::execute_payout_action`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ExecutePayoutActionParams {
@@ -100,7 +102,8 @@ pub struct ExecutePayoutActionParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_payout`]
+/// struct for passing parameters to the method
+/// [`PaymentsPayoutApi::get_payout`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetPayoutParams {
@@ -152,7 +155,9 @@ impl PaymentsPayoutApi for PaymentsPayoutApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -236,7 +241,9 @@ impl PaymentsPayoutApi for PaymentsPayoutApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -307,7 +314,9 @@ impl PaymentsPayoutApi for PaymentsPayoutApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -334,7 +343,7 @@ impl PaymentsPayoutApi for PaymentsPayoutApiClient {
     }
 }
 
-/// struct for typed errors of method [`create_payout`]
+/// struct for typed errors of method [`PaymentsPayoutApi::create_payout`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreatePayoutError {
@@ -344,7 +353,8 @@ pub enum CreatePayoutError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`execute_payout_action`]
+/// struct for typed errors of method
+/// [`PaymentsPayoutApi::execute_payout_action`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ExecutePayoutActionError {
@@ -354,7 +364,7 @@ pub enum ExecutePayoutActionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_payout`]
+/// struct for typed errors of method [`PaymentsPayoutApi::get_payout`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPayoutError {

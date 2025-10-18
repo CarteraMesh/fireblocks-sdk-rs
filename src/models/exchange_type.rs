@@ -63,8 +63,8 @@ pub enum ExchangeType {
     Korbit,
     #[serde(rename = "HITBTC")]
     Hitbtc,
-    #[serde(rename = "GEMINIs")]
-    Geminis,
+    #[serde(rename = "GEMINI")]
+    Gemini,
     #[serde(rename = "CIRCLE")]
     Circle,
     #[serde(rename = "BITMEX")]
@@ -128,7 +128,7 @@ impl std::fmt::Display for ExchangeType {
             Self::Coinbaseexchange => write!(f, "COINBASEEXCHANGE"),
             Self::Korbit => write!(f, "KORBIT"),
             Self::Hitbtc => write!(f, "HITBTC"),
-            Self::Geminis => write!(f, "GEMINIs"),
+            Self::Gemini => write!(f, "GEMINI"),
             Self::Circle => write!(f, "CIRCLE"),
             Self::Bitmex => write!(f, "BITMEX"),
             Self::Huobi => write!(f, "HUOBI"),

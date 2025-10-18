@@ -31,6 +31,28 @@ files:
     templateType: SupportingFiles
     destinationFilename: d_app_connections_api.rs
     folder: src/models
+
+  custom/models/asset_type_response.rs:
+    templateType: SupportingFiles
+    destinationFilename: asset_type_response.rs
+    folder: src/models
+
+  custom/models/chain_descriptor.rs:
+    templateType: SupportingFiles
+    destinationFilename: chain_descriptor.rs
+    folder: src/models
+
+  custom/models/wallet_asset.rs:
+    templateType: SupportingFiles
+    destinationFilename: wallet_asset.rs
+    folder: src/models
+
+
+  custom/models/external_wallet_asset.rs:
+    templateType: SupportingFiles
+    destinationFilename: exteral_wallet_asset.rs
+    folder: src/models
+ 
   # custom/models/signed_message_signature.rs:
   #   templateType: SupportingFiles
   #   destinationFilename: signed_message_signature.rs
@@ -75,4 +97,3 @@ files:
     templateType: SupportingFiles
     destinationFilename: extra_parameters.rs
     folder: src/models
-

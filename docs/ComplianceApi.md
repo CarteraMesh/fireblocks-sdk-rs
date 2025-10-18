@@ -15,6 +15,7 @@ Method | HTTP request | Description
 [**get_vaspby_did**](ComplianceApi.md#get_vaspby_did) | **GET** /screening/travel_rule/vasp/{did} | Get VASP details
 [**get_vasps**](ComplianceApi.md#get_vasps) | **GET** /screening/travel_rule/vasp | Get All VASPs
 [**retry_rejected_transaction_bypass_screening_checks**](ComplianceApi.md#retry_rejected_transaction_bypass_screening_checks) | **POST** /screening/transaction/{txId}/bypass_screening_policy | Bypass Screening Policy
+[**set_aml_verdict**](ComplianceApi.md#set_aml_verdict) | **POST** /screening/aml/verdict/manual | Set AML verdict for Manual Screening Verdict
 [**set_vasp_for_vault**](ComplianceApi.md#set_vasp_for_vault) | **POST** /screening/travel_rule/vault/{vaultAccountId}/vasp | Assign VASP to vault
 [**update_aml_screening_configuration**](ComplianceApi.md#update_aml_screening_configuration) | **PUT** /screening/aml/policy_configuration | Update AML Configuration
 [**update_screening_configuration**](ComplianceApi.md#update_screening_configuration) | **PUT** /screening/configurations | Screening Configuration Update
@@ -339,6 +340,37 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## set_aml_verdict
+
+> models::AmlVerdictManualResponse set_aml_verdict(aml_verdict_manual_request, idempotency_key)
+Set AML verdict for Manual Screening Verdict
+
+Set AML verdict for incoming transactions when the Manual Screening Verdict feature is enabled.
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**aml_verdict_manual_request** | [**AmlVerdictManualRequest**](AmlVerdictManualRequest.md) |  | [required] |
+**idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
+
+### Return type
+
+[**models::AmlVerdictManualResponse**](AmlVerdictManualResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

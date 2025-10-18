@@ -116,7 +116,8 @@ impl WhitelistedExternalWalletsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`add_asset_to_external_wallet`]
+/// struct for passing parameters to the method
+/// [`WhitelistedExternalWalletsApi::add_asset_to_external_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct AddAssetToExternalWalletParams {
@@ -132,7 +133,8 @@ pub struct AddAssetToExternalWalletParams {
     pub add_asset_to_external_wallet_request: Option<models::AddAssetToExternalWalletRequest>,
 }
 
-/// struct for passing parameters to the method [`create_external_wallet`]
+/// struct for passing parameters to the method
+/// [`WhitelistedExternalWalletsApi::create_external_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateExternalWalletParams {
@@ -144,7 +146,8 @@ pub struct CreateExternalWalletParams {
     pub create_wallet_request: Option<models::CreateWalletRequest>,
 }
 
-/// struct for passing parameters to the method [`delete_external_wallet`]
+/// struct for passing parameters to the method
+/// [`WhitelistedExternalWalletsApi::delete_external_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteExternalWalletParams {
@@ -152,7 +155,8 @@ pub struct DeleteExternalWalletParams {
     pub wallet_id: String,
 }
 
-/// struct for passing parameters to the method [`get_external_wallet`]
+/// struct for passing parameters to the method
+/// [`WhitelistedExternalWalletsApi::get_external_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetExternalWalletParams {
@@ -160,7 +164,8 @@ pub struct GetExternalWalletParams {
     pub wallet_id: String,
 }
 
-/// struct for passing parameters to the method [`get_external_wallet_asset`]
+/// struct for passing parameters to the method
+/// [`WhitelistedExternalWalletsApi::get_external_wallet_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetExternalWalletAssetParams {
@@ -171,7 +176,7 @@ pub struct GetExternalWalletAssetParams {
 }
 
 /// struct for passing parameters to the method
-/// [`remove_asset_from_external_wallet`]
+/// [`WhitelistedExternalWalletsApi::remove_asset_from_external_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct RemoveAssetFromExternalWalletParams {
@@ -182,7 +187,7 @@ pub struct RemoveAssetFromExternalWalletParams {
 }
 
 /// struct for passing parameters to the method
-/// [`set_external_wallet_customer_ref_id`]
+/// [`WhitelistedExternalWalletsApi::set_external_wallet_customer_ref_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetExternalWalletCustomerRefIdParams {
@@ -248,7 +253,9 @@ impl WhitelistedExternalWalletsApi for WhitelistedExternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -316,7 +323,9 @@ impl WhitelistedExternalWalletsApi for WhitelistedExternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -434,7 +443,9 @@ impl WhitelistedExternalWalletsApi for WhitelistedExternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -507,7 +518,9 @@ impl WhitelistedExternalWalletsApi for WhitelistedExternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -569,7 +582,9 @@ impl WhitelistedExternalWalletsApi for WhitelistedExternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -698,7 +713,8 @@ impl WhitelistedExternalWalletsApi for WhitelistedExternalWalletsApiClient {
     }
 }
 
-/// struct for typed errors of method [`add_asset_to_external_wallet`]
+/// struct for typed errors of method
+/// [`WhitelistedExternalWalletsApi::add_asset_to_external_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddAssetToExternalWalletError {
@@ -706,7 +722,8 @@ pub enum AddAssetToExternalWalletError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_external_wallet`]
+/// struct for typed errors of method
+/// [`WhitelistedExternalWalletsApi::create_external_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateExternalWalletError {
@@ -714,7 +731,8 @@ pub enum CreateExternalWalletError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_external_wallet`]
+/// struct for typed errors of method
+/// [`WhitelistedExternalWalletsApi::delete_external_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteExternalWalletError {
@@ -722,7 +740,8 @@ pub enum DeleteExternalWalletError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_external_wallet`]
+/// struct for typed errors of method
+/// [`WhitelistedExternalWalletsApi::get_external_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetExternalWalletError {
@@ -730,7 +749,8 @@ pub enum GetExternalWalletError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_external_wallet_asset`]
+/// struct for typed errors of method
+/// [`WhitelistedExternalWalletsApi::get_external_wallet_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetExternalWalletAssetError {
@@ -738,7 +758,8 @@ pub enum GetExternalWalletAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_external_wallets`]
+/// struct for typed errors of method
+/// [`WhitelistedExternalWalletsApi::get_external_wallets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetExternalWalletsError {
@@ -746,7 +767,8 @@ pub enum GetExternalWalletsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`remove_asset_from_external_wallet`]
+/// struct for typed errors of method
+/// [`WhitelistedExternalWalletsApi::remove_asset_from_external_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RemoveAssetFromExternalWalletError {
@@ -754,7 +776,8 @@ pub enum RemoveAssetFromExternalWalletError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_external_wallet_customer_ref_id`]
+/// struct for typed errors of method
+/// [`WhitelistedExternalWalletsApi::set_external_wallet_customer_ref_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetExternalWalletCustomerRefIdError {

@@ -15,133 +15,162 @@ use {
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum WebhookEvent {
     #[serde(rename = "transaction.created")]
-    TransactionPeriodCreated,
+    TransactionCreated,
     #[serde(rename = "transaction.status.updated")]
-    TransactionPeriodStatusPeriodUpdated,
+    TransactionStatusUpdated,
     #[serde(rename = "transaction.approval_status.updated")]
-    TransactionPeriodApprovalStatusPeriodUpdated,
+    TransactionApprovalStatusUpdated,
+    #[serde(rename = "transaction.network_records.processing_completed")]
+    TransactionNetworkRecordsProcessingCompleted,
     #[serde(rename = "external_wallet.asset.added")]
-    ExternalWalletPeriodAssetPeriodAdded,
+    ExternalWalletAssetAdded,
+    #[serde(rename = "external_wallet.asset.removed")]
+    ExternalWalletAssetRemoved,
     #[serde(rename = "internal_wallet.asset.added")]
-    InternalWalletPeriodAssetPeriodAdded,
+    InternalWalletAssetAdded,
     #[serde(rename = "internal_wallet.asset.removed")]
-    InternalWalletPeriodAssetPeriodRemoved,
+    InternalWalletAssetRemoved,
     #[serde(rename = "contract_wallet.asset.added")]
-    ContractWalletPeriodAssetPeriodAdded,
+    ContractWalletAssetAdded,
     #[serde(rename = "contract_wallet.asset.removed")]
-    ContractWalletPeriodAssetPeriodRemoved,
+    ContractWalletAssetRemoved,
     #[serde(rename = "vault_account.created")]
-    VaultAccountPeriodCreated,
+    VaultAccountCreated,
     #[serde(rename = "vault_account.asset.added")]
-    VaultAccountPeriodAssetPeriodAdded,
+    VaultAccountAssetAdded,
     #[serde(rename = "vault_account.asset.balance_updated")]
-    VaultAccountPeriodAssetPeriodBalanceUpdated,
+    VaultAccountAssetBalanceUpdated,
     #[serde(rename = "vault_account.nft.balance_updated")]
-    VaultAccountPeriodNftPeriodBalanceUpdated,
+    VaultAccountNftBalanceUpdated,
+    #[serde(rename = "embedded_wallet.created")]
+    EmbeddedWalletCreated,
+    #[serde(rename = "embedded_wallet.account.created")]
+    EmbeddedWalletAccountCreated,
+    #[serde(rename = "embedded_wallet.device.added")]
+    EmbeddedWalletDeviceAdded,
     #[serde(rename = "embedded_wallet.asset.added")]
-    EmbeddedWalletPeriodAssetPeriodAdded,
+    EmbeddedWalletAssetAdded,
+    #[serde(rename = "embedded_wallet.status.updated")]
+    EmbeddedWalletStatusUpdated,
     #[serde(rename = "embedded_wallet.asset.balance_updated")]
-    EmbeddedWalletPeriodAssetPeriodBalanceUpdated,
+    EmbeddedWalletAssetBalanceUpdated,
+    #[serde(rename = "onchain_data.updated")]
+    OnchainDataUpdated,
+    #[serde(rename = "connection.added")]
+    ConnectionAdded,
+    #[serde(rename = "connection.removed")]
+    ConnectionRemoved,
+    #[serde(rename = "connection.request.waiting_peer_approval")]
+    ConnectionRequestWaitingPeerApproval,
+    #[serde(rename = "connection.request.rejected_by_peer")]
+    ConnectionRequestRejectedByPeer,
     #[serde(rename = "exchange_account.added")]
-    ExchangeAccountPeriodAdded,
+    ExchangeAccountAdded,
     #[serde(rename = "fiat_account.added")]
-    FiatAccountPeriodAdded,
+    FiatAccountAdded,
     #[serde(rename = "ticket.created")]
-    TicketPeriodCreated,
+    TicketCreated,
     #[serde(rename = "ticket.submitted")]
-    TicketPeriodSubmitted,
+    TicketSubmitted,
     #[serde(rename = "ticket.expired")]
-    TicketPeriodExpired,
+    TicketExpired,
     #[serde(rename = "ticket.canceled")]
-    TicketPeriodCanceled,
+    TicketCanceled,
     #[serde(rename = "ticket.fulfilled")]
-    TicketPeriodFulfilled,
+    TicketFulfilled,
     #[serde(rename = "ticket.counterparty.added")]
-    TicketPeriodCounterpartyPeriodAdded,
+    TicketCounterpartyAdded,
     #[serde(rename = "ticket.counterparty_external_id.set")]
-    TicketPeriodCounterpartyExternalIdPeriodSet,
+    TicketCounterpartyExternalIdSet,
     #[serde(rename = "ticket.note.added")]
-    TicketPeriodNotePeriodAdded,
+    TicketNoteAdded,
     #[serde(rename = "ticket.expired_in.set")]
-    TicketPeriodExpiredInPeriodSet,
+    TicketExpiredInSet,
     #[serde(rename = "ticket.expired_at.set")]
-    TicketPeriodExpiredAtPeriodSet,
+    TicketExpiredAtSet,
     #[serde(rename = "ticket.term.added")]
-    TicketPeriodTermPeriodAdded,
+    TicketTermAdded,
     #[serde(rename = "ticket.term.updated")]
-    TicketPeriodTermPeriodUpdated,
+    TicketTermUpdated,
     #[serde(rename = "ticket.term.deleted")]
-    TicketPeriodTermPeriodDeleted,
+    TicketTermDeleted,
     #[serde(rename = "ticket.term.funded")]
-    TicketPeriodTermPeriodFunded,
+    TicketTermFunded,
     #[serde(rename = "ticket.term.manually_funded")]
-    TicketPeriodTermPeriodManuallyFunded,
+    TicketTermManuallyFunded,
     #[serde(rename = "ticket.term.funding_canceled")]
-    TicketPeriodTermPeriodFundingCanceled,
+    TicketTermFundingCanceled,
     #[serde(rename = "ticket.term.funding_failed")]
-    TicketPeriodTermPeriodFundingFailed,
+    TicketTermFundingFailed,
     #[serde(rename = "ticket.term.funding_completed")]
-    TicketPeriodTermPeriodFundingCompleted,
+    TicketTermFundingCompleted,
     #[serde(rename = "ticket.term.transaction_status_changed")]
-    TicketPeriodTermPeriodTransactionStatusChanged,
+    TicketTermTransactionStatusChanged,
 }
 
 impl std::fmt::Display for WebhookEvent {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            Self::TransactionPeriodCreated => write!(f, "transaction.created"),
-            Self::TransactionPeriodStatusPeriodUpdated => write!(f, "transaction.status.updated"),
-            Self::TransactionPeriodApprovalStatusPeriodUpdated => {
+            Self::TransactionCreated => write!(f, "transaction.created"),
+            Self::TransactionStatusUpdated => write!(f, "transaction.status.updated"),
+            Self::TransactionApprovalStatusUpdated => {
                 write!(f, "transaction.approval_status.updated")
             }
-            Self::ExternalWalletPeriodAssetPeriodAdded => write!(f, "external_wallet.asset.added"),
-            Self::InternalWalletPeriodAssetPeriodAdded => write!(f, "internal_wallet.asset.added"),
-            Self::InternalWalletPeriodAssetPeriodRemoved => {
-                write!(f, "internal_wallet.asset.removed")
+            Self::TransactionNetworkRecordsProcessingCompleted => {
+                write!(f, "transaction.network_records.processing_completed")
             }
-            Self::ContractWalletPeriodAssetPeriodAdded => write!(f, "contract_wallet.asset.added"),
-            Self::ContractWalletPeriodAssetPeriodRemoved => {
-                write!(f, "contract_wallet.asset.removed")
-            }
-            Self::VaultAccountPeriodCreated => write!(f, "vault_account.created"),
-            Self::VaultAccountPeriodAssetPeriodAdded => write!(f, "vault_account.asset.added"),
-            Self::VaultAccountPeriodAssetPeriodBalanceUpdated => {
+            Self::ExternalWalletAssetAdded => write!(f, "external_wallet.asset.added"),
+            Self::ExternalWalletAssetRemoved => write!(f, "external_wallet.asset.removed"),
+            Self::InternalWalletAssetAdded => write!(f, "internal_wallet.asset.added"),
+            Self::InternalWalletAssetRemoved => write!(f, "internal_wallet.asset.removed"),
+            Self::ContractWalletAssetAdded => write!(f, "contract_wallet.asset.added"),
+            Self::ContractWalletAssetRemoved => write!(f, "contract_wallet.asset.removed"),
+            Self::VaultAccountCreated => write!(f, "vault_account.created"),
+            Self::VaultAccountAssetAdded => write!(f, "vault_account.asset.added"),
+            Self::VaultAccountAssetBalanceUpdated => {
                 write!(f, "vault_account.asset.balance_updated")
             }
-            Self::VaultAccountPeriodNftPeriodBalanceUpdated => {
-                write!(f, "vault_account.nft.balance_updated")
-            }
-            Self::EmbeddedWalletPeriodAssetPeriodAdded => write!(f, "embedded_wallet.asset.added"),
-            Self::EmbeddedWalletPeriodAssetPeriodBalanceUpdated => {
+            Self::VaultAccountNftBalanceUpdated => write!(f, "vault_account.nft.balance_updated"),
+            Self::EmbeddedWalletCreated => write!(f, "embedded_wallet.created"),
+            Self::EmbeddedWalletAccountCreated => write!(f, "embedded_wallet.account.created"),
+            Self::EmbeddedWalletDeviceAdded => write!(f, "embedded_wallet.device.added"),
+            Self::EmbeddedWalletAssetAdded => write!(f, "embedded_wallet.asset.added"),
+            Self::EmbeddedWalletStatusUpdated => write!(f, "embedded_wallet.status.updated"),
+            Self::EmbeddedWalletAssetBalanceUpdated => {
                 write!(f, "embedded_wallet.asset.balance_updated")
             }
-            Self::ExchangeAccountPeriodAdded => write!(f, "exchange_account.added"),
-            Self::FiatAccountPeriodAdded => write!(f, "fiat_account.added"),
-            Self::TicketPeriodCreated => write!(f, "ticket.created"),
-            Self::TicketPeriodSubmitted => write!(f, "ticket.submitted"),
-            Self::TicketPeriodExpired => write!(f, "ticket.expired"),
-            Self::TicketPeriodCanceled => write!(f, "ticket.canceled"),
-            Self::TicketPeriodFulfilled => write!(f, "ticket.fulfilled"),
-            Self::TicketPeriodCounterpartyPeriodAdded => write!(f, "ticket.counterparty.added"),
-            Self::TicketPeriodCounterpartyExternalIdPeriodSet => {
+            Self::OnchainDataUpdated => write!(f, "onchain_data.updated"),
+            Self::ConnectionAdded => write!(f, "connection.added"),
+            Self::ConnectionRemoved => write!(f, "connection.removed"),
+            Self::ConnectionRequestWaitingPeerApproval => {
+                write!(f, "connection.request.waiting_peer_approval")
+            }
+            Self::ConnectionRequestRejectedByPeer => {
+                write!(f, "connection.request.rejected_by_peer")
+            }
+            Self::ExchangeAccountAdded => write!(f, "exchange_account.added"),
+            Self::FiatAccountAdded => write!(f, "fiat_account.added"),
+            Self::TicketCreated => write!(f, "ticket.created"),
+            Self::TicketSubmitted => write!(f, "ticket.submitted"),
+            Self::TicketExpired => write!(f, "ticket.expired"),
+            Self::TicketCanceled => write!(f, "ticket.canceled"),
+            Self::TicketFulfilled => write!(f, "ticket.fulfilled"),
+            Self::TicketCounterpartyAdded => write!(f, "ticket.counterparty.added"),
+            Self::TicketCounterpartyExternalIdSet => {
                 write!(f, "ticket.counterparty_external_id.set")
             }
-            Self::TicketPeriodNotePeriodAdded => write!(f, "ticket.note.added"),
-            Self::TicketPeriodExpiredInPeriodSet => write!(f, "ticket.expired_in.set"),
-            Self::TicketPeriodExpiredAtPeriodSet => write!(f, "ticket.expired_at.set"),
-            Self::TicketPeriodTermPeriodAdded => write!(f, "ticket.term.added"),
-            Self::TicketPeriodTermPeriodUpdated => write!(f, "ticket.term.updated"),
-            Self::TicketPeriodTermPeriodDeleted => write!(f, "ticket.term.deleted"),
-            Self::TicketPeriodTermPeriodFunded => write!(f, "ticket.term.funded"),
-            Self::TicketPeriodTermPeriodManuallyFunded => write!(f, "ticket.term.manually_funded"),
-            Self::TicketPeriodTermPeriodFundingCanceled => {
-                write!(f, "ticket.term.funding_canceled")
-            }
-            Self::TicketPeriodTermPeriodFundingFailed => write!(f, "ticket.term.funding_failed"),
-            Self::TicketPeriodTermPeriodFundingCompleted => {
-                write!(f, "ticket.term.funding_completed")
-            }
-            Self::TicketPeriodTermPeriodTransactionStatusChanged => {
+            Self::TicketNoteAdded => write!(f, "ticket.note.added"),
+            Self::TicketExpiredInSet => write!(f, "ticket.expired_in.set"),
+            Self::TicketExpiredAtSet => write!(f, "ticket.expired_at.set"),
+            Self::TicketTermAdded => write!(f, "ticket.term.added"),
+            Self::TicketTermUpdated => write!(f, "ticket.term.updated"),
+            Self::TicketTermDeleted => write!(f, "ticket.term.deleted"),
+            Self::TicketTermFunded => write!(f, "ticket.term.funded"),
+            Self::TicketTermManuallyFunded => write!(f, "ticket.term.manually_funded"),
+            Self::TicketTermFundingCanceled => write!(f, "ticket.term.funding_canceled"),
+            Self::TicketTermFundingFailed => write!(f, "ticket.term.funding_failed"),
+            Self::TicketTermFundingCompleted => write!(f, "ticket.term.funding_completed"),
+            Self::TicketTermTransactionStatusChanged => {
                 write!(f, "ticket.term.transaction_status_changed")
             }
         }
@@ -150,6 +179,6 @@ impl std::fmt::Display for WebhookEvent {
 
 impl Default for WebhookEvent {
     fn default() -> WebhookEvent {
-        Self::TransactionPeriodCreated
+        Self::TransactionCreated
     }
 }

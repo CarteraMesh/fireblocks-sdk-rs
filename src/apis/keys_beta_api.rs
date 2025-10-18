@@ -50,7 +50,8 @@ impl KeysBetaApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`get_mpc_keys_list_by_user`]
+/// struct for passing parameters to the method
+/// [`KeysBetaApi::get_mpc_keys_list_by_user`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetMpcKeysListByUserParams {
@@ -93,7 +94,9 @@ impl KeysBetaApi for KeysBetaApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -159,7 +162,9 @@ impl KeysBetaApi for KeysBetaApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -186,7 +191,7 @@ impl KeysBetaApi for KeysBetaApiClient {
     }
 }
 
-/// struct for typed errors of method [`get_mpc_keys_list`]
+/// struct for typed errors of method [`KeysBetaApi::get_mpc_keys_list`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetMpcKeysListError {
@@ -194,7 +199,7 @@ pub enum GetMpcKeysListError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_mpc_keys_list_by_user`]
+/// struct for typed errors of method [`KeysBetaApi::get_mpc_keys_list_by_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetMpcKeysListByUserError {

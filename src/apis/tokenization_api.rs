@@ -101,13 +101,14 @@ pub trait TokenizationApi: Send + Sync {
     /// POST /tokenization/tokens/link
     ///
     /// Link a contract. </br>Endpoint Permission: Owner, Admin, Non-Signing
-    /// Admin, Signer, and Editor.
+    /// Admin, and Signer.
     async fn link(&self, params: LinkParams) -> Result<models::TokenLinkDto, Error<LinkError>>;
 
     /// POST /tokenization/collections/{id}/tokens/mint
     ///
-    /// Mint tokens and upload metadata. </br>Endpoint Permission: Owner, Admin,
-    /// Non-Signing Admin, Signer, Editor.
+    /// Mint tokens and upload metadata. This endpoint only works for NFTs using
+    /// the ERC721f and ERC1155f standards. </br>Endpoint Permission: Owner,
+    /// Admin, Non-Signing Admin, Signer, Editor.
     async fn mint_collection_token(
         &self,
         params: MintCollectionTokenParams,
@@ -141,7 +142,8 @@ impl TokenizationApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`burn_collection_token`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::burn_collection_token`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct BurnCollectionTokenParams {
@@ -155,7 +157,8 @@ pub struct BurnCollectionTokenParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`create_new_collection`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::create_new_collection`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateNewCollectionParams {
@@ -168,7 +171,7 @@ pub struct CreateNewCollectionParams {
 }
 
 /// struct for passing parameters to the method
-/// [`fetch_collection_token_details`]
+/// [`TokenizationApi::fetch_collection_token_details`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct FetchCollectionTokenDetailsParams {
@@ -178,7 +181,8 @@ pub struct FetchCollectionTokenDetailsParams {
     pub token_id: String,
 }
 
-/// struct for passing parameters to the method [`get_collection_by_id`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::get_collection_by_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetCollectionByIdParams {
@@ -186,7 +190,8 @@ pub struct GetCollectionByIdParams {
     pub id: String,
 }
 
-/// struct for passing parameters to the method [`get_linked_collections`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::get_linked_collections`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetLinkedCollectionsParams {
@@ -200,7 +205,8 @@ pub struct GetLinkedCollectionsParams {
     pub status: Option<serde_json::Value>,
 }
 
-/// struct for passing parameters to the method [`get_linked_token`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::get_linked_token`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetLinkedTokenParams {
@@ -208,7 +214,8 @@ pub struct GetLinkedTokenParams {
     pub id: String,
 }
 
-/// struct for passing parameters to the method [`get_linked_tokens`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::get_linked_tokens`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetLinkedTokensParams {
@@ -220,7 +227,8 @@ pub struct GetLinkedTokensParams {
     pub status: Option<serde_json::Value>,
 }
 
-/// struct for passing parameters to the method [`issue_new_token`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::issue_new_token`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct IssueNewTokenParams {
@@ -232,7 +240,7 @@ pub struct IssueNewTokenParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`link`]
+/// struct for passing parameters to the method [`TokenizationApi::link`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct LinkParams {
@@ -244,11 +252,12 @@ pub struct LinkParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`mint_collection_token`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::mint_collection_token`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct MintCollectionTokenParams {
-    /// The collection link id
+    /// The token link id
     pub id: String,
     pub collection_mint_request_dto: models::CollectionMintRequestDto,
     /// A unique identifier for the request. If the request is sent multiple
@@ -258,7 +267,7 @@ pub struct MintCollectionTokenParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`unlink`]
+/// struct for passing parameters to the method [`TokenizationApi::unlink`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UnlinkParams {
@@ -266,7 +275,8 @@ pub struct UnlinkParams {
     pub id: String,
 }
 
-/// struct for passing parameters to the method [`unlink_collection`]
+/// struct for passing parameters to the method
+/// [`TokenizationApi::unlink_collection`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UnlinkCollectionParams {
@@ -324,7 +334,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -396,7 +408,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -462,7 +476,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -527,7 +543,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -577,17 +595,17 @@ impl TokenizationApi for TokenizationApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = status {
+        if let Some(ref param_value) = status {
             local_var_req_builder =
-                local_var_req_builder.query(&[("status", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("status", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -608,7 +626,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -673,7 +693,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -720,17 +742,17 @@ impl TokenizationApi for TokenizationApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = status {
+        if let Some(ref param_value) = status {
             local_var_req_builder =
-                local_var_req_builder.query(&[("status", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("status", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -751,7 +773,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -827,7 +851,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -854,7 +880,7 @@ impl TokenizationApi for TokenizationApiClient {
     }
 
     /// Link a contract. </br>Endpoint Permission: Owner, Admin, Non-Signing
-    /// Admin, Signer, and Editor.
+    /// Admin, and Signer.
     async fn link(&self, params: LinkParams) -> Result<models::TokenLinkDto, Error<LinkError>> {
         let LinkParams {
             token_link_request_dto,
@@ -896,7 +922,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -921,8 +949,9 @@ impl TokenizationApi for TokenizationApiClient {
         }
     }
 
-    /// Mint tokens and upload metadata. </br>Endpoint Permission: Owner, Admin,
-    /// Non-Signing Admin, Signer, Editor.
+    /// Mint tokens and upload metadata. This endpoint only works for NFTs using
+    /// the ERC721f and ERC1155f standards. </br>Endpoint Permission: Owner,
+    /// Admin, Non-Signing Admin, Signer, Editor.
     async fn mint_collection_token(
         &self,
         params: MintCollectionTokenParams,
@@ -969,7 +998,9 @@ impl TokenizationApi for TokenizationApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1085,7 +1116,7 @@ impl TokenizationApi for TokenizationApiClient {
     }
 }
 
-/// struct for typed errors of method [`burn_collection_token`]
+/// struct for typed errors of method [`TokenizationApi::burn_collection_token`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum BurnCollectionTokenError {
@@ -1093,7 +1124,7 @@ pub enum BurnCollectionTokenError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_new_collection`]
+/// struct for typed errors of method [`TokenizationApi::create_new_collection`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateNewCollectionError {
@@ -1101,7 +1132,8 @@ pub enum CreateNewCollectionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`fetch_collection_token_details`]
+/// struct for typed errors of method
+/// [`TokenizationApi::fetch_collection_token_details`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FetchCollectionTokenDetailsError {
@@ -1109,7 +1141,7 @@ pub enum FetchCollectionTokenDetailsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_collection_by_id`]
+/// struct for typed errors of method [`TokenizationApi::get_collection_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetCollectionByIdError {
@@ -1117,7 +1149,8 @@ pub enum GetCollectionByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_linked_collections`]
+/// struct for typed errors of method
+/// [`TokenizationApi::get_linked_collections`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetLinkedCollectionsError {
@@ -1125,7 +1158,7 @@ pub enum GetLinkedCollectionsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_linked_token`]
+/// struct for typed errors of method [`TokenizationApi::get_linked_token`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetLinkedTokenError {
@@ -1133,7 +1166,7 @@ pub enum GetLinkedTokenError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_linked_tokens`]
+/// struct for typed errors of method [`TokenizationApi::get_linked_tokens`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetLinkedTokensError {
@@ -1141,7 +1174,7 @@ pub enum GetLinkedTokensError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`issue_new_token`]
+/// struct for typed errors of method [`TokenizationApi::issue_new_token`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IssueNewTokenError {
@@ -1149,7 +1182,7 @@ pub enum IssueNewTokenError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`link`]
+/// struct for typed errors of method [`TokenizationApi::link`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LinkError {
@@ -1159,7 +1192,7 @@ pub enum LinkError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`mint_collection_token`]
+/// struct for typed errors of method [`TokenizationApi::mint_collection_token`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum MintCollectionTokenError {
@@ -1167,7 +1200,7 @@ pub enum MintCollectionTokenError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`unlink`]
+/// struct for typed errors of method [`TokenizationApi::unlink`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UnlinkError {
@@ -1176,7 +1209,7 @@ pub enum UnlinkError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`unlink_collection`]
+/// struct for typed errors of method [`TokenizationApi::unlink_collection`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UnlinkCollectionError {

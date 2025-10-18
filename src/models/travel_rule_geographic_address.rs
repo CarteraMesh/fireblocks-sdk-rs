@@ -66,12 +66,12 @@ pub struct TravelRuleGeographicAddress {
     /// encrypted.
     #[serde(rename = "districtName", skip_serializing_if = "Option::is_none")]
     pub district_name: Option<String>,
-    /// Identifies a subdivision of a country such as state, region, or
+    /// Identifies a subdivision of a country, such as a state, region, or
     /// province. The value must be encrypted.
     #[serde(rename = "countrySubDivision", skip_serializing_if = "Option::is_none")]
     pub country_sub_division: Option<String>,
     /// Information that locates and identifies a specific address, presented in
-    /// free format text. Each item must be encrypted.
+    /// free-format text. Each item must be encrypted.
     #[serde(rename = "addressLine", skip_serializing_if = "Option::is_none")]
     pub address_line: Option<Vec<String>>,
 }

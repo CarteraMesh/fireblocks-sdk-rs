@@ -7,11 +7,12 @@ Method | HTTP request | Description
 [**estimate_network_fee**](BlockchainsAssetsApi.md#estimate_network_fee) | **GET** /estimate_network_fee | Estimate the required fee for an asset
 [**get_asset**](BlockchainsAssetsApi.md#get_asset) | **GET** /assets/{id} | Get an asset by ID
 [**get_blockchain**](BlockchainsAssetsApi.md#get_blockchain) | **GET** /blockchains/{id} | Get a Blockchain by ID
-[**get_supported_assets**](BlockchainsAssetsApi.md#get_supported_assets) | **GET** /supported_assets | Legacy - List Assets
+[**get_supported_assets**](BlockchainsAssetsApi.md#get_supported_assets) | **GET** /supported_assets | List assets (Legacy)
 [**list_assets**](BlockchainsAssetsApi.md#list_assets) | **GET** /assets | List assets
 [**list_blockchains**](BlockchainsAssetsApi.md#list_blockchains) | **GET** /blockchains | List blockchains
 [**register_new_asset**](BlockchainsAssetsApi.md#register_new_asset) | **POST** /assets | Register an asset
 [**set_asset_price**](BlockchainsAssetsApi.md#set_asset_price) | **POST** /assets/prices/{id} | Set asset price
+[**update_asset_user_metadata**](BlockchainsAssetsApi.md#update_asset_user_metadata) | **PATCH** /assets/{id} | Update the user’s metadata for an asset
 [**validate_address**](BlockchainsAssetsApi.md#validate_address) | **GET** /transactions/validate_address/{assetId}/{address} | Validate destination address
 
 
@@ -110,9 +111,9 @@ No authorization required
 ## get_supported_assets
 
 > Vec<models::AssetTypeResponse> get_supported_assets()
-Legacy - List Assets
+List assets (Legacy)
 
-Legacy Endpoint – Retrieves all assets supported by Fireblocks in your workspace without extended information.</br>  **Note**:  - This endpoint will remain available for the foreseeable future and is not deprecated.</br> - The [List assets](https://developers.fireblocks.com/reference/listassets) endpoint provides more detailed asset information and improved performance.</br> - We recommend transitioning to the [List assets](https://developers.fireblocks.com/reference/listassets) endpoint for better results.  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor. 
+**This legacy endpoint has not been deprecated but it should not be used in your operations. Instead, use the new [List assets](https://developers.fireblocks.com/reference/listassets) endpoint for better performance and to retrieve more detailed asset information.**  Retrieves all assets supported by Fireblocks in your workspace.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor. 
 
 ### Parameters
 
@@ -139,7 +140,7 @@ No authorization required
 > models::ListAssetsResponse list_assets(blockchain_id, asset_class, symbol, scope, deprecated, ids, page_cursor, page_size, idempotency_key)
 List assets
 
-Retrieves all assets supported by Fireblocks in your workspace, providing extended information and enhanced performance compared to the legacy `supported_assets` endpoint.</br>   **Note**:  - We will continue displaying and supporting the legacy ID (API ID). Since not all Fireblocks services fully support the new Assets UUID, please use only the legacy ID until further notice.</br> 
+Retrieves a paginated list of all assets supported by Fireblocks in your workspace.  **Note:** We will continue to support and display the legacy ID (API ID). Since not all Fireblocks services fully support the new Assets UUID, please use only the legacy ID until further notice. 
 
 ### Parameters
 
@@ -257,6 +258,38 @@ Name | Type | Description  | Required | Notes
 ### Return type
 
 [**models::AssetPriceResponse**](AssetPriceResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## update_asset_user_metadata
+
+> models::Asset update_asset_user_metadata(id, idempotency_key, update_asset_user_metadata_request)
+Update the user’s metadata for an asset
+
+Update the user’s metadata for an asset.  **Endpoint Permissions:** Owner, Admin, Non-Signing Admin, NCW Admin, Signer, Editor.
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**id** | **String** | The ID or legacyId of the asset | [required] |
+**idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
+**update_asset_user_metadata_request** | Option<[**UpdateAssetUserMetadataRequest**](UpdateAssetUserMetadataRequest.md)> |  |  |
+
+### Return type
+
+[**models::Asset**](Asset.md)
 
 ### Authorization
 

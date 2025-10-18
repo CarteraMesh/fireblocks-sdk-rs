@@ -304,14 +304,14 @@ No authorization required
 > models::CollectionMintResponseDto mint_collection_token(id, collection_mint_request_dto, idempotency_key)
 Mint tokens
 
-Mint tokens and upload metadata. </br>Endpoint Permission: Owner, Admin, Non-Signing Admin, Signer, Editor.
+Mint tokens and upload metadata. This endpoint only works for NFTs using the ERC721f and ERC1155f standards. </br>Endpoint Permission: Owner, Admin, Non-Signing Admin, Signer, Editor.
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**id** | **String** | The collection link id | [required] |
+**id** | **String** | The token link id | [required] |
 **collection_mint_request_dto** | [**CollectionMintRequestDto**](CollectionMintRequestDto.md) |  | [required] |
 **idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
 

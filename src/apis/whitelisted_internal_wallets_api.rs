@@ -63,15 +63,13 @@ pub trait WhitelistedInternalWalletsApi: Send + Sync {
 
     /// GET /internal_wallets/{walletId}
     ///
-    /// Returns information for an asset in an internal wallet. This endpoint
-    /// will be deprecated after 6 months. As part of the depreciation process
-    /// this endpoint will no longer return balances, only addresses. Until it
-    /// is deprecated, this endpoint will behave the same way. Internal Wallets
-    /// are whitelisted wallets that belong to you outside of Fireblocks.    -
-    /// You can see the balance of the Internal Wallet via Fireblocks   - You
-    /// cannot initiate transactions from Internal Wallets through Fireblocks
-    /// </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver,
-    /// Editor, Viewer.
+    /// **This endpoint will be deprecated on December 31, 2025. Currently, the
+    /// endpoint will only return a wallet's addresses and not any balances.**
+    /// Retrieves information about all the assets in an internal wallet, which
+    /// is a wallet owned by you outside of your Fireblocks workspace. Please
+    /// note that you cannot initiate transactions through Fireblocks using an
+    /// internal wallet.  </br>Endpoint Permission: Admin, Non-Signing Admin,
+    /// Signer, Approver, Editor, Viewer.
     async fn get_internal_wallet(
         &self,
         params: GetInternalWalletParams,
@@ -124,7 +122,8 @@ impl WhitelistedInternalWalletsApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`create_internal_wallet`]
+/// struct for passing parameters to the method
+/// [`WhitelistedInternalWalletsApi::create_internal_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateInternalWalletParams {
@@ -136,7 +135,8 @@ pub struct CreateInternalWalletParams {
     pub create_wallet_request: Option<models::CreateWalletRequest>,
 }
 
-/// struct for passing parameters to the method [`create_internal_wallet_asset`]
+/// struct for passing parameters to the method
+/// [`WhitelistedInternalWalletsApi::create_internal_wallet_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateInternalWalletAssetParams {
@@ -152,7 +152,8 @@ pub struct CreateInternalWalletAssetParams {
     pub create_internal_wallet_asset_request: Option<models::CreateInternalWalletAssetRequest>,
 }
 
-/// struct for passing parameters to the method [`delete_internal_wallet`]
+/// struct for passing parameters to the method
+/// [`WhitelistedInternalWalletsApi::delete_internal_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteInternalWalletParams {
@@ -160,7 +161,8 @@ pub struct DeleteInternalWalletParams {
     pub wallet_id: String,
 }
 
-/// struct for passing parameters to the method [`delete_internal_wallet_asset`]
+/// struct for passing parameters to the method
+/// [`WhitelistedInternalWalletsApi::delete_internal_wallet_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DeleteInternalWalletAssetParams {
@@ -170,7 +172,8 @@ pub struct DeleteInternalWalletAssetParams {
     pub asset_id: String,
 }
 
-/// struct for passing parameters to the method [`get_internal_wallet`]
+/// struct for passing parameters to the method
+/// [`WhitelistedInternalWalletsApi::get_internal_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetInternalWalletParams {
@@ -178,7 +181,8 @@ pub struct GetInternalWalletParams {
     pub wallet_id: String,
 }
 
-/// struct for passing parameters to the method [`get_internal_wallet_asset`]
+/// struct for passing parameters to the method
+/// [`WhitelistedInternalWalletsApi::get_internal_wallet_asset`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetInternalWalletAssetParams {
@@ -189,7 +193,7 @@ pub struct GetInternalWalletAssetParams {
 }
 
 /// struct for passing parameters to the method
-/// [`get_internal_wallet_assets_paginated`]
+/// [`WhitelistedInternalWalletsApi::get_internal_wallet_assets_paginated`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetInternalWalletAssetsPaginatedParams {
@@ -200,7 +204,7 @@ pub struct GetInternalWalletAssetsPaginatedParams {
 }
 
 /// struct for passing parameters to the method
-/// [`set_customer_ref_id_for_internal_wallet`]
+/// [`WhitelistedInternalWalletsApi::set_customer_ref_id_for_internal_wallet`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetCustomerRefIdForInternalWalletParams {
@@ -258,7 +262,9 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -333,7 +339,9 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -460,15 +468,13 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
         }
     }
 
-    /// Returns information for an asset in an internal wallet. This endpoint
-    /// will be deprecated after 6 months. As part of the depreciation process
-    /// this endpoint will no longer return balances, only addresses. Until it
-    /// is deprecated, this endpoint will behave the same way. Internal Wallets
-    /// are whitelisted wallets that belong to you outside of Fireblocks.    -
-    /// You can see the balance of the Internal Wallet via Fireblocks   - You
-    /// cannot initiate transactions from Internal Wallets through Fireblocks
-    /// </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver,
-    /// Editor, Viewer.
+    /// **This endpoint will be deprecated on December 31, 2025. Currently, the
+    /// endpoint will only return a wallet's addresses and not any balances.**
+    /// Retrieves information about all the assets in an internal wallet, which
+    /// is a wallet owned by you outside of your Fireblocks workspace. Please
+    /// note that you cannot initiate transactions through Fireblocks using an
+    /// internal wallet.  </br>Endpoint Permission: Admin, Non-Signing Admin,
+    /// Signer, Approver, Editor, Viewer.
     async fn get_internal_wallet(
         &self,
         params: GetInternalWalletParams,
@@ -506,7 +512,9 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -579,7 +587,9 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -628,13 +638,13 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -655,7 +665,9 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -712,7 +724,9 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -792,7 +806,8 @@ impl WhitelistedInternalWalletsApi for WhitelistedInternalWalletsApiClient {
     }
 }
 
-/// struct for typed errors of method [`create_internal_wallet`]
+/// struct for typed errors of method
+/// [`WhitelistedInternalWalletsApi::create_internal_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateInternalWalletError {
@@ -800,7 +815,8 @@ pub enum CreateInternalWalletError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_internal_wallet_asset`]
+/// struct for typed errors of method
+/// [`WhitelistedInternalWalletsApi::create_internal_wallet_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateInternalWalletAssetError {
@@ -808,7 +824,8 @@ pub enum CreateInternalWalletAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_internal_wallet`]
+/// struct for typed errors of method
+/// [`WhitelistedInternalWalletsApi::delete_internal_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteInternalWalletError {
@@ -816,7 +833,8 @@ pub enum DeleteInternalWalletError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_internal_wallet_asset`]
+/// struct for typed errors of method
+/// [`WhitelistedInternalWalletsApi::delete_internal_wallet_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteInternalWalletAssetError {
@@ -824,7 +842,8 @@ pub enum DeleteInternalWalletAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_internal_wallet`]
+/// struct for typed errors of method
+/// [`WhitelistedInternalWalletsApi::get_internal_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInternalWalletError {
@@ -832,7 +851,8 @@ pub enum GetInternalWalletError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_internal_wallet_asset`]
+/// struct for typed errors of method
+/// [`WhitelistedInternalWalletsApi::get_internal_wallet_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInternalWalletAssetError {
@@ -840,7 +860,8 @@ pub enum GetInternalWalletAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_internal_wallet_assets_paginated`]
+/// struct for typed errors of method
+/// [`WhitelistedInternalWalletsApi::get_internal_wallet_assets_paginated`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInternalWalletAssetsPaginatedError {
@@ -848,7 +869,8 @@ pub enum GetInternalWalletAssetsPaginatedError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_internal_wallets`]
+/// struct for typed errors of method
+/// [`WhitelistedInternalWalletsApi::get_internal_wallets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInternalWalletsError {
@@ -857,7 +879,7 @@ pub enum GetInternalWalletsError {
 }
 
 /// struct for typed errors of method
-/// [`set_customer_ref_id_for_internal_wallet`]
+/// [`WhitelistedInternalWalletsApi::set_customer_ref_id_for_internal_wallet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetCustomerRefIdForInternalWalletError {

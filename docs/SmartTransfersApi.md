@@ -95,7 +95,7 @@ No authorization required
 > models::SmartTransferTicketResponse create_ticket(smart_transfer_create_ticket, idempotency_key)
 Create Ticket
 
-Creates new Smart Transfer ticket. Learn more about Fireblocks Smart Transfers in the following [guide](https://developers.fireblocks.com/docs/execute-smart-transfers). </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+Creates a new Smart Transfer ticket. Learn more about Fireblocks Smart Transfers [here](https://developers.fireblocks.com/docs/execute-smart-transfers).  **Note:** The `DVP` value is in Early Access and should only be used if Fireblocks has enabled it in your workspace. Contact your Customer Success Manager for more information.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor. 
 
 ### Parameters
 
@@ -250,7 +250,7 @@ No authorization required
 > models::SmartTransferTicketResponse fund_dvp_ticket(ticket_id, smart_transfer_fund_dvp_ticket, idempotency_key)
 Fund dvp ticket
 
-Create or fulfill dvp ticket order
+Create or fulfill DvP ticket order
 
 ### Parameters
 

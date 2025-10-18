@@ -22,6 +22,8 @@ pub enum TransferPeerPathType {
     InternalWallet,
     #[serde(rename = "EXTERNAL_WALLET")]
     ExternalWallet,
+    #[serde(rename = "UNMANAGED_WALLET")]
+    UnmanagedWallet,
     #[serde(rename = "CONTRACT")]
     Contract,
     #[serde(rename = "NETWORK_CONNECTION")]
@@ -42,6 +44,8 @@ pub enum TransferPeerPathType {
     ProgramCall,
     #[serde(rename = "MULTI_DESTINATION")]
     MultiDestination,
+    #[serde(rename = "OEC_PARTNER")]
+    OecPartner,
 }
 
 impl std::fmt::Display for TransferPeerPathType {
@@ -51,6 +55,7 @@ impl std::fmt::Display for TransferPeerPathType {
             Self::ExchangeAccount => write!(f, "EXCHANGE_ACCOUNT"),
             Self::InternalWallet => write!(f, "INTERNAL_WALLET"),
             Self::ExternalWallet => write!(f, "EXTERNAL_WALLET"),
+            Self::UnmanagedWallet => write!(f, "UNMANAGED_WALLET"),
             Self::Contract => write!(f, "CONTRACT"),
             Self::NetworkConnection => write!(f, "NETWORK_CONNECTION"),
             Self::FiatAccount => write!(f, "FIAT_ACCOUNT"),
@@ -61,6 +66,7 @@ impl std::fmt::Display for TransferPeerPathType {
             Self::EndUserWallet => write!(f, "END_USER_WALLET"),
             Self::ProgramCall => write!(f, "PROGRAM_CALL"),
             Self::MultiDestination => write!(f, "MULTI_DESTINATION"),
+            Self::OecPartner => write!(f, "OEC_PARTNER"),
         }
     }
 }

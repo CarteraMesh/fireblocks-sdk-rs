@@ -16,6 +16,7 @@ use {
 pub enum CreateTokenRequestDtoCreateParams {
     EvmTokenCreateParamsDto(models::EvmTokenCreateParamsDto),
     StellarRippleCreateParamsDto(models::StellarRippleCreateParamsDto),
+    SolanaSimpleCreateParams(models::SolanaSimpleCreateParams),
 }
 
 impl Default for CreateTokenRequestDtoCreateParams {

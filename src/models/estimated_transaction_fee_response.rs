@@ -19,6 +19,8 @@ pub struct EstimatedTransactionFeeResponse {
     pub medium: models::TransactionFee,
     #[serde(rename = "high")]
     pub high: models::TransactionFee,
+    #[serde(rename = "feeDetails", skip_serializing_if = "Option::is_none")]
+    pub fee_details: Option<models::EstimatedFeeDetails>,
 }
 
 impl EstimatedTransactionFeeResponse {
@@ -27,6 +29,11 @@ impl EstimatedTransactionFeeResponse {
         medium: models::TransactionFee,
         high: models::TransactionFee,
     ) -> EstimatedTransactionFeeResponse {
-        EstimatedTransactionFeeResponse { low, medium, high }
+        EstimatedTransactionFeeResponse {
+            low,
+            medium,
+            high,
+            fee_details: None,
+        }
     }
 }

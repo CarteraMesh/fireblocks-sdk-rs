@@ -71,7 +71,7 @@ impl JobManagementApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`cancel_job`]
+/// struct for passing parameters to the method [`JobManagementApi::cancel_job`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CancelJobParams {
@@ -84,7 +84,8 @@ pub struct CancelJobParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`continue_job`]
+/// struct for passing parameters to the method
+/// [`JobManagementApi::continue_job`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ContinueJobParams {
@@ -97,7 +98,7 @@ pub struct ContinueJobParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_job`]
+/// struct for passing parameters to the method [`JobManagementApi::get_job`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetJobParams {
@@ -105,7 +106,8 @@ pub struct GetJobParams {
     pub job_id: String,
 }
 
-/// struct for passing parameters to the method [`get_job_tasks`]
+/// struct for passing parameters to the method
+/// [`JobManagementApi::get_job_tasks`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetJobTasksParams {
@@ -113,7 +115,7 @@ pub struct GetJobTasksParams {
     pub job_id: String,
 }
 
-/// struct for passing parameters to the method [`get_jobs`]
+/// struct for passing parameters to the method [`JobManagementApi::get_jobs`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetJobsParams {
@@ -123,7 +125,7 @@ pub struct GetJobsParams {
     pub to_time: Option<i32>,
 }
 
-/// struct for passing parameters to the method [`pause_job`]
+/// struct for passing parameters to the method [`JobManagementApi::pause_job`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct PauseJobParams {
@@ -271,7 +273,9 @@ impl JobManagementApi for JobManagementApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -335,7 +339,9 @@ impl JobManagementApi for JobManagementApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -377,13 +383,13 @@ impl JobManagementApi for JobManagementApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = from_time {
+        if let Some(ref param_value) = from_time {
             local_var_req_builder =
-                local_var_req_builder.query(&[("fromTime", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("fromTime", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = to_time {
+        if let Some(ref param_value) = to_time {
             local_var_req_builder =
-                local_var_req_builder.query(&[("toTime", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("toTime", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -404,7 +410,9 @@ impl JobManagementApi for JobManagementApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -480,7 +488,7 @@ impl JobManagementApi for JobManagementApiClient {
     }
 }
 
-/// struct for typed errors of method [`cancel_job`]
+/// struct for typed errors of method [`JobManagementApi::cancel_job`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CancelJobError {
@@ -488,7 +496,7 @@ pub enum CancelJobError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`continue_job`]
+/// struct for typed errors of method [`JobManagementApi::continue_job`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ContinueJobError {
@@ -496,7 +504,7 @@ pub enum ContinueJobError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_job`]
+/// struct for typed errors of method [`JobManagementApi::get_job`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetJobError {
@@ -504,7 +512,7 @@ pub enum GetJobError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_job_tasks`]
+/// struct for typed errors of method [`JobManagementApi::get_job_tasks`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetJobTasksError {
@@ -512,7 +520,7 @@ pub enum GetJobTasksError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_jobs`]
+/// struct for typed errors of method [`JobManagementApi::get_jobs`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetJobsError {
@@ -520,7 +528,7 @@ pub enum GetJobsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`pause_job`]
+/// struct for typed errors of method [`JobManagementApi::pause_job`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PauseJobError {

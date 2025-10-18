@@ -40,7 +40,7 @@ pub trait SmartTransfersApi: Send + Sync {
 
     /// POST /smart-transfers
     ///
-    /// Creates new Smart Transfer ticket. Learn more about Fireblocks Smart Transfers in the following [guide](https://developers.fireblocks.com/docs/execute-smart-transfers). </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// Creates a new Smart Transfer ticket. Learn more about Fireblocks Smart Transfers [here](https://developers.fireblocks.com/docs/execute-smart-transfers).  **Note:** The `DVP` value is in Early Access and should only be used if Fireblocks has enabled it in your workspace. Contact your Customer Success Manager for more information.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn create_ticket(
         &self,
         params: CreateTicketParams,
@@ -84,7 +84,7 @@ pub trait SmartTransfersApi: Send + Sync {
 
     /// PUT /smart_transfers/{ticketId}/dvp/fund
     ///
-    /// Create or fulfill dvp ticket order
+    /// Create or fulfill DvP ticket order
     async fn fund_dvp_ticket(
         &self,
         params: FundDvpTicketParams,
@@ -202,7 +202,8 @@ impl SmartTransfersApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`approve_dv_p_ticket_term`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::approve_dv_p_ticket_term`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ApproveDvPTicketTermParams {
@@ -216,7 +217,8 @@ pub struct ApproveDvPTicketTermParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`cancel_ticket`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::cancel_ticket`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CancelTicketParams {
@@ -228,7 +230,8 @@ pub struct CancelTicketParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`create_ticket`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::create_ticket`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateTicketParams {
@@ -240,7 +243,8 @@ pub struct CreateTicketParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`create_ticket_term`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::create_ticket_term`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateTicketTermParams {
@@ -253,14 +257,16 @@ pub struct CreateTicketTermParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`find_ticket_by_id`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::find_ticket_by_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct FindTicketByIdParams {
     pub ticket_id: String,
 }
 
-/// struct for passing parameters to the method [`find_ticket_term_by_id`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::find_ticket_term_by_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct FindTicketTermByIdParams {
@@ -268,7 +274,8 @@ pub struct FindTicketTermByIdParams {
     pub term_id: String,
 }
 
-/// struct for passing parameters to the method [`fulfill_ticket`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::fulfill_ticket`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct FulfillTicketParams {
@@ -280,7 +287,8 @@ pub struct FulfillTicketParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`fund_dvp_ticket`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::fund_dvp_ticket`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct FundDvpTicketParams {
@@ -293,7 +301,8 @@ pub struct FundDvpTicketParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`fund_ticket_term`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::fund_ticket_term`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct FundTicketTermParams {
@@ -307,7 +316,8 @@ pub struct FundTicketTermParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`manually_fund_ticket_term`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::manually_fund_ticket_term`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ManuallyFundTicketTermParams {
@@ -321,7 +331,8 @@ pub struct ManuallyFundTicketTermParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`remove_ticket_term`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::remove_ticket_term`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct RemoveTicketTermParams {
@@ -329,7 +340,8 @@ pub struct RemoveTicketTermParams {
     pub term_id: String,
 }
 
-/// struct for passing parameters to the method [`search_tickets`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::search_tickets`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SearchTicketsParams {
@@ -357,7 +369,8 @@ pub struct SearchTicketsParams {
     pub limit: Option<f64>,
 }
 
-/// struct for passing parameters to the method [`set_external_ref_id`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::set_external_ref_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetExternalRefIdParams {
@@ -370,7 +383,8 @@ pub struct SetExternalRefIdParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`set_ticket_expiration`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::set_ticket_expiration`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetTicketExpirationParams {
@@ -383,7 +397,8 @@ pub struct SetTicketExpirationParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`set_user_groups`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::set_user_groups`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetUserGroupsParams {
@@ -395,7 +410,8 @@ pub struct SetUserGroupsParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`submit_ticket`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::submit_ticket`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SubmitTicketParams {
@@ -408,7 +424,8 @@ pub struct SubmitTicketParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`update_ticket_term`]
+/// struct for passing parameters to the method
+/// [`SmartTransfersApi::update_ticket_term`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateTicketTermParams {
@@ -474,7 +491,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -546,7 +565,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -572,7 +593,7 @@ impl SmartTransfersApi for SmartTransfersApiClient {
         }
     }
 
-    /// Creates new Smart Transfer ticket. Learn more about Fireblocks Smart Transfers in the following [guide](https://developers.fireblocks.com/docs/execute-smart-transfers). </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// Creates a new Smart Transfer ticket. Learn more about Fireblocks Smart Transfers [here](https://developers.fireblocks.com/docs/execute-smart-transfers).  **Note:** The `DVP` value is in Early Access and should only be used if Fireblocks has enabled it in your workspace. Contact your Customer Success Manager for more information.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn create_ticket(
         &self,
         params: CreateTicketParams,
@@ -614,7 +635,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -687,7 +710,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -752,7 +777,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -818,7 +845,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -891,7 +920,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -917,7 +948,7 @@ impl SmartTransfersApi for SmartTransfersApiClient {
         }
     }
 
-    /// Create or fulfill dvp ticket order
+    /// Create or fulfill DvP ticket order
     async fn fund_dvp_ticket(
         &self,
         params: FundDvpTicketParams,
@@ -964,7 +995,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1041,7 +1074,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1101,7 +1136,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1163,7 +1200,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1239,7 +1278,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1339,21 +1380,20 @@ impl SmartTransfersApi for SmartTransfersApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = q {
-            local_var_req_builder =
-                local_var_req_builder.query(&[("q", &local_var_str.to_string())]);
+        if let Some(ref param_value) = q {
+            local_var_req_builder = local_var_req_builder.query(&[("q", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = statuses {
+        if let Some(ref param_value) = statuses {
             local_var_req_builder = match "multi" {
                 "multi" => local_var_req_builder.query(
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| ("statuses".to_owned(), p.to_string()))
                         .collect::<Vec<(std::string::String, std::string::String)>>(),
                 ),
                 _ => local_var_req_builder.query(&[(
                     "statuses",
-                    &local_var_str
+                    &param_value
                         .into_iter()
                         .map(|p| p.to_string())
                         .collect::<Vec<String>>()
@@ -1362,37 +1402,37 @@ impl SmartTransfersApi for SmartTransfersApiClient {
                 )]),
             };
         }
-        if let Some(ref local_var_str) = network_id {
+        if let Some(ref param_value) = network_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("networkId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("networkId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = created_by_me {
+        if let Some(ref param_value) = created_by_me {
             local_var_req_builder =
-                local_var_req_builder.query(&[("createdByMe", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("createdByMe", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = expires_after {
+        if let Some(ref param_value) = expires_after {
             local_var_req_builder =
-                local_var_req_builder.query(&[("expiresAfter", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("expiresAfter", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = expires_before {
+        if let Some(ref param_value) = expires_before {
             local_var_req_builder =
-                local_var_req_builder.query(&[("expiresBefore", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("expiresBefore", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = r#type {
+        if let Some(ref param_value) = r#type {
             local_var_req_builder =
-                local_var_req_builder.query(&[("type", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("type", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = external_ref_id {
+        if let Some(ref param_value) = external_ref_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("externalRefId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("externalRefId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = after {
+        if let Some(ref param_value) = after {
             local_var_req_builder =
-                local_var_req_builder.query(&[("after", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("after", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = limit {
+        if let Some(ref param_value) = limit {
             local_var_req_builder =
-                local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("limit", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -1413,7 +1453,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1487,7 +1529,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1561,7 +1605,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1634,7 +1680,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1710,7 +1758,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1786,7 +1836,9 @@ impl SmartTransfersApi for SmartTransfersApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1813,7 +1865,8 @@ impl SmartTransfersApi for SmartTransfersApiClient {
     }
 }
 
-/// struct for typed errors of method [`approve_dv_p_ticket_term`]
+/// struct for typed errors of method
+/// [`SmartTransfersApi::approve_dv_p_ticket_term`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ApproveDvPTicketTermError {
@@ -1823,7 +1876,7 @@ pub enum ApproveDvPTicketTermError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`cancel_ticket`]
+/// struct for typed errors of method [`SmartTransfersApi::cancel_ticket`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CancelTicketError {
@@ -1833,7 +1886,7 @@ pub enum CancelTicketError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_ticket`]
+/// struct for typed errors of method [`SmartTransfersApi::create_ticket`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateTicketError {
@@ -1842,7 +1895,7 @@ pub enum CreateTicketError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_ticket_term`]
+/// struct for typed errors of method [`SmartTransfersApi::create_ticket_term`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateTicketTermError {
@@ -1851,7 +1904,7 @@ pub enum CreateTicketTermError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`find_ticket_by_id`]
+/// struct for typed errors of method [`SmartTransfersApi::find_ticket_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindTicketByIdError {
@@ -1860,7 +1913,8 @@ pub enum FindTicketByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`find_ticket_term_by_id`]
+/// struct for typed errors of method
+/// [`SmartTransfersApi::find_ticket_term_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindTicketTermByIdError {
@@ -1869,7 +1923,7 @@ pub enum FindTicketTermByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`fulfill_ticket`]
+/// struct for typed errors of method [`SmartTransfersApi::fulfill_ticket`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FulfillTicketError {
@@ -1879,7 +1933,7 @@ pub enum FulfillTicketError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`fund_dvp_ticket`]
+/// struct for typed errors of method [`SmartTransfersApi::fund_dvp_ticket`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FundDvpTicketError {
@@ -1889,7 +1943,7 @@ pub enum FundDvpTicketError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`fund_ticket_term`]
+/// struct for typed errors of method [`SmartTransfersApi::fund_ticket_term`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FundTicketTermError {
@@ -1899,7 +1953,8 @@ pub enum FundTicketTermError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_smart_transfer_statistic`]
+/// struct for typed errors of method
+/// [`SmartTransfersApi::get_smart_transfer_statistic`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetSmartTransferStatisticError {
@@ -1908,7 +1963,8 @@ pub enum GetSmartTransferStatisticError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_smart_transfer_user_groups`]
+/// struct for typed errors of method
+/// [`SmartTransfersApi::get_smart_transfer_user_groups`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetSmartTransferUserGroupsError {
@@ -1917,7 +1973,8 @@ pub enum GetSmartTransferUserGroupsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`manually_fund_ticket_term`]
+/// struct for typed errors of method
+/// [`SmartTransfersApi::manually_fund_ticket_term`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ManuallyFundTicketTermError {
@@ -1927,7 +1984,7 @@ pub enum ManuallyFundTicketTermError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`remove_ticket_term`]
+/// struct for typed errors of method [`SmartTransfersApi::remove_ticket_term`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RemoveTicketTermError {
@@ -1936,7 +1993,7 @@ pub enum RemoveTicketTermError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`search_tickets`]
+/// struct for typed errors of method [`SmartTransfersApi::search_tickets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SearchTicketsError {
@@ -1944,7 +2001,7 @@ pub enum SearchTicketsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_external_ref_id`]
+/// struct for typed errors of method [`SmartTransfersApi::set_external_ref_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetExternalRefIdError {
@@ -1954,7 +2011,8 @@ pub enum SetExternalRefIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_ticket_expiration`]
+/// struct for typed errors of method
+/// [`SmartTransfersApi::set_ticket_expiration`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetTicketExpirationError {
@@ -1964,7 +2022,7 @@ pub enum SetTicketExpirationError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_user_groups`]
+/// struct for typed errors of method [`SmartTransfersApi::set_user_groups`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetUserGroupsError {
@@ -1973,7 +2031,7 @@ pub enum SetUserGroupsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`submit_ticket`]
+/// struct for typed errors of method [`SmartTransfersApi::submit_ticket`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SubmitTicketError {
@@ -1983,7 +2041,7 @@ pub enum SubmitTicketError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_ticket_term`]
+/// struct for typed errors of method [`SmartTransfersApi::update_ticket_term`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateTicketTermError {

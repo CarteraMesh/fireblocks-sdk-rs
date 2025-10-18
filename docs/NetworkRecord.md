@@ -13,9 +13,7 @@ Name | Type | Description | Notes
 **is_dropped** | Option<**bool**> |  | [optional]
 **r#type** | Option<**String**> |  | [optional]
 **destination_address** | Option<**String**> |  | [optional]
-**source_address** | Option<**String**> |  | [optional]
 **amount_usd** | Option<**String**> |  | [optional]
-**index** | Option<**f64**> |  | [optional]
 **reward_info** | Option<[**models::RewardInfo**](RewardInfo.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

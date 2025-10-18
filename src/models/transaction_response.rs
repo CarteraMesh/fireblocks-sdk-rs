@@ -14,13 +14,15 @@ use {
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TransactionResponse {
     /// Fireblocks Transaction ID
-    #[serde(rename = "id")]
+    //#[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: String,
-    /// Unique externbal transaction identifier provided by the user. Fireblocks
-    /// highly recommends setting an `externalTxId` for every transaction
-    /// created, to avoid submitting the same transaction twice.
+    /// Unique external transaction identifier provided by the user. Used to
+    /// help prevent duplicate transactions. **Will become a required parameter
+    /// for all transaction types on March 1, 2026.**
     #[serde(rename = "externalTxId", skip_serializing_if = "Option::is_none")]
     pub external_tx_id: Option<String>,
+    //    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
+    //   pub status: Option<models::TransactionStatus>,
     #[serde(rename = "status")]
     pub status: models::TransactionStatus,
     #[serde(rename = "subStatus", skip_serializing_if = "Option::is_none")]
@@ -41,15 +43,22 @@ pub struct TransactionResponse {
     /// transaction operation is not `RAW` or `TYPED_MESSAGE`.
     #[serde(rename = "txHash", skip_serializing_if = "Option::is_none")]
     pub tx_hash: Option<String>,
-    #[serde(rename = "operation")]
-    pub operation: models::GetTransactionOperation,
+    #[serde(rename = "operation", skip_serializing_if = "Option::is_none")]
+    pub operation: Option<models::GetTransactionOperation>,
     /// Custom note, not sent to the blockchain, that describes the transaction
     /// at your Fireblocks workspace.
     #[serde(rename = "note", skip_serializing_if = "Option::is_none")]
     pub note: Option<String>,
-    /// The ID of the asset for `TRANSFER`, `MINT`, `BURN`, `ENABLE_ASSET`,`STAKE` ,`UNSTAKE` or `WITHDRAW` operations. [See the list of supported assets and their IDs on Fireblocks.](https://developers.fireblocks.com/reference/getsupportedassets)
+    /// A JSON used to store additional blockchain-specific data.  **Example:**
+    /// In HBAR, this property will have the txHash in addition to the txID.
+    #[serde(rename = "blockchainInfo", skip_serializing_if = "Option::is_none")]
+    pub blockchain_info: Option<String>,
+    /// The ID of the asset for `TRANSFER`, `MINT`, `BURN`, `ENABLE_ASSET`,`STAKE` ,`UNSTAKE` or `WITHDRAW` operations. See the [list of supported assets and their IDs on Fireblocks](https://developers.fireblocks.com/reference/getsupportedassets).
     #[serde(rename = "assetId", skip_serializing_if = "Option::is_none")]
     pub asset_id: Option<String>,
+    /// Type classification of the asset
+    #[serde(rename = "assetType", skip_serializing_if = "Option::is_none")]
+    pub asset_type: Option<String>,
     #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
     pub source: Option<models::SourceTransferPeerPathResponse>,
     /// For account based assets only, the source address of the transaction.
@@ -91,7 +100,7 @@ pub struct TransactionResponse {
     #[serde(rename = "amountInfo", skip_serializing_if = "Option::is_none")]
     pub amount_info: Option<models::AmountInfo>,
     /// For transactions initiated via this Fireblocks workspace, when set to
-    /// `true`, the fee is deducted from the requested amount.  **Note**: This
+    /// `true`, the fee is deducted from the requested amount.  **Note:** This
     /// parameter can only be considered if a transaction's asset is a base
     /// asset, such as ETH or MATIC. If the asset can't be used for transaction
     /// fees, like USDC, this parameter is ignored and the fee is deducted from
@@ -139,6 +148,24 @@ pub struct TransactionResponse {
     pub aml_screening_result: Option<models::AmlScreeningResult>,
     #[serde(rename = "complianceResult", skip_serializing_if = "Option::is_none")]
     pub compliance_result: Option<models::ComplianceResult>,
+    /// Indicates the transaction was not broadcast by Fireblocks
+    #[serde(
+        rename = "notBroadcastByFireblocks",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub not_broadcast_by_fireblocks: Option<bool>,
+    /// dApp URL for Web3 transactions
+    #[serde(rename = "dappUrl", skip_serializing_if = "Option::is_none")]
+    pub dapp_url: Option<String>,
+    /// Gas limit for EVM-based blockchain transactions
+    #[serde(rename = "gasLimit", skip_serializing_if = "Option::is_none")]
+    pub gas_limit: Option<String>,
+    /// Blockchain-specific index or identifier for the transaction
+    #[serde(rename = "blockchainIndex", skip_serializing_if = "Option::is_none")]
+    pub blockchain_index: Option<String>,
+    /// Solana rent payment amount
+    #[serde(rename = "paidRent", skip_serializing_if = "Option::is_none")]
+    pub paid_rent: Option<String>,
     #[serde(rename = "extraParameters", skip_serializing_if = "Option::is_none")]
     pub extra_parameters: Option<models::ExtraParameters>,
     /// An array of signed messages
@@ -159,6 +186,8 @@ pub struct TransactionResponse {
     pub index: Option<f64>,
     #[serde(rename = "rewardInfo", skip_serializing_if = "Option::is_none")]
     pub reward_info: Option<models::RewardInfo>,
+    #[serde(rename = "feePayerInfo", skip_serializing_if = "Option::is_none")]
+    pub fee_payer_info: Option<models::FeePayerInfo>,
     #[serde(rename = "systemMessages", skip_serializing_if = "Option::is_none")]
     pub system_messages: Option<models::SystemMessageInfo>,
     #[serde(rename = "addressType", skip_serializing_if = "Option::is_none")]
@@ -201,23 +230,28 @@ pub struct TransactionResponse {
     /// `subStatus` =  'SMART_CONTRACT_EXECUTION_FAILED'.
     #[serde(rename = "errorDescription", skip_serializing_if = "Option::is_none")]
     pub error_description: Option<String>,
+    /// If the transaction is a Replace-By-Fee (RBF) transaction, this is the
+    /// hash of the transaction that was replaced.
+    #[serde(rename = "replacedTxByHash", skip_serializing_if = "Option::is_none")]
+    pub replaced_tx_by_hash: Option<String>,
+    /// Blockchain nonce for the transaction
+    #[serde(rename = "nonce", skip_serializing_if = "Option::is_none")]
+    pub nonce: Option<String>,
 }
 
 impl TransactionResponse {
-    pub fn new(
-        id: String,
-        status: models::TransactionStatus,
-        operation: models::GetTransactionOperation,
-    ) -> TransactionResponse {
+    pub fn new() -> TransactionResponse {
         TransactionResponse {
-            id,
+            id: String::new(),
             external_tx_id: None,
-            status,
+            status: models::TransactionStatus::default(),
             sub_status: None,
             tx_hash: None,
-            operation,
+            operation: None,
             note: None,
+            blockchain_info: None,
             asset_id: None,
+            asset_type: None,
             source: None,
             source_address: None,
             tag: None,
@@ -242,12 +276,18 @@ impl TransactionResponse {
             customer_ref_id: None,
             aml_screening_result: None,
             compliance_result: None,
+            not_broadcast_by_fireblocks: None,
+            dapp_url: None,
+            gas_limit: None,
+            blockchain_index: None,
+            paid_rent: None,
             extra_parameters: None,
             signed_messages: None,
             num_of_confirmations: None,
             block_info: None,
             index: None,
             reward_info: None,
+            fee_payer_info: None,
             system_messages: None,
             address_type: None,
             requested_amount: None,
@@ -258,6 +298,8 @@ impl TransactionResponse {
             fee: None,
             network_fee: None,
             error_description: None,
+            replaced_tx_by_hash: None,
+            nonce: None,
         }
     }
 }

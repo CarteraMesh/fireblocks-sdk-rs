@@ -18,8 +18,8 @@ Name | Type | Description | Notes
 **room** | Option<**String**> | Building room number. The value must be encrypted. | [optional]
 **town_location_name** | Option<**String**> | Specific location name within the town. The value must be encrypted. | [optional]
 **district_name** | Option<**String**> | Identifies a subdivision within a country subdivision. The value must be encrypted. | [optional]
-**country_sub_division** | Option<**String**> | Identifies a subdivision of a country such as state, region, or province. The value must be encrypted. | [optional]
-**address_line** | Option<**Vec<String>**> | Information that locates and identifies a specific address, presented in free format text. Each item must be encrypted. | [optional]
+**country_sub_division** | Option<**String**> | Identifies a subdivision of a country, such as a state, region, or province. The value must be encrypted. | [optional]
+**address_line** | Option<**Vec<String>**> | Information that locates and identifies a specific address, presented in free-format text. Each item must be encrypted. | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

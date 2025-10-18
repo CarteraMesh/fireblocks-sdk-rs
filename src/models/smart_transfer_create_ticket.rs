@@ -15,6 +15,9 @@ use {
 pub struct SmartTransferCreateTicket {
     #[serde(rename = "createdByNetworkId")]
     pub created_by_network_id: String,
+    /// **Note:** The `DVP` value is in Early Access and should only be used if
+    /// Fireblocks has enabled it in your workspace. Contact your Customer
+    /// Success Manager for more information.
     #[serde(rename = "type")]
     pub r#type: Type,
     /// Number of hours after which an OPEN ticket will expire if no term is
@@ -44,7 +47,9 @@ impl SmartTransferCreateTicket {
         }
     }
 }
-///
+/// **Note:** The `DVP` value is in Early Access and should only be used if
+/// Fireblocks has enabled it in your workspace. Contact your Customer Success
+/// Manager for more information.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Type {
     #[serde(rename = "ASYNC")]

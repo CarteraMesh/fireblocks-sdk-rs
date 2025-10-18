@@ -13,15 +13,6 @@ use {
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TransactionResponseDestination {
-    /// Address where the asset was transferred.
-    #[serde(rename = "destinationAddress", skip_serializing_if = "Option::is_none")]
-    pub destination_address: Option<String>,
-    /// Description of the address.
-    #[serde(
-        rename = "destinationAddressDescription",
-        skip_serializing_if = "Option::is_none"
-    )]
-    pub destination_address_description: Option<String>,
     /// The amount to be sent to this destination.
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
     pub amount: Option<String>,
@@ -39,8 +30,6 @@ pub struct TransactionResponseDestination {
 impl TransactionResponseDestination {
     pub fn new() -> TransactionResponseDestination {
         TransactionResponseDestination {
-            destination_address: None,
-            destination_address_description: None,
             amount: None,
             amount_usd: None,
             aml_screening_result: None,

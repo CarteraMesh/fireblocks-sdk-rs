@@ -27,7 +27,7 @@ use {
         error::FireblocksError,
         models::{
             AddAssetToExternalWalletRequest,
-            AddAssetToExternalWalletRequestOneOf,
+            BasicAddressRequest,
             CreateContractRequest,
             CreateInternalWalletAssetRequest,
             CreateWalletRequest,
@@ -54,12 +54,10 @@ impl Client {
                     .asset_id(asset_id)
                     .wallet_id(String::from(id))
                     .add_asset_to_external_wallet_request(
-                        AddAssetToExternalWalletRequest::AddAssetToExternalWalletRequestOneOf(
-                            AddAssetToExternalWalletRequestOneOf {
-                                address: String::from(address),
-                                tag: None,
-                            },
-                        ),
+                        AddAssetToExternalWalletRequest::BasicAddressRequest(BasicAddressRequest {
+                            address: String::from(address),
+                            tag: None,
+                        }),
                     )
                     .build();
                 api.add_asset_to_external_wallet(params)

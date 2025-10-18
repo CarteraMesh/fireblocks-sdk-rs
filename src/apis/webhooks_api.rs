@@ -22,7 +22,7 @@ use {
 pub trait WebhooksApi: Send + Sync {
     /// POST /webhooks/resend/{txId}
     ///
-    /// Resends webhook notifications for a transaction by its unique identifier. Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks). </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// Resends webhook notifications for a transaction by its unique identifier.  Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn resend_transaction_webhooks(
         &self,
         params: ResendTransactionWebhooksParams,
@@ -30,7 +30,7 @@ pub trait WebhooksApi: Send + Sync {
 
     /// POST /webhooks/resend
     ///
-    /// Resends all failed webhook notifications. Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks). </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// Resends all failed webhook notifications.  Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn resend_webhooks(
         &self,
         params: ResendWebhooksParams,
@@ -47,7 +47,8 @@ impl WebhooksApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`resend_transaction_webhooks`]
+/// struct for passing parameters to the method
+/// [`WebhooksApi::resend_transaction_webhooks`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ResendTransactionWebhooksParams {
@@ -61,7 +62,7 @@ pub struct ResendTransactionWebhooksParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`resend_webhooks`]
+/// struct for passing parameters to the method [`WebhooksApi::resend_webhooks`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ResendWebhooksParams {
@@ -74,7 +75,7 @@ pub struct ResendWebhooksParams {
 
 #[async_trait]
 impl WebhooksApi for WebhooksApiClient {
-    /// Resends webhook notifications for a transaction by its unique identifier. Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks). </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// Resends webhook notifications for a transaction by its unique identifier.  Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn resend_transaction_webhooks(
         &self,
         params: ResendTransactionWebhooksParams,
@@ -122,7 +123,9 @@ impl WebhooksApi for WebhooksApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -148,7 +151,7 @@ impl WebhooksApi for WebhooksApiClient {
         }
     }
 
-    /// Resends all failed webhook notifications. Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks). </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// Resends all failed webhook notifications.  Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn resend_webhooks(
         &self,
         params: ResendWebhooksParams,
@@ -186,7 +189,9 @@ impl WebhooksApi for WebhooksApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -213,7 +218,8 @@ impl WebhooksApi for WebhooksApiClient {
     }
 }
 
-/// struct for typed errors of method [`resend_transaction_webhooks`]
+/// struct for typed errors of method
+/// [`WebhooksApi::resend_transaction_webhooks`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ResendTransactionWebhooksError {
@@ -221,7 +227,7 @@ pub enum ResendTransactionWebhooksError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`resend_webhooks`]
+/// struct for typed errors of method [`WebhooksApi::resend_webhooks`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ResendWebhooksError {

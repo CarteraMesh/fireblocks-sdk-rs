@@ -7,6 +7,7 @@ mod assets;
 mod client;
 pub mod error;
 mod transaction_status;
+use serde::de::DeserializeOwned;
 pub use transaction_status::TransactionStatus;
 pub(crate) mod jwt;
 mod log;
@@ -63,3 +64,13 @@ impl Display for WalletType {
 pub mod apis;
 #[allow(clippy::all, clippy::pedantic, clippy::nursery)]
 pub mod models;
+
+pub(crate) fn deserialize_wrapper<T: DeserializeOwned>(content: &str) -> serde_json::Result<T> {
+    match serde_json::from_str(content) {
+        Ok(value) => Ok(value),
+        Err(err) => {
+            tracing::error!("Failed to decode: {err}\n{content}");
+            Err(err)
+        }
+    }
+}

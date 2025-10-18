@@ -20,7 +20,9 @@ async fn transaction_stream(mut ts: TransactionStream) -> anyhow::Result<()> {
         if counter > 5 {
             break;
         }
+
         if let Some(last) = result.last() {
+            #[allow(clippy::cast_possible_truncation)]
             if let Some(created) = last.created_at {
                 // tracing::info!("id={}", last.id)
                 #[allow(clippy::cast_possible_truncation)]

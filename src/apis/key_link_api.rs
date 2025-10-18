@@ -129,7 +129,8 @@ impl KeyLinkApiClient {
     }
 }
 
-/// struct for passing parameters to the method [`create_signing_key`]
+/// struct for passing parameters to the method
+/// [`KeyLinkApi::create_signing_key`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateSigningKeyParams {
@@ -141,7 +142,8 @@ pub struct CreateSigningKeyParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`create_validation_key`]
+/// struct for passing parameters to the method
+/// [`KeyLinkApi::create_validation_key`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct CreateValidationKeyParams {
@@ -153,7 +155,8 @@ pub struct CreateValidationKeyParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`disable_validation_key`]
+/// struct for passing parameters to the method
+/// [`KeyLinkApi::disable_validation_key`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct DisableValidationKeyParams {
@@ -162,7 +165,7 @@ pub struct DisableValidationKeyParams {
     pub modify_validation_key_dto: models::ModifyValidationKeyDto,
 }
 
-/// struct for passing parameters to the method [`get_signing_key`]
+/// struct for passing parameters to the method [`KeyLinkApi::get_signing_key`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetSigningKeyParams {
@@ -170,7 +173,8 @@ pub struct GetSigningKeyParams {
     pub key_id: String,
 }
 
-/// struct for passing parameters to the method [`get_signing_keys_list`]
+/// struct for passing parameters to the method
+/// [`KeyLinkApi::get_signing_keys_list`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetSigningKeysListParams {
@@ -196,14 +200,16 @@ pub struct GetSigningKeysListParams {
     pub available: Option<bool>,
 }
 
-/// struct for passing parameters to the method [`get_validation_key`]
+/// struct for passing parameters to the method
+/// [`KeyLinkApi::get_validation_key`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetValidationKeyParams {
     pub key_id: String,
 }
 
-/// struct for passing parameters to the method [`get_validation_keys_list`]
+/// struct for passing parameters to the method
+/// [`KeyLinkApi::get_validation_keys_list`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetValidationKeysListParams {
@@ -217,7 +223,7 @@ pub struct GetValidationKeysListParams {
     pub order: Option<String>,
 }
 
-/// struct for passing parameters to the method [`set_agent_id`]
+/// struct for passing parameters to the method [`KeyLinkApi::set_agent_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SetAgentIdParams {
@@ -226,7 +232,8 @@ pub struct SetAgentIdParams {
     pub modify_signing_key_agent_id_dto: models::ModifySigningKeyAgentIdDto,
 }
 
-/// struct for passing parameters to the method [`update_signing_key`]
+/// struct for passing parameters to the method
+/// [`KeyLinkApi::update_signing_key`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UpdateSigningKeyParams {
@@ -287,7 +294,9 @@ impl KeyLinkApi for KeyLinkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -361,7 +370,9 @@ impl KeyLinkApi for KeyLinkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -433,7 +444,9 @@ impl KeyLinkApi for KeyLinkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -500,7 +513,9 @@ impl KeyLinkApi for KeyLinkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -556,41 +571,41 @@ impl KeyLinkApi for KeyLinkApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = sort_by {
+        if let Some(ref param_value) = sort_by {
             local_var_req_builder =
-                local_var_req_builder.query(&[("sortBy", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("sortBy", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = order {
+        if let Some(ref param_value) = order {
             local_var_req_builder =
-                local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("order", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = vault_account_id {
+        if let Some(ref param_value) = vault_account_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("vaultAccountId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("vaultAccountId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = agent_user_id {
+        if let Some(ref param_value) = agent_user_id {
             local_var_req_builder =
-                local_var_req_builder.query(&[("agentUserId", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("agentUserId", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = algorithm {
+        if let Some(ref param_value) = algorithm {
             local_var_req_builder =
-                local_var_req_builder.query(&[("algorithm", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("algorithm", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = enabled {
+        if let Some(ref param_value) = enabled {
             local_var_req_builder =
-                local_var_req_builder.query(&[("enabled", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("enabled", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = available {
+        if let Some(ref param_value) = available {
             local_var_req_builder =
-                local_var_req_builder.query(&[("available", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("available", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -611,7 +626,9 @@ impl KeyLinkApi for KeyLinkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -678,7 +695,9 @@ impl KeyLinkApi for KeyLinkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -729,21 +748,21 @@ impl KeyLinkApi for KeyLinkApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = page_cursor {
+        if let Some(ref param_value) = page_cursor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageCursor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageCursor", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = page_size {
+        if let Some(ref param_value) = page_size {
             local_var_req_builder =
-                local_var_req_builder.query(&[("pageSize", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("pageSize", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = sort_by {
+        if let Some(ref param_value) = sort_by {
             local_var_req_builder =
-                local_var_req_builder.query(&[("sortBy", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("sortBy", &param_value.to_string())]);
         }
-        if let Some(ref local_var_str) = order {
+        if let Some(ref param_value) = order {
             local_var_req_builder =
-                local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("order", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -764,7 +783,9 @@ impl KeyLinkApi for KeyLinkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -884,7 +905,9 @@ impl KeyLinkApi for KeyLinkApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -911,7 +934,7 @@ impl KeyLinkApi for KeyLinkApiClient {
     }
 }
 
-/// struct for typed errors of method [`create_signing_key`]
+/// struct for typed errors of method [`KeyLinkApi::create_signing_key`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateSigningKeyError {
@@ -919,7 +942,7 @@ pub enum CreateSigningKeyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_validation_key`]
+/// struct for typed errors of method [`KeyLinkApi::create_validation_key`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateValidationKeyError {
@@ -927,7 +950,7 @@ pub enum CreateValidationKeyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`disable_validation_key`]
+/// struct for typed errors of method [`KeyLinkApi::disable_validation_key`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DisableValidationKeyError {
@@ -935,7 +958,7 @@ pub enum DisableValidationKeyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_signing_key`]
+/// struct for typed errors of method [`KeyLinkApi::get_signing_key`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetSigningKeyError {
@@ -943,7 +966,7 @@ pub enum GetSigningKeyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_signing_keys_list`]
+/// struct for typed errors of method [`KeyLinkApi::get_signing_keys_list`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetSigningKeysListError {
@@ -951,7 +974,7 @@ pub enum GetSigningKeysListError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_validation_key`]
+/// struct for typed errors of method [`KeyLinkApi::get_validation_key`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetValidationKeyError {
@@ -959,7 +982,7 @@ pub enum GetValidationKeyError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_validation_keys_list`]
+/// struct for typed errors of method [`KeyLinkApi::get_validation_keys_list`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetValidationKeysListError {
@@ -967,7 +990,7 @@ pub enum GetValidationKeysListError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`set_agent_id`]
+/// struct for typed errors of method [`KeyLinkApi::set_agent_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SetAgentIdError {
@@ -975,7 +998,7 @@ pub enum SetAgentIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_signing_key`]
+/// struct for typed errors of method [`KeyLinkApi::update_signing_key`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateSigningKeyError {

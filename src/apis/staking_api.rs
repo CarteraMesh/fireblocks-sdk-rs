@@ -102,6 +102,15 @@ pub trait StakingApi: Send + Sync {
         Error<GetSummaryByVaultError>,
     >;
 
+    /// POST /staking/chains/{chainDescriptor}/merge
+    ///
+    /// Perform a Solana Merge of two active stake accounts into one. Endpoint
+    /// permissions: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    async fn merge_stake_accounts(
+        &self,
+        params: MergeStakeAccountsParams,
+    ) -> Result<models::MergeStakeAccountsResponse, Error<MergeStakeAccountsError>>;
+
     /// POST /staking/chains/{chainDescriptor}/split
     ///
     /// Perform a SOL/SOL_TEST Split on a stake account.
@@ -134,7 +143,7 @@ impl StakingApiClient {
 }
 
 /// struct for passing parameters to the method
-/// [`approve_terms_of_service_by_provider_id`]
+/// [`StakingApi::approve_terms_of_service_by_provider_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ApproveTermsOfServiceByProviderIdParams {
@@ -147,7 +156,7 @@ pub struct ApproveTermsOfServiceByProviderIdParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`claim_rewards`]
+/// struct for passing parameters to the method [`StakingApi::claim_rewards`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct ClaimRewardsParams {
@@ -161,7 +170,8 @@ pub struct ClaimRewardsParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`get_all_delegations`]
+/// struct for passing parameters to the method
+/// [`StakingApi::get_all_delegations`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetAllDelegationsParams {
@@ -172,7 +182,7 @@ pub struct GetAllDelegationsParams {
     pub chain_descriptor: Option<models::ChainDescriptor>,
 }
 
-/// struct for passing parameters to the method [`get_chain_info`]
+/// struct for passing parameters to the method [`StakingApi::get_chain_info`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetChainInfoParams {
@@ -181,7 +191,8 @@ pub struct GetChainInfoParams {
     pub chain_descriptor: models::ChainDescriptor,
 }
 
-/// struct for passing parameters to the method [`get_delegation_by_id`]
+/// struct for passing parameters to the method
+/// [`StakingApi::get_delegation_by_id`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct GetDelegationByIdParams {
@@ -189,7 +200,22 @@ pub struct GetDelegationByIdParams {
     pub id: String,
 }
 
-/// struct for passing parameters to the method [`split`]
+/// struct for passing parameters to the method
+/// [`StakingApi::merge_stake_accounts`]
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+pub struct MergeStakeAccountsParams {
+    /// The protocol identifier (e.g. \"SOL\"/\"SOL_TEST\") to use
+    pub chain_descriptor: String,
+    pub merge_stake_accounts_request: models::MergeStakeAccountsRequest,
+    /// A unique identifier for the request. If the request is sent multiple
+    /// times with the same idempotency key, the server will return the same
+    /// response as the first request. The idempotency key is valid for 24
+    /// hours.
+    pub idempotency_key: Option<String>,
+}
+
+/// struct for passing parameters to the method [`StakingApi::split`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct SplitParams {
@@ -203,7 +229,7 @@ pub struct SplitParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`stake`]
+/// struct for passing parameters to the method [`StakingApi::stake`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct StakeParams {
@@ -217,7 +243,7 @@ pub struct StakeParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`unstake`]
+/// struct for passing parameters to the method [`StakingApi::unstake`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct UnstakeParams {
@@ -231,7 +257,7 @@ pub struct UnstakeParams {
     pub idempotency_key: Option<String>,
 }
 
-/// struct for passing parameters to the method [`withdraw`]
+/// struct for passing parameters to the method [`StakingApi::withdraw`]
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
 pub struct WithdrawParams {
@@ -371,9 +397,9 @@ impl StakingApi for StakingApiClient {
         let mut local_var_req_builder =
             local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = chain_descriptor {
+        if let Some(ref param_value) = chain_descriptor {
             local_var_req_builder =
-                local_var_req_builder.query(&[("chainDescriptor", &local_var_str.to_string())]);
+                local_var_req_builder.query(&[("chainDescriptor", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -394,7 +420,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -460,7 +488,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -516,7 +546,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -582,7 +614,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -638,7 +672,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -699,7 +735,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -765,7 +803,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -782,6 +822,82 @@ impl StakingApi for StakingApiClient {
             }
         } else {
             let local_var_entity: Option<GetSummaryByVaultError> =
+                serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    /// Perform a Solana Merge of two active stake accounts into one. Endpoint
+    /// permissions: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    async fn merge_stake_accounts(
+        &self,
+        params: MergeStakeAccountsParams,
+    ) -> Result<models::MergeStakeAccountsResponse, Error<MergeStakeAccountsError>> {
+        let MergeStakeAccountsParams {
+            chain_descriptor,
+            merge_stake_accounts_request,
+            idempotency_key,
+        } = params;
+
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!(
+            "{}/staking/chains/{chainDescriptor}/merge",
+            local_var_configuration.base_path,
+            chainDescriptor = crate::apis::urlencode(chain_descriptor)
+        );
+        let mut local_var_req_builder =
+            local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder
+                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(local_var_param_value) = idempotency_key {
+            local_var_req_builder =
+                local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
+        }
+        local_var_req_builder = local_var_req_builder.json(&merge_stake_accounts_request);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            match local_var_content_type {
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
+                ContentType::Text => {
+                    return Err(Error::from(serde_json::Error::custom(
+                        "Received `text/plain` content type response that cannot be converted to \
+                         `models::MergeStakeAccountsResponse`",
+                    )));
+                }
+                ContentType::Unsupported(local_var_unknown_type) => {
+                    return Err(Error::from(serde_json::Error::custom(format!(
+                        "Received `{local_var_unknown_type}` content type response that cannot be \
+                         converted to `models::MergeStakeAccountsResponse`"
+                    ))));
+                }
+            }
+        } else {
+            let local_var_entity: Option<MergeStakeAccountsError> =
                 serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent {
                 status: local_var_status,
@@ -836,7 +952,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -906,7 +1024,9 @@ impl StakingApi for StakingApiClient {
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
                 ContentType::Text => {
                     return Err(Error::from(serde_json::Error::custom(
                         "Received `text/plain` content type response that cannot be converted to \
@@ -1034,7 +1154,7 @@ impl StakingApi for StakingApiClient {
 }
 
 /// struct for typed errors of method
-/// [`approve_terms_of_service_by_provider_id`]
+/// [`StakingApi::approve_terms_of_service_by_provider_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ApproveTermsOfServiceByProviderIdError {
@@ -1042,7 +1162,7 @@ pub enum ApproveTermsOfServiceByProviderIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`claim_rewards`]
+/// struct for typed errors of method [`StakingApi::claim_rewards`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ClaimRewardsError {
@@ -1050,7 +1170,7 @@ pub enum ClaimRewardsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_all_delegations`]
+/// struct for typed errors of method [`StakingApi::get_all_delegations`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAllDelegationsError {
@@ -1058,7 +1178,7 @@ pub enum GetAllDelegationsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_chain_info`]
+/// struct for typed errors of method [`StakingApi::get_chain_info`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetChainInfoError {
@@ -1066,7 +1186,7 @@ pub enum GetChainInfoError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_chains`]
+/// struct for typed errors of method [`StakingApi::get_chains`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetChainsError {
@@ -1074,7 +1194,7 @@ pub enum GetChainsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_delegation_by_id`]
+/// struct for typed errors of method [`StakingApi::get_delegation_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetDelegationByIdError {
@@ -1082,7 +1202,7 @@ pub enum GetDelegationByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_providers`]
+/// struct for typed errors of method [`StakingApi::get_providers`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetProvidersError {
@@ -1090,7 +1210,7 @@ pub enum GetProvidersError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_summary`]
+/// struct for typed errors of method [`StakingApi::get_summary`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetSummaryError {
@@ -1098,7 +1218,7 @@ pub enum GetSummaryError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_summary_by_vault`]
+/// struct for typed errors of method [`StakingApi::get_summary_by_vault`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetSummaryByVaultError {
@@ -1106,7 +1226,15 @@ pub enum GetSummaryByVaultError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`split`]
+/// struct for typed errors of method [`StakingApi::merge_stake_accounts`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum MergeStakeAccountsError {
+    DefaultResponse(models::ErrorSchema),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`StakingApi::split`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SplitError {
@@ -1114,7 +1242,7 @@ pub enum SplitError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`stake`]
+/// struct for typed errors of method [`StakingApi::stake`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum StakeError {
@@ -1122,7 +1250,7 @@ pub enum StakeError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`unstake`]
+/// struct for typed errors of method [`StakingApi::unstake`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UnstakeError {
@@ -1130,7 +1258,7 @@ pub enum UnstakeError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`withdraw`]
+/// struct for typed errors of method [`StakingApi::withdraw`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum WithdrawError {

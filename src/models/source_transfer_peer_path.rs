@@ -24,6 +24,9 @@ pub struct SourceTransferPeerPath {
     pub name: Option<String>,
     #[serde(rename = "walletId", skip_serializing_if = "Option::is_none")]
     pub wallet_id: Option<uuid::Uuid>,
+    /// Indicates whether the source is a collateral account
+    #[serde(rename = "isCollateral", skip_serializing_if = "Option::is_none")]
+    pub is_collateral: Option<bool>,
 }
 
 impl SourceTransferPeerPath {
@@ -35,6 +38,7 @@ impl SourceTransferPeerPath {
             id: None,
             name: None,
             wallet_id: None,
+            is_collateral: None,
         }
     }
 }
