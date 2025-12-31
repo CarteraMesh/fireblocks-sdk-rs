@@ -32,7 +32,7 @@ futures = { version = "0.3" }
 http = { version = "1" }
 jsonwebtoken = { version = "10", features = ["rust_crypto"] }
 rand = { version = "0.9" }
-reqwest = { version = "^0.12", features = ["json", "multipart"] }
+reqwest = { version = "^0.13", features = ["json", "multipart"] }
 reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 serde = { version = "^1.0", features = ["derive"] }
 serde_json = "^1.0"
