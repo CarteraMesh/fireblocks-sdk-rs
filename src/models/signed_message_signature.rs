@@ -37,14 +37,27 @@ impl SignedMessageSignature {
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum V {
-    #[serde(rename = "0")]
     Variant0,
-    #[serde(rename = "1")]
     Variant1,
 }
 
-impl Default for V {
-    fn default() -> V {
-        Self::Variant0
+impl TryFrom<u8> for V {
+    type Error = String;
+
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(V::Variant0),
+            1 => Ok(V::Variant1),
+            _ => Err(format!("invalid v value: {value}")),
+        }
+    }
+}
+
+impl From<V> for u8 {
+    fn from(v: V) -> Self {
+        match v {
+            V::Variant0 => 0,
+            V::Variant1 => 1,
+        }
     }
 }
