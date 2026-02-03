@@ -33,6 +33,7 @@ impl SignedMessageSignature {
 }
 ///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[serde(try_from = "u8", into = "u8")]
 pub enum V {
     Variant0,
     Variant1,
