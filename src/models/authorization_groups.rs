@@ -16,7 +16,7 @@ pub struct AuthorizationGroups {
     #[serde(rename = "th", skip_serializing_if = "Option::is_none")]
     pub th: Option<f64>,
     #[serde(rename = "users", skip_serializing_if = "Option::is_none")]
-    pub users: Option<Users>,
+    pub users: Option<std::collections::HashMap<String, Users>>,
 }
 
 impl AuthorizationGroups {
