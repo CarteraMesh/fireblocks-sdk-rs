@@ -74,15 +74,25 @@ impl std::fmt::Display for TransactionStatus {
 
 impl TransactionStatus {
     pub const fn is_terminal(&self) -> bool {
-        matches!(
-            self,
-            Self::Blocked
-                | Self::Cancelled
-                | Self::Cancelling
-                | Self::Completed
-                | Self::Failed
-                | Self::Rejected
-        )
+        use TransactionStatus::{
+            Blocked, Broadcasting, Cancelled, Cancelling, Completed, Confirming, Failed,
+            Pending3RdParty, Pending3RdPartyManualApproval, PendingAmlScreening,
+            PendingAuthorization, PendingEnrichment, PendingSignature, Queued, Rejected, Submitted,
+        };
+
+        match self {
+            Blocked | Cancelled | Cancelling | Completed | Failed | Rejected => true,
+            Submitted
+            | PendingAmlScreening
+            | PendingEnrichment
+            | PendingAuthorization
+            | Queued
+            | PendingSignature
+            | Pending3RdPartyManualApproval
+            | Pending3RdParty
+            | Broadcasting
+            | Confirming => false,
+        }
     }
 }
 
@@ -136,15 +146,6 @@ mod tests {
                 "{status} should NOT be terminal but is_terminal() returned true"
             );
         }
-    }
-
-    #[test]
-    fn all_variants_are_classified() {
-        assert_eq!(
-            TERMINAL_STATUSES.len() + IN_PROGRESS_STATUSES.len(),
-            16,
-            "terminal + in-progress must cover all 16 variants"
-        );
     }
 
     #[test]
