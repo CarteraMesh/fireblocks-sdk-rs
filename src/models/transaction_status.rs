@@ -72,8 +72,86 @@ impl std::fmt::Display for TransactionStatus {
     }
 }
 
+impl TransactionStatus {
+    pub const fn is_terminal(&self) -> bool {
+        matches!(
+            self,
+            Self::Blocked
+                | Self::Cancelled
+                | Self::Cancelling
+                | Self::Completed
+                | Self::Failed
+                | Self::Rejected
+        )
+    }
+}
+
 impl Default for TransactionStatus {
     fn default() -> TransactionStatus {
         Self::Submitted
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::TransactionStatus;
+
+    const TERMINAL_STATUSES: [TransactionStatus; 6] = [
+        TransactionStatus::Blocked,
+        TransactionStatus::Cancelled,
+        TransactionStatus::Cancelling,
+        TransactionStatus::Completed,
+        TransactionStatus::Failed,
+        TransactionStatus::Rejected,
+    ];
+
+    const IN_PROGRESS_STATUSES: [TransactionStatus; 10] = [
+        TransactionStatus::Submitted,
+        TransactionStatus::PendingAmlScreening,
+        TransactionStatus::PendingEnrichment,
+        TransactionStatus::PendingAuthorization,
+        TransactionStatus::Queued,
+        TransactionStatus::PendingSignature,
+        TransactionStatus::Pending3RdPartyManualApproval,
+        TransactionStatus::Pending3RdParty,
+        TransactionStatus::Broadcasting,
+        TransactionStatus::Confirming,
+    ];
+
+    #[test]
+    fn terminal_statuses_are_terminal() {
+        for status in TERMINAL_STATUSES {
+            assert!(
+                status.is_terminal(),
+                "{status} should be terminal but is_terminal() returned false"
+            );
+        }
+    }
+
+    #[test]
+    fn in_progress_statuses_are_not_terminal() {
+        for status in IN_PROGRESS_STATUSES {
+            assert!(
+                !status.is_terminal(),
+                "{status} should NOT be terminal but is_terminal() returned true"
+            );
+        }
+    }
+
+    #[test]
+    fn all_variants_are_classified() {
+        assert_eq!(
+            TERMINAL_STATUSES.len() + IN_PROGRESS_STATUSES.len(),
+            16,
+            "terminal + in-progress must cover all 16 variants"
+        );
+    }
+
+    #[test]
+    fn confirming_is_not_terminal() {
+        assert!(
+            !TransactionStatus::Confirming.is_terminal(),
+            "Confirming means on-chain confirmations are pending — it is NOT a terminal state"
+        );
     }
 }
