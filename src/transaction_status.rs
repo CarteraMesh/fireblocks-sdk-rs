@@ -49,7 +49,6 @@ impl TransactionStatus {
                 | Self::Cancelled
                 | Self::Blocked
                 | Self::Completed
-                | Self::Confirming
                 | Self::Failed
                 | Self::Rejected
         )
@@ -164,7 +163,6 @@ mod tests {
             TransactionStatus::Cancelled,
             TransactionStatus::Blocked,
             TransactionStatus::Completed,
-            TransactionStatus::Confirming,
             TransactionStatus::Failed,
             TransactionStatus::Rejected,
         ];
@@ -187,6 +185,7 @@ mod tests {
             TransactionStatus::Pending3RdPartyManualApproval,
             TransactionStatus::Pending3RdParty,
             TransactionStatus::Broadcasting,
+            TransactionStatus::Confirming,
         ];
 
         for status in in_progress_statuses {
