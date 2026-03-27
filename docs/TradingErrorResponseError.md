@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | **String** |  | 
+**r#type** | **Type** |  (enum: INTERNAL, AUTHENTICATION, AUTHORIZATION, VALIDATION, NOT_FOUND, UNPROCESSABLE_ENTITY, FORBIDDEN) | 
 **message** | **String** |  | 
 **error_code** | Option<[**models::ErrorCodes**](ErrorCodes.md)> |  | [optional]
 

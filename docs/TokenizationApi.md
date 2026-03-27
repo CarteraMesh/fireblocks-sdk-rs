@@ -157,7 +157,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **page_cursor** | Option<**String**> | Page cursor to get the next page, for example - \"MjAyMy0xMi0xMyAyMDozNjowOC4zMDI=:MTEwMA==\" |  |
 **page_size** | Option<**f64**> | Number of items per page (max 100), requesting more then 100 will return 100 items |  |[default to 100]
-**status** | Option<[**serde_json::Value**](.md)> | A comma separated list of statuses to filter. Default is \"COMPLETED\" |  |
+**status** | Option<[**serde_json::Value**](SerdeJson__Value.md)> | A comma separated list of statuses to filter. Default is \"COMPLETED\" |  |
 
 ### Return type
 
@@ -219,7 +219,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **page_cursor** | Option<**String**> | Page cursor to get the next page |  |
 **page_size** | Option<**f64**> | Number of items per page, requesting more then max will return max items |  |
-**status** | Option<[**serde_json::Value**](.md)> | A comma separated list of statuses to filter. Default is \"COMPLETED\" |  |
+**status** | Option<[**serde_json::Value**](SerdeJson__Value.md)> | A comma separated list of statuses to filter. Default is \"COMPLETED\" |  |
 
 ### Return type
 

@@ -16,12 +16,12 @@ Name | Type | Description | Notes
 **vault_account_id** | Option<**String**> | Fireblocks Vault Account ID | [optional]
 **ownership_start_time** | **f64** | Ownership start timestamp (epoch) | 
 **ownership_last_update_time** | **f64** | Ownership start last update time (epoch) | 
-**blockchain_descriptor** | **String** | Token's blockchain | 
+**blockchain_descriptor** | **BlockchainDescriptor** | Token's blockchain (enum: ETH, ETH_TEST3, ETH_TEST5, ETH_TEST6, POLYGON, POLYGON_TEST_MUMBAI, AMOY_POLYGON_TEST, XTZ, XTZ_TEST, BASECHAIN_ETH, BASECHAIN_ETH_TEST3, BASECHAIN_ETH_TEST5, ETHERLINK, ETHERLINK_TEST, MANTLE, MANTLE_TEST, GUN_GUNZILLA_TEST, ETH_SONEIUM, SONEIUM_MINATO_TEST, IOTX_IOTEX) | 
 **description** | Option<**String**> | Token's metadata description | [optional]
 **name** | Option<**String**> | Token's name | [optional]
 **ncw_id** | Option<**String**> | Ownership Non-Custodial Wallet ID | [optional]
 **ncw_account_id** | Option<**String**> | Ownership Non-Custodial Wallet's account ID | [optional]
-**status** | **String** | Owned Token's status | 
+**status** | **Status** | Owned Token's status (enum: LISTED, ARCHIVED) | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

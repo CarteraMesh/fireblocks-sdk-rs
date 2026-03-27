@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **media** | Option<[**Vec<models::MediaEntityResponse>**](MediaEntityResponse.md)> | Media items extracted from metadata JSON | [optional]
 **spam** | Option<[**models::SpamTokenResponse**](SpamTokenResponse.md)> | Token spam status | [optional]
 **collection** | Option<[**models::TokenCollectionResponse**](TokenCollectionResponse.md)> | Parent collection information | [optional]
-**blockchain_descriptor** | **String** |  | 
+**blockchain_descriptor** | **BlockchainDescriptor** |  (enum: ETH, ETH_TEST3, ETH_TEST5, ETH_TEST6, POLYGON, POLYGON_TEST_MUMBAI, AMOY_POLYGON_TEST, XTZ, XTZ_TEST, BASECHAIN_ETH, BASECHAIN_ETH_TEST3, BASECHAIN_ETH_TEST5, ETHERLINK, ETHERLINK_TEST, MANTLE, MANTLE_TEST, GUN_GUNZILLA_TEST, ETH_SONEIUM, SONEIUM_MINATO_TEST, IOTX_IOTEX) | 
 **description** | Option<**String**> | Token's metadata description | [optional]
 **name** | Option<**String**> | Token's metadata name | [optional]
 

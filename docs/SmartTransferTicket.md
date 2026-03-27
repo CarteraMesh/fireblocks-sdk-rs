@@ -5,9 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** | Unique id of Smart Transfer ticket | 
-**r#type** | **String** | Kind of Smart Transfer. Can be either `ASYNC` or `ATOMIC` | 
-**direction** | Option<**String**> | Direction of Smart Transfer. | [optional]
-**status** | **String** | Current status of Smart Transfer ticket | 
+**r#type** | **Type** | Kind of Smart Transfer. Can be either `ASYNC` or `ATOMIC` (enum: ASYNC) | 
+**direction** | Option<**Direction**> | Direction of Smart Transfer. (enum: EXCHANGE, SEND, RECEIVE, INTERMEDIATE) | [optional]
+**status** | **Status** | Current status of Smart Transfer ticket (enum: DRAFT, PENDING_APPROVAL, OPEN, IN_SETTLEMENT, FULFILLED, EXPIRED, CANCELED) | 
 **terms** | Option<[**Vec<models::SmartTransferTicketTerm>**](SmartTransferTicketTerm.md)> | Ticket terms (legs) | [optional]
 **expires_in** | Option<**f64**> | Number of hours for expiration.This data is valid only it ticket not in DRAFT state and it will be used to calculate expiresAt value | [optional]
 **expires_at** | Option<**String**> | Date and time at which the ticket will expire if no funding is performed. | [optional]

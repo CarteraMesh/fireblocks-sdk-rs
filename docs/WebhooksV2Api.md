@@ -164,8 +164,8 @@ Name | Type | Description  | Required | Notes
 **page_size** | Option<**f64**> | Maximum number of items on the page |  |[default to 100]
 **start_time** | Option<**String**> | Start time in milliseconds since epoch to filter by notifications created after this time (default 31 days ago) |  |
 **end_time** | Option<**String**> | End time in milliseconds since epoch to filter by notifications created before this time (default current time) |  |
-**statuses** | Option<[**Vec<models::NotificationStatus>**](models::NotificationStatus.md)> | List of notification statuses to filter by |  |
-**events** | Option<[**Vec<models::WebhookEvent>**](models::WebhookEvent.md)> | List of webhook event types to filter by |  |
+**statuses** | Option<[**Vec<models::NotificationStatus>**](Models__NotificationStatus.md)> | List of notification statuses to filter by |  |
+**events** | Option<[**Vec<models::WebhookEvent>**](Models__WebhookEvent.md)> | List of webhook event types to filter by |  |
 **resource_id** | Option<**String**> | Resource ID to filter by |  |
 
 ### Return type

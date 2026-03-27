@@ -17,7 +17,7 @@ Method | HTTP request | Description
 > models::Tag create_tag(create_tag_request, idempotency_key)
 Create a tag
 
-Create a new tag.
+Create a new tag.  **Endpoint Permissions:** - For protected tags: Owner, Admin, Non-Signing Admin. - For non-protected tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver. 
 
 ### Parameters
 
@@ -48,7 +48,7 @@ No authorization required
 > delete_tag(tag_id)
 Delete a tag
 
-Delete the specified tag.
+Delete the specified tag.  **Endpoint Permissions:** - For protected tags: Owner, Admin, Non-Signing Admin. - For non-protected tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver. 
 
 ### Parameters
 
@@ -105,7 +105,7 @@ No authorization required
 
 ## get_tags
 
-> models::TagsPagedResponse get_tags(page_cursor, page_size, label, tag_ids)
+> models::TagsPagedResponse get_tags(page_cursor, page_size, label, tag_ids, include_pending_approvals_info)
 Get list of tags
 
 Retrieve a paged list of all tags according to filters.
@@ -118,7 +118,8 @@ Name | Type | Description  | Required | Notes
 **page_cursor** | Option<**String**> | Page cursor to get the next page. |  |
 **page_size** | Option<**f64**> | Maximum number of items in the page |  |[default to 100]
 **label** | Option<**String**> | Label prefix to filter by. |  |
-**tag_ids** | Option<[**Vec<uuid::Uuid>**](uuid::Uuid.md)> | List of tag IDs to filter by. |  |
+**tag_ids** | Option<[**Vec<uuid::Uuid>**](Uuid__Uuid.md)> | List of tag IDs to filter by. |  |
+**include_pending_approvals_info** | Option<**bool**> | Include pending approval information for each tag |  |[default to false]
 
 ### Return type
 
@@ -141,7 +142,7 @@ No authorization required
 > models::Tag update_tag(tag_id, update_tag_request, idempotency_key)
 Update a tag
 
-Update an existing specified tag.
+Update an existing specified tag.  **Endpoint Permissions:** - For protected tags: Owner, Admin, Non-Signing Admin. - For non-protected tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver. 
 
 ### Parameters
 

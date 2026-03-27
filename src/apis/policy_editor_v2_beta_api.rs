@@ -22,9 +22,11 @@ use {
 pub trait PolicyEditorV2BetaApi: Send + Sync {
     /// GET /policy/active_policy
     ///
+    /// **Note:** This endpoint is currently in beta and subject to change. If
+    /// you want to participate in the Policies beta, contact your Fireblocks
+    /// Customer Success Manager or send an email to csm@fireblocks.com.
     /// Returns the active policy and its validation for a specific policy type.
-    /// **Note:** This endpoint is currently in beta and might be subject to
-    /// changes.
+    /// **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
     async fn get_active_v2_policy(
         &self,
         params: GetActiveV2PolicyParams,
@@ -32,9 +34,11 @@ pub trait PolicyEditorV2BetaApi: Send + Sync {
 
     /// GET /policy/draft
     ///
+    /// **Note:** This endpoint is currently in beta and subject to change. If
+    /// you want to participate in the Policies beta, contact your Fireblocks
+    /// Customer Success Manager or send an email to csm@fireblocks.com.
     /// Returns the active draft and its validation for a specific policy type.
-    /// **Note:** This endpoint is currently in beta and might be subject to
-    /// changes.
+    /// **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
     async fn get_v2_draft(
         &self,
         params: GetV2DraftParams,
@@ -42,11 +46,11 @@ pub trait PolicyEditorV2BetaApi: Send + Sync {
 
     /// POST /policy/draft
     ///
-    /// Send publish request of certain draft ID and returns the response.
-    /// **Note:** This endpoint is currently in beta and might be subject to
-    /// changes. If you want to participate and learn more about the Fireblocks
-    /// Policy Editor, please contact your Fireblocks Customer Success Manager
-    /// or send an email to CSM@fireblocks.com.
+    /// **Note:** This endpoint is currently in beta and subject to change. If
+    /// you want to participate in the Policies beta, contact your Fireblocks
+    /// Customer Success Manager or send an email to csm@fireblocks.com.
+    /// Publishes a draft policy by request, and returns the response.
+    /// **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
     async fn publish_v2_draft(
         &self,
         params: PublishV2DraftParams,
@@ -54,9 +58,11 @@ pub trait PolicyEditorV2BetaApi: Send + Sync {
 
     /// PUT /policy/draft
     ///
-    /// Update the draft and return its validation for specific policy types.
-    /// **Note:** This endpoint is currently in beta and might be subject to
-    /// changes.
+    /// **Note:** This endpoint is currently in beta and subject to change. If
+    /// you want to participate in the Policies beta, contact your Fireblocks
+    /// Customer Success Manager or send an email to csm@fireblocks.com.
+    /// Updates the draft and returns its validation for specific policy types.
+    /// **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
     async fn update_v2_draft(
         &self,
         params: UpdateV2DraftParams,
@@ -121,9 +127,11 @@ pub struct UpdateV2DraftParams {
 
 #[async_trait]
 impl PolicyEditorV2BetaApi for PolicyEditorV2BetaApiClient {
+    /// **Note:** This endpoint is currently in beta and subject to change. If
+    /// you want to participate in the Policies beta, contact your Fireblocks
+    /// Customer Success Manager or send an email to csm@fireblocks.com.
     /// Returns the active policy and its validation for a specific policy type.
-    /// **Note:** This endpoint is currently in beta and might be subject to
-    /// changes.
+    /// **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
     async fn get_active_v2_policy(
         &self,
         params: GetActiveV2PolicyParams,
@@ -188,9 +196,11 @@ impl PolicyEditorV2BetaApi for PolicyEditorV2BetaApiClient {
         }
     }
 
+    /// **Note:** This endpoint is currently in beta and subject to change. If
+    /// you want to participate in the Policies beta, contact your Fireblocks
+    /// Customer Success Manager or send an email to csm@fireblocks.com.
     /// Returns the active draft and its validation for a specific policy type.
-    /// **Note:** This endpoint is currently in beta and might be subject to
-    /// changes.
+    /// **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
     async fn get_v2_draft(
         &self,
         params: GetV2DraftParams,
@@ -254,11 +264,11 @@ impl PolicyEditorV2BetaApi for PolicyEditorV2BetaApiClient {
         }
     }
 
-    /// Send publish request of certain draft ID and returns the response.
-    /// **Note:** This endpoint is currently in beta and might be subject to
-    /// changes. If you want to participate and learn more about the Fireblocks
-    /// Policy Editor, please contact your Fireblocks Customer Success Manager
-    /// or send an email to CSM@fireblocks.com.
+    /// **Note:** This endpoint is currently in beta and subject to change. If
+    /// you want to participate in the Policies beta, contact your Fireblocks
+    /// Customer Success Manager or send an email to csm@fireblocks.com.
+    /// Publishes a draft policy by request, and returns the response.
+    /// **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
     async fn publish_v2_draft(
         &self,
         params: PublishV2DraftParams,
@@ -328,9 +338,11 @@ impl PolicyEditorV2BetaApi for PolicyEditorV2BetaApiClient {
         }
     }
 
-    /// Update the draft and return its validation for specific policy types.
-    /// **Note:** This endpoint is currently in beta and might be subject to
-    /// changes.
+    /// **Note:** This endpoint is currently in beta and subject to change. If
+    /// you want to participate in the Policies beta, contact your Fireblocks
+    /// Customer Success Manager or send an email to csm@fireblocks.com.
+    /// Updates the draft and returns its validation for specific policy types.
+    /// **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
     async fn update_v2_draft(
         &self,
         params: UpdateV2DraftParams,

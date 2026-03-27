@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **exchange_account** | Option<[**Vec<models::ExchangeAccount>**](ExchangeAccount.md)> |  | [optional]
-**paging** | Option<[**models::ExchangeAccountsPagedPaging**](ExchangeAccountsPaged_paging.md)> |  | [optional]
+**paging** | Option<[**models::ExchangeAccountsPagedPaging**](ExchangeAccountsPagedPaging.md)> |  | [optional]
 **prev_url** | Option<**String**> |  | [optional]
 **next_url** | Option<**String**> |  | [optional]
 

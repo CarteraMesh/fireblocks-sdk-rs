@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **can_deploy** | Option<**bool**> | True if the workspace allowed to deploy this contract, false otherwise | [optional]
 **owner** | Option<**String**> | The workspace id of the owner of this contract template. If it's a private contract, only this workspace will be allowed to deploy it | [optional]
 **vendor** | Option<[**models::VendorDto**](VendorDto.md)> | The details of the vendor of this contract template. Applicable only for public contract templates | [optional]
-**r#type** | Option<**String**> |  | [optional]
+**r#type** | Option<**Type**> |  (enum: FUNGIBLE_TOKEN, NON_FUNGIBLE_TOKEN, TOKEN_UTILITY) | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

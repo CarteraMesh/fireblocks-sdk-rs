@@ -22,7 +22,9 @@ use {
 pub trait TagsApi: Send + Sync {
     /// POST /tags
     ///
-    /// Create a new tag.
+    /// Create a new tag.  **Endpoint Permissions:** - For protected tags:
+    /// Owner, Admin, Non-Signing Admin. - For non-protected tags: Owner, Admin,
+    /// Non-Signing Admin, Signer, Editor, Approver.
     async fn create_tag(
         &self,
         params: CreateTagParams,
@@ -30,7 +32,9 @@ pub trait TagsApi: Send + Sync {
 
     /// DELETE /tags/{tagId}
     ///
-    /// Delete the specified tag.
+    /// Delete the specified tag.  **Endpoint Permissions:** - For protected
+    /// tags: Owner, Admin, Non-Signing Admin. - For non-protected tags: Owner,
+    /// Admin, Non-Signing Admin, Signer, Editor, Approver.
     async fn delete_tag(&self, params: DeleteTagParams) -> Result<(), Error<DeleteTagError>>;
 
     /// GET /tags/{tagId}
@@ -48,7 +52,9 @@ pub trait TagsApi: Send + Sync {
 
     /// PATCH /tags/{tagId}
     ///
-    /// Update an existing specified tag.
+    /// Update an existing specified tag.  **Endpoint Permissions:** - For
+    /// protected tags: Owner, Admin, Non-Signing Admin. - For non-protected
+    /// tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver.
     async fn update_tag(
         &self,
         params: UpdateTagParams,
@@ -105,6 +111,8 @@ pub struct GetTagsParams {
     pub label: Option<String>,
     /// List of tag IDs to filter by.
     pub tag_ids: Option<Vec<uuid::Uuid>>,
+    /// Include pending approval information for each tag
+    pub include_pending_approvals_info: Option<bool>,
 }
 
 /// struct for passing parameters to the method [`TagsApi::update_tag`]
@@ -123,7 +131,9 @@ pub struct UpdateTagParams {
 
 #[async_trait]
 impl TagsApi for TagsApiClient {
-    /// Create a new tag.
+    /// Create a new tag.  **Endpoint Permissions:** - For protected tags:
+    /// Owner, Admin, Non-Signing Admin. - For non-protected tags: Owner, Admin,
+    /// Non-Signing Admin, Signer, Editor, Approver.
     async fn create_tag(
         &self,
         params: CreateTagParams,
@@ -193,7 +203,9 @@ impl TagsApi for TagsApiClient {
         }
     }
 
-    /// Delete the specified tag.
+    /// Delete the specified tag.  **Endpoint Permissions:** - For protected
+    /// tags: Owner, Admin, Non-Signing Admin. - For non-protected tags: Owner,
+    /// Admin, Non-Signing Admin, Signer, Editor, Approver.
     async fn delete_tag(&self, params: DeleteTagParams) -> Result<(), Error<DeleteTagError>> {
         let DeleteTagParams { tag_id } = params;
 
@@ -307,6 +319,7 @@ impl TagsApi for TagsApiClient {
             page_size,
             label,
             tag_ids,
+            include_pending_approvals_info,
         } = params;
 
         let local_var_configuration = &self.configuration;
@@ -347,6 +360,10 @@ impl TagsApi for TagsApiClient {
                         .to_string(),
                 )]),
             };
+        }
+        if let Some(ref param_value) = include_pending_approvals_info {
+            local_var_req_builder = local_var_req_builder
+                .query(&[("includePendingApprovalsInfo", &param_value.to_string())]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
@@ -395,7 +412,9 @@ impl TagsApi for TagsApiClient {
         }
     }
 
-    /// Update an existing specified tag.
+    /// Update an existing specified tag.  **Endpoint Permissions:** - For
+    /// protected tags: Owner, Admin, Non-Signing Admin. - For non-protected
+    /// tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver.
     async fn update_tag(
         &self,
         params: UpdateTagParams,

@@ -5,9 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **vault_account_id** | **String** | The vault account id this contract was deploy from | 
-**abi_function** | [**models::WriteCallFunctionDtoAbiFunction**](WriteCallFunctionDto_abiFunction.md) |  | 
+**abi_function** | [**models::WriteCallFunctionDtoAbiFunction**](WriteCallFunctionDtoAbiFunction.md) |  | 
 **amount** | Option<**String**> | Amount in base asset. Being used in payable functions | [optional]
-**fee_level** | Option<**String**> | Fee level for the write function transaction. interchangeable with the 'fee' field | [optional]
+**fee_level** | Option<**FeeLevel**> | Fee level for the write function transaction. interchangeable with the 'fee' field (enum: LOW, MEDIUM, HIGH) | [optional]
 **fee** | Option<**String**> | Max fee amount for the write function transaction. interchangeable with the 'feeLevel' field | [optional]
 **note** | Option<**String**> | Custom note, not sent to the blockchain, that describes the transaction at your Fireblocks workspace | [optional]
 **use_gasless** | Option<**bool**> | Indicates whether the token should be created in a gasless manner, utilizing the ERC-2771 standard. When set to true, the transaction will be relayed by a designated relayer. The workspace must be configured to use Fireblocks gasless relay. | [optional]

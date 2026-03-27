@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | **String** |  | 
+**r#type** | **Type** |  (enum: DVP) | 
 **source_account** | [**models::SettlementSourceAccount**](SettlementSourceAccount.md) |  | 
 **destination_account** | [**models::AccountReference**](AccountReference.md) |  | 
 

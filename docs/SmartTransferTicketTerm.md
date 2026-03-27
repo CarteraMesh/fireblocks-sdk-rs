@@ -15,8 +15,8 @@ Name | Type | Description | Notes
 **to_network_id_name** | **String** | Destination network name | 
 **tx_hash** | Option<**String**> | Blockchain TX hash | 
 **fb_tx_id** | Option<**String**> | Fireblocks transaction ID. It is set when the funding transaction is created. | 
-**tx_status** | Option<**String**> | Ticket term transaction status | 
-**status** | **String** | Ticket term status | 
+**tx_status** | Option<**TxStatus**> | Ticket term transaction status (enum: queued, submitted, pendingSignature, pendingAuthorization, broadcasting, confirming, pendingAmlScreening, completed, cancelled, failed, rejected, blocked, thirdPartyPendingManualApproval, thirdPartyPending, partiallyCompleted, cancelling) | 
+**status** | **Status** | Ticket term status (enum: CREATED, FUNDING, FUNDING_FAILED, FUNDED, REJECTED) | 
 **created_at** | **String** | Date and time when the term is created. | 
 **updated_at** | **String** | Date and time of last term update. | 
 

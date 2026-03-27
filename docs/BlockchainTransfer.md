@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | Option<**String**> |  | [optional]
+**r#type** | Option<**Type**> |  (enum: BLOCKCHAIN) | [optional]
 **tx_hash** | Option<**String**> | The hash of the transaction on the blockchain. | [optional]
 **amount** | **String** | The amount of the transaction. | 
 

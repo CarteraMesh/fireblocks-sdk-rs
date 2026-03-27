@@ -159,8 +159,9 @@ paths:
         operationId: createMultipleDepositAddresses
         summary: Bulk creation of new deposit addresses
         description: |
-            **For UTXO blockchains only.**
-            
+            - **For UTXO blockchains only.**
+            - **This endpoint is currently in beta mode and may be subject to change. To learn more, contact your Fireblocks Customer Success Manager or email csm@fireblocks.com.**
+          
             Create multiple deposit addresses by running an async job.
             - The target Vault account should already have a UTXO asset wallet with a permanent address.
             - Limited to a maximum of 10,000 addresses per operation. Use multiple operations for the same Vault account/permanent address if needed.
@@ -223,6 +224,8 @@ paths:
     operationId: createMultipleAccounts
     summary: Bulk creation of new vault accounts
     description: |
+        - **This endpoint is currently in Early Availability (EA) mode and may be subject to change. To learn more, contact your Fireblocks Customer Success Manager or email csm@fireblocks.com.**
+
         Create multiple vault accounts by running an async job.      
         - The HBAR, TON, SUI, TERRA, ALGO, and DOT blockchains are not supported.
         - Limited to a maximum of 10,000 accounts per operation.
@@ -282,15 +285,67 @@ paths:
           default:
               $ref: '#/components/responses/Error'
       operationId: getCreateMultipleVaultAccountsJobStatus
+  /vault/accounts/attached_tags:
+    post:
+      summary: Attach or detach tags from vault accounts
+      description: |
+        Attach or detach one or more tags from the requested vault accounts.
+
+        **Endpoint Permissions:**
+        - For protected tags: Owner, Admin, Non-Signing Admin.
+        - For non protected tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver.
+      tags:
+        - Vaults
+      x-rate-limit-category: write
+      parameters:
+        - $ref: '#/components/parameters/X-Idempotency-Key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaultAccountsTagAttachmentOperationsRequest'
+      responses:
+        "200":
+          description: Tags were attached/detached successfully
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultAccountsTagAttachmentOperationsResponse'
+        "400":
+          description: |
+            - Invalid request parameters.
+            - Same tag ID is provided in both tagIdsToAttach and tagIdsToDetach.
+            - Vault accounts are archived.
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorSchema'
+        "404":
+          description: |
+            - Tags with the requested ID not found.
+            - Vault accounts with the requested ID not found.
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorSchema'
+      operationId: attachOrDetachTagsFromVaultAccounts
   /vault/accounts_paged:
     get:
       summary: Get vault accounts (Paginated)
-      description: >-
-        Gets all vault accounts in your workspace. This endpoint returns a
-        limited amount of results with a quick response time.
+      description: |
+        Retrieves a paginated list of all vault accounts in your workspace matching your query's criteria. 
 
-        </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor,
-        Viewer.
+        **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
       tags:
         - Vaults
       x-readme:
@@ -2311,26 +2366,34 @@ paths:
   /vault/accounts/attached/tags/attach:
     post:
       summary: Attach tags to a vault accounts
-      description: Attach one or more tags to the requested vault accounts.
+      deprecated: true
+      description: |
+        **This endpoint has been deprecated. Please use `vault/accounts/attached_tags` instead.**
+
+        Attach one or more tags to the requested vault accounts.
       tags:
-          - Vaults
+        - Vaults
       x-rate-limit-category: write
       parameters:
-          - $ref: '#/components/parameters/X-Idempotency-Key'
+        - $ref: '#/components/parameters/X-Idempotency-Key'
       requestBody:
-          required: true
-          content:
-              application/json:
-                  schema:
-                      $ref: '#/components/schemas/VaultAccountsTagAttachmentsRequest'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaultAccountsTagAttachmentsRequest'
       responses:
-          "204":
-              description: Tags were attached successfully
+        "204":
+          description: Tags were attached successfully
       operationId: attachTagsToVaultAccounts
   /vault/accounts/attached/tags/detached:
     post:
       summary: Detach tags from a vault accounts
-      description: Detach one or more tags from the requested vault account.
+      deprecated: true
+      description: |
+        **This endpoint has been deprecated. Please use `/vault/accounts/attached_tags` instead.**
+
+        Detach one or more tags from the requested vault account.
       tags:
           - Vaults
       x-rate-limit-category: write
@@ -7526,20 +7589,17 @@ paths:
     post:
       operationId: registerNewAsset
       summary: Register an asset
-      description: >-
-        Register a new asset to a workspace and return the newly created asset's
-        details. Currently supported chains are: 
-          - EVM based chains
-          - Stellar
+      description: |
+        Registers a new asset to a workspace and retrieves the newly created asset's details. Currently supported chains are: 
+          - EVM-based chains
           - Algorand
-          - TRON
+          - NEAR
           - Solana
-        
-        Learn more about Supporting Additional Assets in Fireblocks 
-        in the following [guide](https://developers.fireblocks.com/docs/add-your-tokens-1).
+          - Stellar
+          - Sui
+          - TRON
 
-        </br>Endpoint Permission: Owner, Admin, Non-Signing Admin, NCW Admin, Editor, and Signer. 
-        
+        **Endpoint Permissions:** Owner, Admin, Non-Signing Admin, NCW Admin, Editor, Signer.        
       tags:
         - Blockchains & Assets
       parameters:
@@ -11062,13 +11122,10 @@ paths:
   /webhooks/resend:
     post:
       summary: Resend failed webhooks
-      description: >-
+      description: |
+        **Deprecation notice:** Webhooks v1 will be deprecated in March 2026. Please use the Developer Center in the Fireblocks Console to upgrade to Webhooks v2, which offers improved reliability, performance, and observability.
+
         Resends all failed webhook notifications.
-
-
-        Learn more about Fireblocks Webhooks in the following
-        [guide](https://developers.fireblocks.com/docs/configure-webhooks).
-
 
         </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
       tags:
@@ -11126,9 +11183,9 @@ paths:
     post:
       summary: Resend webhooks for a transaction by ID
       description: |
-        Resends webhook notifications for a transaction by its unique identifier.
+        **Deprecation notice:** Webhooks v1 will be deprecated in March 2026. Please use the Developer Center in the Fireblocks Console to upgrade to Webhooks v2, which offers improved reliability, performance, and observability.
 
-        Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).
+        Resends webhook notifications for a transaction by its unique identifier.
 
         **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
       tags:
@@ -13745,7 +13802,12 @@ paths:
   /tags:
     post:
       summary: Create a tag
-      description: Create a new tag.
+      description: |
+        Create a new tag.
+
+        **Endpoint Permissions:**
+        - For protected tags: Owner, Admin, Non-Signing Admin.
+        - For non-protected tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver.
       tags:
           - Tags
       x-rate-limit-category: write
@@ -13808,6 +13870,13 @@ paths:
                     type: string
                     format: uuid
                 maxItems: 100
+          - in: query
+            name: includePendingApprovalsInfo
+            required: false
+            description: Include pending approval information for each tag
+            schema:
+              type: boolean
+              default: false
       responses:
           "200":
               description: A TagsPagedResponse object
@@ -13819,6 +13888,99 @@ paths:
                       schema:
                           $ref: '#/components/schemas/TagsPagedResponse'
       operationId: getTags
+  /tags/approval_requests/{id}:
+    get:
+      summary: Get an approval request by id
+      description: Get an approval request by id
+      tags:
+        - Approval Requests
+      x-rate-limit-category: read
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: numeric
+            example: "12345"
+      responses:
+        "200":
+          description: Approval request fetched successfully
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApprovalRequest'
+        "401":
+          description: Unauthorized
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Approval request not found
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: getApprovalRequest
+  /tags/approval_requests/{id}/cancel:
+    post:
+      summary: Cancel an approval request by ID
+      description: |
+        Cancel an approval request by id.
+        - Can only cancel requests in the `PENDING` status.
+        - Returns `202 Accepted` when the cancellation is processed.
+      tags:
+        - Approval Requests
+      x-rate-limit-category: write
+      parameters:
+        - $ref: '#/components/parameters/X-Idempotency-Key'
+        - in: path
+          name: id
+          required: true
+          schema:
+              type: string
+              format: numeric
+              example: "12345"
+      responses:
+        "202":
+          description: Approval request cancellation processed
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+        "401":
+          description: Unauthorized
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Approval request not found
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+        "409":
+          description: Invalid approval request state - cannot cancel request that is not in PENDING status
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/X-Request-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: cancelApprovalRequest
   /tags/{tagId}:
     get:
       summary: Get a tag
@@ -13847,7 +14009,12 @@ paths:
       operationId: getTag
     patch:
       summary: Update a tag
-      description: Update an existing specified tag.
+      description: |
+        Update an existing specified tag.
+
+        **Endpoint Permissions:**
+        - For protected tags: Owner, Admin, Non-Signing Admin.
+        - For non-protected tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver.
       tags:
           - Tags
       x-rate-limit-category: write
@@ -13879,7 +14046,12 @@ paths:
       operationId: updateTag
     delete:
       summary: Delete a tag
-      description: Delete the specified tag.
+      description: |
+        Delete the specified tag.
+
+        **Endpoint Permissions:**
+        - For protected tags: Owner, Admin, Non-Signing Admin.
+        - For non-protected tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver.
       tags:
           - Tags
       x-rate-limit-category: write
@@ -18651,9 +18823,11 @@ paths:
       operationId: getActiveV2Policy
       summary: Get the active policy and its validation by policy type
       description: |
+        **Note:** This endpoint is currently in beta and subject to change. If you want to participate in the Policies beta, contact your Fireblocks Customer Success Manager or send an email to csm@fireblocks.com.
+
         Returns the active policy and its validation for a specific policy type.
 
-        **Note:** This endpoint is currently in beta and might be subject to changes.
+        **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
       tags:
         - Policy Editor V2 (Beta)
       x-rate-limit-category: query
@@ -18697,9 +18871,11 @@ paths:
       operationId: getV2Draft
       summary: Get the active draft by policy type
       description: |
+        **Note:** This endpoint is currently in beta and subject to change. If you want to participate in the Policies beta, contact your Fireblocks Customer Success Manager or send an email to csm@fireblocks.com.
+        
         Returns the active draft and its validation for a specific policy type.
 
-        **Note:** This endpoint is currently in beta and might be subject to changes.
+        **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
       tags:
         - Policy Editor V2 (Beta)
       x-rate-limit-category: read
@@ -18742,9 +18918,11 @@ paths:
       operationId: updateV2Draft
       summary: Update the draft with a new set of rules by policy types
       description: |
-        Update the draft and return its validation for specific policy types.
+        **Note:** This endpoint is currently in beta and subject to change. If you want to participate in the Policies beta, contact your Fireblocks Customer Success Manager or send an email to csm@fireblocks.com.
+        
+        Updates the draft and returns its validation for specific policy types.  
 
-        **Note:** This endpoint is currently in beta and might be subject to changes.
+        **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.
       tags:
         - Policy Editor V2 (Beta)
       x-rate-limit-category: write
@@ -18782,9 +18960,11 @@ paths:
       operationId: publishV2Draft
       summary: Send publish request for a certain draft ID
       description: |
-        Send publish request of certain draft ID and returns the response.
+        **Note:** This endpoint is currently in beta and subject to change. If you want to participate in the Policies beta, contact your Fireblocks Customer Success Manager or send an email to csm@fireblocks.com.
+        
+        Publishes a draft policy by request, and returns the response.
 
-        **Note:** This endpoint is currently in beta and might be subject to changes. If you want to participate and learn more about the Fireblocks Policy Editor, please contact your Fireblocks Customer Success Manager or send an email to CSM@fireblocks.com.
+        **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.        
       tags:
         - Policy Editor V2 (Beta)
       x-rate-limit-category: write
@@ -22071,6 +22251,162 @@ components:
       example: >-
         /v1/cosigners/7cd3c3d2-611b-43fe-98da-1e0bfe893e2f/api_keys/ec1ca5d4-3824-4c67-9bea-7f3f636b9f40/123456789
   schemas:
+    TagAttachmentOperationAction:
+      type: string
+      enum:
+        - ATTACH
+        - DETACH
+    VaultAccountTagAttachmentOperation:
+      type: object
+      properties:
+        vaultAccountId:
+          description: The ID of the Vault account
+          example: "1"
+          type: string
+          format: numeric
+        tagId:
+          description: The tag ID
+          example: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          type: string
+          format: uuid
+        action:
+          $ref: '#/components/schemas/TagAttachmentOperationAction'
+      required:
+        - vaultAccountId
+        - tagId
+        - action
+    VaultAccountTagAttachmentPendingOperation:
+      type: object
+      properties:
+        vaultAccountId:
+          description: The ID of the vault account
+          example: "1"
+          type: string
+          format: numeric
+        tagId:
+          description: Tag ID
+          example: f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11
+          type: string
+          format: uuid
+        action:
+          $ref: '#/components/schemas/TagAttachmentOperationAction'
+        approvalRequestId:
+          description: Pending approval request ID
+          example: "12345"
+          type: string
+      required:
+        - vaultAccountId
+        - tagId
+        - action
+        - approvalRequestId
+    VaultAccountTagAttachmentRejectedOperation:
+      type: object
+      properties:
+        vaultAccountId:
+          description: The ID of the vault account
+          example: "1"
+          type: string
+          format: numeric
+        tagId:
+          description: Tag ID
+          example: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          type: string
+          format: uuid
+        action:
+          $ref: '#/components/schemas/TagAttachmentOperationAction'
+        reason:
+          description: Reason for rejection
+          type: string
+          enum:
+            - CAPACITY_EXCEEDED
+            - ATTACHMENT_ALREADY_EXISTS
+            - ATTACHMENT_DOES_NOT_EXIST
+            - PENDING_REQUEST_EXISTS
+      required:
+        - vaultAccountId
+        - tagId
+        - action
+        - reason
+    VaultAccountsTagAttachmentOperationsRequest:
+      type: object
+      properties:
+        vaultAccountIds:
+          description: The IDs of the vault accounts to attach tags to
+          example: ["0", "1"]
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+            format: numeric
+        tagIdsToAttach:
+          description: The IDs of the tags to attach
+          example: ["df4c0987-30da-4976-8dcf-bc2dd41ae331", "a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+          type: array
+          minItems: 1
+          maxItems: 20
+          items:
+            type: string
+            format: uuid
+        tagIdsToDetach:
+          description: The IDs of the tags to detach
+          example: ["df4c0987-30da-4976-8dcf-bc2dd41ae331", "a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+          type: array
+          minItems: 1
+          maxItems: 20
+          items:
+            type: string
+            format: uuid
+      required:
+        - vaultAccountIds
+    VaultAccountsTagAttachmentOperationsResponse:
+      type: object
+      properties:
+        appliedOperations:
+          description: The operations that were applied
+          type: array
+          items:
+            $ref: '#/components/schemas/VaultAccountTagAttachmentOperation'
+        pendingOperations:
+          description: The operations that are pending
+          type: array
+          items:
+            $ref: '#/components/schemas/VaultAccountTagAttachmentPendingOperation'
+        rejectedOperations:
+          description: The operations that were rejected
+          type: array
+          items:
+            $ref: '#/components/schemas/VaultAccountTagAttachmentRejectedOperation'
+    ApprovalRequest:
+      type: object
+      description: Approval request details
+      properties:
+        id:
+          type: string
+          format: numeric
+          description: The approval request identifier
+          example: "12345"
+        type:
+          type: string
+          description: The approval request type
+          enum:
+            - TAG_UPDATE
+            - TAG_DELETE
+            - TAG_ATTACH_DETACH
+        state:
+          type: string
+          description: The approval request state
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+            - FAILED
+            - CANCELLED
+            - EXPIRED
+      required:
+        - id
+        - type
+        - state
     AbaPaymentInfo:
       type: object
       description: ABA payment information for US bank transfers
@@ -27810,12 +28146,13 @@ components:
           type: string
           description: |
             Asset address.
-            - EVM-based chains: token contract address
-            - Stellar (XLM): issuer address
-            - Algorand (ALGO): asset ID
-            - TRON (TRX): token contract address
-            - NEAR: token address
-            - Solana: token's mint account address
+            - EVM-based chains: Token contract address
+            - Algorand (ALGO): Asset ID
+            - NEAR: Token address
+            - Solana: Token's mint account address
+            - Stellar (XLM): Issuer address
+            - Sui: The token's type
+            - TRON (TRX): Token contract address
           example: 0xe7A9as1oa38bc4da0248s179E30aa94CcF453991
         symbol:
           type: string
@@ -28845,7 +29182,7 @@ components:
         externalTxId:
           type: string
           description: >-
-            Unique external transaction identifier provided by the user. Used to help prevent duplicate transactions. **Will become a required parameter for all transaction types on March 1, 2026.**
+            Unique external transaction identifier provided by the user. Used to help prevent duplicate transactions.
           example: my_unique_external_tx_id
         status:
           $ref: '#/components/schemas/TransactionStatus'
@@ -28879,7 +29216,7 @@ components:
             transaction at your Fireblocks workspace.
           example: My Transcation Note
         blockchainInfo:
-          type: string
+          type: object
           description: |
             A JSON used to store additional blockchain-specific data.
             
@@ -29737,17 +30074,10 @@ components:
           example: Ticket 123
         externalTxId:
           type: string
-          description: >-
-            **This parameter will become required for the [Create a new transaction endpoint](https://developers.fireblocks.com/reference/createtransaction) on March 1, 2026.**
-
-
-            This parameter allows you to add a unique ID of your own to help prevent duplicate transactions. No specific format is required for this parameter.
-
-
-            After you submit a transaction with an external ID, Fireblocks will automatically reject all future transactions with the same ID.
-            Using an external ID primarily helps in situations where, even though a submitted transaction responds with an error due to an internet outage,
-            the transaction was still sent to and processed on the blockchain. Use the [Get a specific transaction by external transaction ID](https://developers.fireblocks.com/reference/gettransactionbyexternalid)
-            to validate whether these transactions have been processed.
+          description: |
+            Allows you to add a unique ID to help prevent duplicate transactions. No specific format is required for this parameter. After you submit a transaction with an external ID, Fireblocks will automatically reject all future transactions with the same ID.
+            - Using an external ID primarily helps in situations where, even though a submitted transaction responds with an error due to an internet outage, the transaction was still sent to and processed on the blockchain.
+            - Use [Get a specific transaction by external transaction ID](https://developers.fireblocks.com/reference/gettransactionbyexternalid) to validate whether these transactions have been processed.
           example: some_unique_external_tx_id
         assetId:
           type: string
@@ -29878,7 +30208,7 @@ components:
               description: Number (deprecated)
         networkFee:
           description: |
-            **For EVM-based blockchains only.** The total transaction fee in the blockchain's largest unit.
+            The total transaction fee in the blockchain's largest unit.
             
             Notes:
             - Only two of the three arguments can be specified in a single transaction: `gasLimit`, `gasPrice`, and/or `networkFee`.
@@ -34719,11 +35049,22 @@ components:
           label:
               type: string
               description: The tag label
+              minLength: 2
+              maxLength: 30
               example: VIP
           description:
               type: string
               description: Description for the tag
+              maxLength: 250
               example: Tag for VIP customers
+          color:
+            type: string
+            description: The tag color in hex format
+            example: "#FF5733"
+          isProtected:
+            type: boolean
+            description: Indication of whether the tag is protected
+            default: false
       required:
           - label
     TagsPagedResponse:
@@ -34755,23 +35096,38 @@ components:
     Tag:
       type: object
       properties:
-          id:
-              description: The unique identifier of the tag
-              type: string
-              format: uuid
-              example: df4c0987-30da-4976-8dcf-bc2dd41ae331
-          label:
-              type: string
-              description: The tag label
-              example: VIP
-          description:
-              type: string
-              description: Description for the tag
-              example: Tag for VIP customers
-
+        id:
+          description: The unique identifier of the tag
+          type: string
+          format: uuid
+          example: "df4c0987-30da-4976-8dcf-bc2dd41ae331"
+        label:
+          type: string
+          description: The tag label
+          example: VIP
+        description:
+          type: string
+          description: Description for the tag
+          example: Tag for VIP customers
+        color:
+          type: string
+          description: The tag color in hex format
+          example: "#FF5733"
+        isProtected:
+          type: boolean
+          description: Indication of whether the tag is a protected tag
+          default: false
+        updatedAt:
+          type: number
+          description: The date and time the tag was last updated
+          example: 1717084800000
+        pendingApprovalRequest:
+          $ref: '#/components/schemas/ApprovalRequest'
       required:
-          - id
-          - label
+        - id
+        - label
+        - isProtected
+        - updatedAt
     RelatedRequest:
       type: object
       properties:
@@ -37652,6 +38008,8 @@ components:
             workspaces only)
 
             - NITRO_MACHINE: For AWS Nitro Enclave enabled servers
+
+            - GCP_CONFIDENTIAL_SPACE: For GCP Confidential Space servers
 
 
             For more information about Fireblocks Co-Signer setup please read

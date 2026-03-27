@@ -16,14 +16,14 @@ Method | HTTP request | Description
 > models::PolicyAndValidationResponseV2 get_active_v2_policy(policy_type)
 Get the active policy and its validation by policy type
 
-Returns the active policy and its validation for a specific policy type.  **Note:** This endpoint is currently in beta and might be subject to changes. 
+**Note:** This endpoint is currently in beta and subject to change. If you want to participate in the Policies beta, contact your Fireblocks Customer Success Manager or send an email to csm@fireblocks.com.  Returns the active policy and its validation for a specific policy type.  **Endpoint Permissions:** Owner, Admin, Non-Signing Admin. 
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**policy_type** | [**PolicyTypeV2**](.md) | The policy type(s) to retrieve. Can be a single type or multiple types by repeating the parameter (e.g., ?policyType=TRANSFER&policyType=MINT). | [required] |
+**policy_type** | [**PolicyTypeV2**](PolicyTypeV2.md) | The policy type(s) to retrieve. Can be a single type or multiple types by repeating the parameter (e.g., ?policyType=TRANSFER&policyType=MINT). | [required] |
 
 ### Return type
 
@@ -46,14 +46,14 @@ No authorization required
 > models::DraftReviewAndValidationResponseV2 get_v2_draft(policy_type)
 Get the active draft by policy type
 
-Returns the active draft and its validation for a specific policy type.  **Note:** This endpoint is currently in beta and might be subject to changes. 
+**Note:** This endpoint is currently in beta and subject to change. If you want to participate in the Policies beta, contact your Fireblocks Customer Success Manager or send an email to csm@fireblocks.com.  Returns the active draft and its validation for a specific policy type.  **Endpoint Permissions:** Owner, Admin, Non-Signing Admin. 
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**policy_type** | [**PolicyTypeV2**](.md) | The policy type(s) to retrieve. Can be a single type or multiple types by repeating the parameter (e.g., ?policyType=TRANSFER&policyType=MINT). | [required] |
+**policy_type** | [**PolicyTypeV2**](PolicyTypeV2.md) | The policy type(s) to retrieve. Can be a single type or multiple types by repeating the parameter (e.g., ?policyType=TRANSFER&policyType=MINT). | [required] |
 
 ### Return type
 
@@ -76,7 +76,7 @@ No authorization required
 > models::PublishResultV2 publish_v2_draft(publish_draft_request_v2, idempotency_key)
 Send publish request for a certain draft ID
 
-Send publish request of certain draft ID and returns the response.  **Note:** This endpoint is currently in beta and might be subject to changes. If you want to participate and learn more about the Fireblocks Policy Editor, please contact your Fireblocks Customer Success Manager or send an email to CSM@fireblocks.com. 
+**Note:** This endpoint is currently in beta and subject to change. If you want to participate in the Policies beta, contact your Fireblocks Customer Success Manager or send an email to csm@fireblocks.com.  Publishes a draft policy by request, and returns the response.  **Endpoint Permissions:** Owner, Admin, Non-Signing Admin.         
 
 ### Parameters
 
@@ -107,7 +107,7 @@ No authorization required
 > models::DraftReviewAndValidationResponseV2 update_v2_draft(update_draft_request_v2, idempotency_key)
 Update the draft with a new set of rules by policy types
 
-Update the draft and return its validation for specific policy types.  **Note:** This endpoint is currently in beta and might be subject to changes. 
+**Note:** This endpoint is currently in beta and subject to change. If you want to participate in the Policies beta, contact your Fireblocks Customer Success Manager or send an email to csm@fireblocks.com.  Updates the draft and returns its validation for specific policy types.    **Endpoint Permissions:** Owner, Admin, Non-Signing Admin. 
 
 ### Parameters
 

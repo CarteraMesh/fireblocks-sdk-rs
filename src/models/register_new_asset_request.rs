@@ -16,10 +16,10 @@ pub struct RegisterNewAssetRequest {
     /// Native asset of blockchain
     #[serde(rename = "blockchainId")]
     pub blockchain_id: String,
-    /// Asset address. - EVM-based chains: token contract address - Stellar
-    /// (XLM): issuer address - Algorand (ALGO): asset ID - TRON (TRX): token
-    /// contract address - NEAR: token address - Solana: token's mint account
-    /// address
+    /// Asset address. - EVM-based chains: Token contract address - Algorand
+    /// (ALGO): Asset ID - NEAR: Token address - Solana: Token's mint account
+    /// address - Stellar (XLM): Issuer address - Sui: The token's type - TRON
+    /// (TRX): Token contract address
     #[serde(rename = "address")]
     pub address: String,
     /// Asset symbol

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | Option<**String**> |  | [optional]
+**r#type** | Option<**Type**> |  (enum: FIAT) | [optional]
 **amount** | **String** | The amount of the fiat transfer. | 
 **reference_id** | Option<**String**> | The reference ID for the fiat transfer. | [optional]
 

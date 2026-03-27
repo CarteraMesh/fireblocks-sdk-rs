@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **long_description** | Option<**String**> | A full description of the contract template. May contain   to break the lines | [optional]
 **bytecode** | **String** | The compiled artifact of this smart contract. Used for deployment of this contract template | 
 **sourcecode** | Option<**String**> | The source code of the contract. Optional. | [optional]
-**r#type** | Option<**String**> | The type of the contract template | [optional]
+**r#type** | Option<**Type**> | The type of the contract template (enum: FUNGIBLE_TOKEN, NON_FUNGIBLE_TOKEN, TOKEN_UTILITY) | [optional]
 **docs** | Option<[**models::ContractDoc**](ContractDoc.md)> | A `natspec` compliant documentation json. Can be retrieved from the output json after compilation | [optional]
 **abi** | [**Vec<Vec<models::AbiFunction>>**](Vec.md) |  | 
 **attributes** | Option<[**models::ContractAttributes**](ContractAttributes.md)> | The attributes related to this contract template. It will be displayed in the tokenization page | [optional]

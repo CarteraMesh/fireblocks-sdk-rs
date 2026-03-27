@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **inputs** | [**Vec<models::ParameterWithValue>**](ParameterWithValue.md) |  | 
-**state_mutability** | **String** |  | 
+**state_mutability** | **StateMutability** |  (enum: pure, view) | 
 **r#type** | **String** |  | 
 **name** | Option<**String**> |  | [optional]
 **outputs** | Option<[**Vec<models::Parameter>**](Parameter.md)> |  | [optional]

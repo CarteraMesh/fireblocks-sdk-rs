@@ -5,6 +5,7 @@ All URIs are relative to *https://api.fireblocks.io/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**activate_asset_for_vault_account**](VaultsApi.md#activate_asset_for_vault_account) | **POST** /vault/accounts/{vaultAccountId}/{assetId}/activate | Activate a wallet in a vault account
+[**attach_or_detach_tags_from_vault_accounts**](VaultsApi.md#attach_or_detach_tags_from_vault_accounts) | **POST** /vault/accounts/attached_tags | Attach or detach tags from vault accounts
 [**attach_tags_to_vault_accounts**](VaultsApi.md#attach_tags_to_vault_accounts) | **POST** /vault/accounts/attached/tags/attach | Attach tags to a vault accounts
 [**create_legacy_address**](VaultsApi.md#create_legacy_address) | **POST** /vault/accounts/{vaultAccountId}/{assetId}/addresses/{addressId}/create_legacy | Convert a segwit address to legacy format
 [**create_multiple_accounts**](VaultsApi.md#create_multiple_accounts) | **POST** /vault/accounts/bulk/ | Bulk creation of new vault accounts
@@ -70,12 +71,43 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
+## attach_or_detach_tags_from_vault_accounts
+
+> models::VaultAccountsTagAttachmentOperationsResponse attach_or_detach_tags_from_vault_accounts(vault_accounts_tag_attachment_operations_request, idempotency_key)
+Attach or detach tags from vault accounts
+
+Attach or detach one or more tags from the requested vault accounts.  **Endpoint Permissions:** - For protected tags: Owner, Admin, Non-Signing Admin. - For non protected tags: Owner, Admin, Non-Signing Admin, Signer, Editor, Approver. 
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**vault_accounts_tag_attachment_operations_request** | [**VaultAccountsTagAttachmentOperationsRequest**](VaultAccountsTagAttachmentOperationsRequest.md) |  | [required] |
+**idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
+
+### Return type
+
+[**models::VaultAccountsTagAttachmentOperationsResponse**](VaultAccountsTagAttachmentOperationsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
 ## attach_tags_to_vault_accounts
 
 > attach_tags_to_vault_accounts(vault_accounts_tag_attachments_request, idempotency_key)
 Attach tags to a vault accounts
 
-Attach one or more tags to the requested vault accounts.
+**This endpoint has been deprecated. Please use `vault/accounts/attached_tags` instead.**  Attach one or more tags to the requested vault accounts. 
 
 ### Parameters
 
@@ -139,7 +171,7 @@ No authorization required
 > models::JobCreated create_multiple_accounts(create_multiple_accounts_request, idempotency_key)
 Bulk creation of new vault accounts
 
-Create multiple vault accounts by running an async job.       - The HBAR, TON, SUI, TERRA, ALGO, and DOT blockchains are not supported. - Limited to a maximum of 10,000 accounts per operation.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor. 
+- **This endpoint is currently in Early Availability (EA) mode and may be subject to change. To learn more, contact your Fireblocks Customer Success Manager or email csm@fireblocks.com.**  Create multiple vault accounts by running an async job.       - The HBAR, TON, SUI, TERRA, ALGO, and DOT blockchains are not supported. - Limited to a maximum of 10,000 accounts per operation.  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor. 
 
 ### Parameters
 
@@ -170,7 +202,7 @@ No authorization required
 > models::JobCreated create_multiple_deposit_addresses(create_multiple_deposit_addresses_request, idempotency_key)
 Bulk creation of new deposit addresses
 
-**For UTXO blockchains only.**  Create multiple deposit addresses by running an async job. - The target Vault account should already have a UTXO asset wallet with a permanent address. - Limited to a maximum of 10,000 addresses per operation. Use multiple operations for the same Vault account/permanent address if needed.  **Endpoint Permissions:** Admin, Non-Signing Admin. 
+- **For UTXO blockchains only.** - **This endpoint is currently in beta mode and may be subject to change. To learn more, contact your Fireblocks Customer Success Manager or email csm@fireblocks.com.**  Create multiple deposit addresses by running an async job. - The target Vault account should already have a UTXO asset wallet with a permanent address. - Limited to a maximum of 10,000 addresses per operation. Use multiple operations for the same Vault account/permanent address if needed.  **Endpoint Permissions:** Admin, Non-Signing Admin. 
 
 ### Parameters
 
@@ -298,7 +330,7 @@ No authorization required
 > detach_tags_from_vault_accounts(vault_accounts_tag_attachments_request, idempotency_key)
 Detach tags from a vault accounts
 
-Detach one or more tags from the requested vault account.
+**This endpoint has been deprecated. Please use `/vault/accounts/attached_tags` instead.**  Detach one or more tags from the requested vault account. 
 
 ### Parameters
 
@@ -456,7 +488,7 @@ No authorization required
 > models::VaultAccountsPagedResponse get_paged_vault_accounts(name_prefix, name_suffix, min_amount_threshold, asset_id, order_by, before, after, limit, tag_ids)
 Get vault accounts (Paginated)
 
-Gets all vault accounts in your workspace. This endpoint returns a limited amount of results with a quick response time. </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
+Retrieves a paginated list of all vault accounts in your workspace matching your query's criteria.   **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer. 
 
 ### Parameters
 
@@ -471,7 +503,7 @@ Name | Type | Description  | Required | Notes
 **before** | Option<**String**> |  |  |
 **after** | Option<**String**> |  |  |
 **limit** | Option<**f64**> |  |  |[default to 200]
-**tag_ids** | Option<[**Vec<uuid::Uuid>**](uuid::Uuid.md)> | List of tag IDs to filter vault accounts. |  |
+**tag_ids** | Option<[**Vec<uuid::Uuid>**](Uuid__Uuid.md)> | List of tag IDs to filter vault accounts. |  |
 
 ### Return type
 
@@ -501,7 +533,7 @@ Gets the public key information based on derivation path and signing algorithm. 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**derivation_path** | [**Vec<i32>**](i32.md) | An array of integers representing the full BIP44 derivation path of the requested public key.  The first element must always be 44.  | [required] |
+**derivation_path** | [**Vec<i32>**](I32.md) | An array of integers representing the full BIP44 derivation path of the requested public key.  The first element must always be 44.  | [required] |
 **algorithm** | **String** |  | [required] |
 **compressed** | Option<**bool**> |  |  |
 

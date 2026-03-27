@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **output_max_amount** | **String** | Maximum amount of tokens that the swapper will receive | 
 **output_asset** | **String** | The id of the asset the swapper will receive | 
 **additional_data** | [**models::ProviderAdditionalData**](ProviderAdditionalData.md) |  | 
-**provider_quote_id** | [**uuid::Uuid**](uuid::Uuid.md) | An identifier that uniquely identifies the received quote | 
+**provider_quote_id** | **uuid::Uuid** | An identifier that uniquely identifies the received quote | 
 **expired_at** | **String** | When was the received `providerQuoteId` is expired (ISO Date time). | 
 **required_actions** | [**Vec<models::SwapRequiredActionsEnum>**](SwapRequiredActionsEnum.md) | The required actions for completing a swap operation | 
 **estimated_fees** | [**models::QuoteFee**](QuoteFee.md) |  | 

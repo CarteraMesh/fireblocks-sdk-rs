@@ -14,16 +14,11 @@ use {
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TransactionResponse {
     /// Fireblocks Transaction ID
-    //#[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: String,
     /// Unique external transaction identifier provided by the user. Used to
-    /// help prevent duplicate transactions. **Will become a required parameter
-    /// for all transaction types on March 1, 2026.**
+    /// help prevent duplicate transactions.
     #[serde(rename = "externalTxId", skip_serializing_if = "Option::is_none")]
     pub external_tx_id: Option<String>,
-    //    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
-    //   pub status: Option<models::TransactionStatus>,
-    #[serde(rename = "status")]
     pub status: models::TransactionStatus,
     #[serde(rename = "subStatus", skip_serializing_if = "Option::is_none")]
     pub sub_status: Option<models::TransactionSubStatus>,
@@ -52,7 +47,7 @@ pub struct TransactionResponse {
     /// A JSON used to store additional blockchain-specific data.  **Example:**
     /// In HBAR, this property will have the txHash in addition to the txID.
     #[serde(rename = "blockchainInfo", skip_serializing_if = "Option::is_none")]
-    pub blockchain_info: Option<String>,
+    pub blockchain_info: Option<serde_json::Value>,
     /// The ID of the asset for `TRANSFER`, `MINT`, `BURN`, `ENABLE_ASSET`,`STAKE` ,`UNSTAKE` or `WITHDRAW` operations. See the [list of supported assets and their IDs on Fireblocks](https://developers.fireblocks.com/reference/getsupportedassets).
     #[serde(rename = "assetId", skip_serializing_if = "Option::is_none")]
     pub asset_id: Option<String>,
@@ -244,7 +239,7 @@ impl TransactionResponse {
         TransactionResponse {
             id: String::new(),
             external_tx_id: None,
-            status: models::TransactionStatus::default(),
+            status: models::TransactionStatus::Submitted,
             sub_status: None,
             tx_hash: None,
             operation: None,

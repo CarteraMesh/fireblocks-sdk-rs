@@ -19,6 +19,12 @@ pub struct CreateTagRequest {
     /// Description for the tag
     #[serde(rename = "description", skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+    /// The tag color in hex format
+    #[serde(rename = "color", skip_serializing_if = "Option::is_none")]
+    pub color: Option<String>,
+    /// Indication of whether the tag is protected
+    #[serde(rename = "isProtected", skip_serializing_if = "Option::is_none")]
+    pub is_protected: Option<bool>,
 }
 
 impl CreateTagRequest {
@@ -26,6 +32,8 @@ impl CreateTagRequest {
         CreateTagRequest {
             label,
             description: None,
+            color: None,
+            is_protected: None,
         }
     }
 }

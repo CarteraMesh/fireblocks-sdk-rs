@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | Option<[**Vec<serde_json::Value>**](serde_json::Value.md)> |  | [optional]
+**data** | Option<**Vec<serde_json::Value>**> |  | [optional]
 **total** | Option<**f64**> |  | [optional]
 **cursor** | Option<**String**> |  | [optional]
 

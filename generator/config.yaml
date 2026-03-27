@@ -25,34 +25,31 @@ additionalProperties:
   preferUnsignedInt: true
   licenseName: MIT
   packageDescription: "The Fireblocks Official SDK is a comprehensive software development kit that enables seamless integration and interaction with the Fireblocks platform. Fireblocks is a cutting-edge blockchain infrastructure platform that provides secure and scalable solutions for managing digital assets and transactions. This SDK empowers developers to build robust applications that can interact with the Fireblocks platform's features, including creating and managing vault accounts, initiating secure transactions, managing assets, and more. It abstracts complex interactions with the Fireblocks API, making it easier for developers to leverage the platform's capabilities while adhering to best practices in security and efficiency."
-
 files:
+  custom/models/transaction_status.rs:
+    templateType: SupportingFiles
+    destinationFilename: transaction_status.rs
+    folder: src/models
   custom/models/d_app_connections_api.rs:
     templateType: SupportingFiles
     destinationFilename: d_app_connections_api.rs
     folder: src/models
-
   custom/models/asset_type_response.rs:
     templateType: SupportingFiles
     destinationFilename: asset_type_response.rs
     folder: src/models
-
   custom/models/chain_descriptor.rs:
     templateType: SupportingFiles
     destinationFilename: chain_descriptor.rs
     folder: src/models
-
   custom/models/wallet_asset.rs:
     templateType: SupportingFiles
     destinationFilename: wallet_asset.rs
     folder: src/models
-
-
   custom/models/external_wallet_asset.rs:
     templateType: SupportingFiles
     destinationFilename: exteral_wallet_asset.rs
     folder: src/models
- 
   # custom/models/signed_message_signature.rs:
   #   templateType: SupportingFiles
   #   destinationFilename: signed_message_signature.rs

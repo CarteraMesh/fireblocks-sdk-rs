@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
 **via** | [**models::AccessType**](AccessType.md) |  | 
-**side** | **String** | Side of the order | 
+**side** | **Side** | Side of the order (enum: BUY, SELL) | 
 **base_amount** | **String** |  | 
 **quote_amount** | Option<**String**> |  | [optional]
 **base_asset_id** | **String** |  | 

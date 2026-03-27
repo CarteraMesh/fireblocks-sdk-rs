@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **sub_type** | Option<[**models::TransferPeerPathSubType**](TransferPeerPathSubType.md)> |  | [optional]
 **id** | Option<**String**> |  | [optional]
 **name** | Option<**String**> |  | [optional]
-**wallet_id** | Option<[**uuid::Uuid**](uuid::Uuid.md)> |  | [optional]
+**wallet_id** | Option<**uuid::Uuid**> |  | [optional]
 **one_time_address** | Option<[**models::OneTimeAddress**](OneTimeAddress.md)> |  | [optional]
 **is_collateral** | Option<**bool**> | Indicates whether the destination is a collateral account | [optional]
 

@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **bip44address_index** | Option<**i32**> | BIP44 address index | [optional]
 **bip44change** | Option<**f64**> | BIP44 change index | [optional]
 **derivation_path** | Option<**Vec<f64>**> | BIP44 full derivation path | [optional]
-**r#type** | Option<**String**> | Typed Message Signing - message type.  - EIP191 & EIP712: for ETH and all EVM based assets typed message signing - TIP191: For Tron (TRX) typed message signing - BTC_MESSAGE: For Bitcoin (BTC) typed message signing  | [optional]
+**r#type** | Option<**Type**> | Typed Message Signing - message type.  - EIP191 & EIP712: for ETH and all EVM based assets typed message signing - TIP191: For Tron (TRX) typed message signing - BTC_MESSAGE: For Bitcoin (BTC) typed message signing  (enum: EIP191, EIP712, TIP191, BTC_MESSAGE) | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
