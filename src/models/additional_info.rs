@@ -18,7 +18,7 @@ pub struct AdditionalInfo {
     /// The estimated annual reward rate for the blockchain, represented as a
     /// decimal percentage value.
     #[serde(rename = "estimatedAnnualReward")]
-    pub estimated_annual_reward: f64,
+    pub estimated_annual_reward: Option<f64>,
     /// The duration of the lockup period for certain actions on the blockchain,
     /// measured in milliseconds.
     #[serde(rename = "lockupPeriod")]
@@ -38,7 +38,7 @@ impl AdditionalInfo {
         activation_period: f64,
     ) -> AdditionalInfo {
         AdditionalInfo {
-            estimated_annual_reward,
+            estimated_annual_reward: Some(estimated_annual_reward),
             lockup_period,
             activation_period,
         }
