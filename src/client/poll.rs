@@ -1,6 +1,6 @@
 use {
     super::Client,
-    crate::models::{TransactionResponse, TransactionStatus},
+    crate::models::TransactionResponse,
     std::{ops::Add, time::Duration},
     tracing::debug,
 };
@@ -26,21 +26,11 @@ impl Client {
         let mut total_time = Duration::from_millis(0);
         loop {
             if let Ok(result) = self.get_transaction(id).await {
-                let status = &result.status;
-                debug!("status {:#?}", status);
-                #[allow(clippy::match_same_arms)]
-                match status {
-                    TransactionStatus::Blocked => break,
-                    TransactionStatus::Cancelled => break,
-                    TransactionStatus::Cancelling => break,
-                    TransactionStatus::Completed => break,
-                    TransactionStatus::Confirming => break,
-                    TransactionStatus::Failed => break,
-                    TransactionStatus::Rejected => break,
-                    _ => {
-                        callback(&result);
-                    }
+                debug!("status {:#?}", result.status);
+                if result.status.is_terminal() {
+                    break;
                 }
+                callback(&result);
             }
             tokio::time::sleep(interval).await;
             total_time = total_time.add(interval);
