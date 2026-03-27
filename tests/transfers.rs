@@ -36,9 +36,8 @@ async fn transfer_whitelist(
         .await?
         .ok_or_else(|| {
             anyhow::format_err!(
-                "{} wallet '{}' is not found, please create and add SOL_TEST address",
-                wallet_type,
-                wallet_name
+                "{wallet_type} wallet '{wallet_name}' is not found, please create and add \
+                 SOL_TEST address"
             )
         })?;
     let response = c

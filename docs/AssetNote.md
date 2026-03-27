@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **text** | **String** | Note content | 
-**user_id** | [**uuid::Uuid**](uuid::Uuid.md) | Who updated the note (UUID) | 
+**user_id** | **uuid::Uuid** | Who updated the note (UUID) | 
 **user_name** | **String** | User name | 
 **updated_at** | **String** | ISO Timestamp when last updated | 
 

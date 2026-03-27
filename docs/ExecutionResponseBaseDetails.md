@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**side** | **String** | Side of the order | [default to Buy]
+**side** | **Side** | Side of the order (enum: BUY, SELL) | [default to Buy]
 **base_amount** | **String** | Amount to convert | 
 **base_asset_id** | **String** | Source asset identifier | 
 **base_asset_rail** | Option<[**models::TransferRail**](TransferRail.md)> |  | [optional]

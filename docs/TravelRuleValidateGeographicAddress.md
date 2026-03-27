@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **country** | Option<**String**> | Nation with its own government (ISO-3166 Alpha-2 country code) | [optional]
 **building_number** | Option<**String**> | Number that identifies the position of a building on a street | [optional]
 **post_code** | Option<**String**> | Identifier consisting of a group of letters and/or numbers added to a postal address to assist the sorting of mail | [optional]
-**address_type** | Option<**String**> | Specifies the type of address. Acceptable values are: - 'HOME': Residential, the home address - 'BIZZ': Business, the business address - 'GEOG': Geographic, an unspecified physical (geographical) address | [optional]
+**address_type** | Option<**AddressType**> | Specifies the type of address. Acceptable values are: - 'HOME': Residential, the home address - 'BIZZ': Business, the business address - 'GEOG': Geographic, an unspecified physical (geographical) address (enum: HOME, BIZZ, GEOG) | [optional]
 **department** | Option<**String**> | Identification of a division of a large organisation or building | [optional]
 **sub_department** | Option<**String**> | Identification of a sub-division of a large organisation or building | [optional]
 **building_name** | Option<**String**> | Name of the building or house | [optional]

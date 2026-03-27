@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **vault_account_id** | **f64** | The ID of the vault to connect to the dApp. | 
-**fee_level** | **String** | The default fee level. Valid values are `MEDIUM` and `HIGH`. | 
+**fee_level** | **FeeLevel** | The default fee level. Valid values are `MEDIUM` and `HIGH`. (enum: MEDIUM, HIGH) | 
 **uri** | **String** | The WalletConnect uri provided by the dapp. | 
 **chain_ids** | Option<**Vec<String>**> | The IDs of the blockchain networks used in the dApp connection. | [optional]
 

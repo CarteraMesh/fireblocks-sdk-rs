@@ -15,9 +15,9 @@ Name | Type | Description | Notes
 **vendor** | Option<[**models::VendorDto**](VendorDto.md)> | The details of the vendor of this contract template. Applicable only for public contract templates | [optional]
 **is_public** | **bool** | Is this a contract that is viewable by all fireblocks's users or is it visible only for this workspace | 
 **can_deploy** | Option<**bool**> | True if the workspace allowed to deploy this contract, false otherwise | [optional]
-**r#type** | Option<**String**> | The type of the contract template | [optional]
+**r#type** | Option<**Type**> | The type of the contract template (enum: FUNGIBLE_TOKEN, NON_FUNGIBLE_TOKEN, TOKEN_UTILITY) | [optional]
 **implementation_contract_id** | Option<**String**> |  | [optional]
-**initialization_phase** | **String** | For standalone contracts use ON_DEPLOYMENT and for contracts that are behind proxies use POST_DEPLOYMENT | 
+**initialization_phase** | **InitializationPhase** | For standalone contracts use ON_DEPLOYMENT and for contracts that are behind proxies use POST_DEPLOYMENT (enum: ON_DEPLOYMENT, POST_DEPLOYMENT) | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

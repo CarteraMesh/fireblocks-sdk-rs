@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | **String** | Type of designated signers | 
+**r#type** | **Type** | Type of designated signers (enum: SINGLE, MULTIPLE, INITIATOR) | 
 **users** | Option<**Vec<String>**> | List of user IDs | [optional]
 **groups** | Option<**Vec<String>**> | List of policy group IDs | [optional]
 

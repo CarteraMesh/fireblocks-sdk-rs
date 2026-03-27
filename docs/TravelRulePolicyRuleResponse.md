@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **amount_usd** | Option<**f64**> |  | [optional]
 **network_protocol** | Option<**String**> |  | [optional]
 **operation** | Option<**String**> |  | [optional]
-**action** | **String** |  | 
+**action** | **Action** |  (enum: SCREEN, PASS, FREEZE) | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

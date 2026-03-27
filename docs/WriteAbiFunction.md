@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**state_mutability** | **String** |  | 
+**state_mutability** | **StateMutability** |  (enum: payable, nonpayable) | 
 **outputs** | Option<[**Vec<models::Parameter>**](Parameter.md)> |  | [optional]
-**r#type** | **String** |  | 
+**r#type** | **Type** |  (enum: function) | 
 **name** | Option<**String**> |  | [optional]
 **inputs** | [**Vec<models::ParameterWithValue>**](ParameterWithValue.md) |  | 
 **description** | Option<**String**> |  | [optional]

@@ -31,9 +31,25 @@ pub trait VaultsApi: Send + Sync {
         params: ActivateAssetForVaultAccountParams,
     ) -> Result<models::CreateVaultAssetResponse, Error<ActivateAssetForVaultAccountError>>;
 
+    /// POST /vault/accounts/attached_tags
+    ///
+    /// Attach or detach one or more tags from the requested vault accounts.
+    /// **Endpoint Permissions:** - For protected tags: Owner, Admin,
+    /// Non-Signing Admin. - For non protected tags: Owner, Admin, Non-Signing
+    /// Admin, Signer, Editor, Approver.
+    async fn attach_or_detach_tags_from_vault_accounts(
+        &self,
+        params: AttachOrDetachTagsFromVaultAccountsParams,
+    ) -> Result<
+        models::VaultAccountsTagAttachmentOperationsResponse,
+        Error<AttachOrDetachTagsFromVaultAccountsError>,
+    >;
+
     /// POST /vault/accounts/attached/tags/attach
     ///
-    /// Attach one or more tags to the requested vault accounts.
+    /// **This endpoint has been deprecated. Please use
+    /// `vault/accounts/attached_tags` instead.**  Attach one or more tags to
+    /// the requested vault accounts.
     async fn attach_tags_to_vault_accounts(
         &self,
         params: AttachTagsToVaultAccountsParams,
@@ -51,10 +67,13 @@ pub trait VaultsApi: Send + Sync {
 
     /// POST /vault/accounts/bulk/
     ///
-    /// Create multiple vault accounts by running an async job.       - The
-    /// HBAR, TON, SUI, TERRA, ALGO, and DOT blockchains are not supported. -
-    /// Limited to a maximum of 10,000 accounts per operation.  **Endpoint
-    /// Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// - **This endpoint is currently in Early Availability (EA) mode and may
+    ///   be subject to change. To learn more, contact your Fireblocks Customer
+    ///   Success Manager or email csm@fireblocks.com.**  Create multiple vault
+    ///   accounts by running an async job.       - The HBAR, TON, SUI, TERRA,
+    ///   ALGO, and DOT blockchains are not supported. - Limited to a maximum of
+    ///   10,000 accounts per operation.  **Endpoint Permissions:** Admin,
+    ///   Non-Signing Admin, Signer, Approver, Editor.
     async fn create_multiple_accounts(
         &self,
         params: CreateMultipleAccountsParams,
@@ -62,12 +81,15 @@ pub trait VaultsApi: Send + Sync {
 
     /// POST /vault/accounts/addresses/bulk
     ///
-    /// **For UTXO blockchains only.**  Create multiple deposit addresses by
-    /// running an async job. - The target Vault account should already have a
-    /// UTXO asset wallet with a permanent address. - Limited to a maximum of
-    /// 10,000 addresses per operation. Use multiple operations for the same
-    /// Vault account/permanent address if needed.  **Endpoint Permissions:**
-    /// Admin, Non-Signing Admin.
+    /// - **For UTXO blockchains only.** - **This endpoint is currently in beta
+    ///   mode and may be subject to change. To learn more, contact your
+    ///   Fireblocks Customer Success Manager or email csm@fireblocks.com.**
+    ///   Create multiple deposit addresses by running an async job. - The
+    ///   target Vault account should already have a UTXO asset wallet with a
+    ///   permanent address. - Limited to a maximum of 10,000 addresses per
+    ///   operation. Use multiple operations for the same Vault
+    ///   account/permanent address if needed.  **Endpoint Permissions:** Admin,
+    ///   Non-Signing Admin.
     async fn create_multiple_deposit_addresses(
         &self,
         params: CreateMultipleDepositAddressesParams,
@@ -102,7 +124,9 @@ pub trait VaultsApi: Send + Sync {
 
     /// POST /vault/accounts/attached/tags/detached
     ///
-    /// Detach one or more tags from the requested vault account.
+    /// **This endpoint has been deprecated. Please use
+    /// `/vault/accounts/attached_tags` instead.**  Detach one or more tags from
+    /// the requested vault account.
     async fn detach_tags_from_vault_accounts(
         &self,
         params: DetachTagsFromVaultAccountsParams,
@@ -158,9 +182,9 @@ pub trait VaultsApi: Send + Sync {
 
     /// GET /vault/accounts_paged
     ///
-    /// Gets all vault accounts in your workspace. This endpoint returns a
-    /// limited amount of results with a quick response time. </br>Endpoint
-    /// Permission: Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
+    /// Retrieves a paginated list of all vault accounts in your workspace
+    /// matching your query's criteria.   **Endpoint Permissions:** Admin,
+    /// Non-Signing Admin, Signer, Approver, Editor, Viewer.
     async fn get_paged_vault_accounts(
         &self,
         params: GetPagedVaultAccountsParams,
@@ -355,6 +379,20 @@ pub struct ActivateAssetForVaultAccountParams {
     pub vault_account_id: String,
     /// The ID of the asset
     pub asset_id: String,
+    /// A unique identifier for the request. If the request is sent multiple
+    /// times with the same idempotency key, the server will return the same
+    /// response as the first request. The idempotency key is valid for 24
+    /// hours.
+    pub idempotency_key: Option<String>,
+}
+
+/// struct for passing parameters to the method
+/// [`VaultsApi::attach_or_detach_tags_from_vault_accounts`]
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+pub struct AttachOrDetachTagsFromVaultAccountsParams {
+    pub vault_accounts_tag_attachment_operations_request:
+        models::VaultAccountsTagAttachmentOperationsRequest,
     /// A unique identifier for the request. If the request is sent multiple
     /// times with the same idempotency key, the server will return the same
     /// response as the first request. The idempotency key is valid for 24
@@ -865,7 +903,89 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
-    /// Attach one or more tags to the requested vault accounts.
+    /// Attach or detach one or more tags from the requested vault accounts.
+    /// **Endpoint Permissions:** - For protected tags: Owner, Admin,
+    /// Non-Signing Admin. - For non protected tags: Owner, Admin, Non-Signing
+    /// Admin, Signer, Editor, Approver.
+    async fn attach_or_detach_tags_from_vault_accounts(
+        &self,
+        params: AttachOrDetachTagsFromVaultAccountsParams,
+    ) -> Result<
+        models::VaultAccountsTagAttachmentOperationsResponse,
+        Error<AttachOrDetachTagsFromVaultAccountsError>,
+    > {
+        let AttachOrDetachTagsFromVaultAccountsParams {
+            vault_accounts_tag_attachment_operations_request,
+            idempotency_key,
+        } = params;
+
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!(
+            "{}/vault/accounts/attached_tags",
+            local_var_configuration.base_path
+        );
+        let mut local_var_req_builder =
+            local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder
+                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(local_var_param_value) = idempotency_key {
+            local_var_req_builder =
+                local_var_req_builder.header("Idempotency-Key", local_var_param_value.to_string());
+        }
+        local_var_req_builder =
+            local_var_req_builder.json(&vault_accounts_tag_attachment_operations_request);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            match local_var_content_type {
+                ContentType::Json => {
+                    crate::deserialize_wrapper(&local_var_content).map_err(Error::from)
+                }
+                ContentType::Text => {
+                    return Err(Error::from(serde_json::Error::custom(
+                        "Received `text/plain` content type response that cannot be converted to \
+                         `models::VaultAccountsTagAttachmentOperationsResponse`",
+                    )));
+                }
+                ContentType::Unsupported(local_var_unknown_type) => {
+                    return Err(Error::from(serde_json::Error::custom(format!(
+                        "Received `{local_var_unknown_type}` content type response that cannot be \
+                         converted to `models::VaultAccountsTagAttachmentOperationsResponse`"
+                    ))));
+                }
+            }
+        } else {
+            let local_var_entity: Option<AttachOrDetachTagsFromVaultAccountsError> =
+                serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    /// **This endpoint has been deprecated. Please use
+    /// `vault/accounts/attached_tags` instead.**  Attach one or more tags to
+    /// the requested vault accounts.
     async fn attach_tags_to_vault_accounts(
         &self,
         params: AttachTagsToVaultAccountsParams,
@@ -994,10 +1114,13 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
-    /// Create multiple vault accounts by running an async job.       - The
-    /// HBAR, TON, SUI, TERRA, ALGO, and DOT blockchains are not supported. -
-    /// Limited to a maximum of 10,000 accounts per operation.  **Endpoint
-    /// Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// - **This endpoint is currently in Early Availability (EA) mode and may
+    ///   be subject to change. To learn more, contact your Fireblocks Customer
+    ///   Success Manager or email csm@fireblocks.com.**  Create multiple vault
+    ///   accounts by running an async job.       - The HBAR, TON, SUI, TERRA,
+    ///   ALGO, and DOT blockchains are not supported. - Limited to a maximum of
+    ///   10,000 accounts per operation.  **Endpoint Permissions:** Admin,
+    ///   Non-Signing Admin, Signer, Approver, Editor.
     async fn create_multiple_accounts(
         &self,
         params: CreateMultipleAccountsParams,
@@ -1068,12 +1191,15 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
-    /// **For UTXO blockchains only.**  Create multiple deposit addresses by
-    /// running an async job. - The target Vault account should already have a
-    /// UTXO asset wallet with a permanent address. - Limited to a maximum of
-    /// 10,000 addresses per operation. Use multiple operations for the same
-    /// Vault account/permanent address if needed.  **Endpoint Permissions:**
-    /// Admin, Non-Signing Admin.
+    /// - **For UTXO blockchains only.** - **This endpoint is currently in beta
+    ///   mode and may be subject to change. To learn more, contact your
+    ///   Fireblocks Customer Success Manager or email csm@fireblocks.com.**
+    ///   Create multiple deposit addresses by running an async job. - The
+    ///   target Vault account should already have a UTXO asset wallet with a
+    ///   permanent address. - Limited to a maximum of 10,000 addresses per
+    ///   operation. Use multiple operations for the same Vault
+    ///   account/permanent address if needed.  **Endpoint Permissions:** Admin,
+    ///   Non-Signing Admin.
     async fn create_multiple_deposit_addresses(
         &self,
         params: CreateMultipleDepositAddressesParams,
@@ -1374,7 +1500,9 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
-    /// Detach one or more tags from the requested vault account.
+    /// **This endpoint has been deprecated. Please use
+    /// `/vault/accounts/attached_tags` instead.**  Detach one or more tags from
+    /// the requested vault account.
     async fn detach_tags_from_vault_accounts(
         &self,
         params: DetachTagsFromVaultAccountsParams,
@@ -1742,9 +1870,9 @@ impl VaultsApi for VaultsApiClient {
         }
     }
 
-    /// Gets all vault accounts in your workspace. This endpoint returns a
-    /// limited amount of results with a quick response time. </br>Endpoint
-    /// Permission: Admin, Non-Signing Admin, Signer, Approver, Editor, Viewer.
+    /// Retrieves a paginated list of all vault accounts in your workspace
+    /// matching your query's criteria.   **Endpoint Permissions:** Admin,
+    /// Non-Signing Admin, Signer, Approver, Editor, Viewer.
     async fn get_paged_vault_accounts(
         &self,
         params: GetPagedVaultAccountsParams,
@@ -3185,6 +3313,16 @@ impl VaultsApi for VaultsApiClient {
 #[serde(untagged)]
 pub enum ActivateAssetForVaultAccountError {
     DefaultResponse(models::ErrorSchema),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method
+/// [`VaultsApi::attach_or_detach_tags_from_vault_accounts`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AttachOrDetachTagsFromVaultAccountsError {
+    Status400(models::ErrorSchema),
+    Status404(models::ErrorSchema),
     UnknownValue(serde_json::Value),
 }
 

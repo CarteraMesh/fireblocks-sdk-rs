@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **tag** | Option<**String**> |  | [optional]
 **r#type** | Option<**String**> |  | [optional]
 **customer_ref_id** | Option<**String**> |  | [optional]
-**address_format** | Option<**String**> |  | [optional]
+**address_format** | Option<**AddressFormat**> |  (enum: SEGWIT, LEGACY, BASE, PAYMENT) | [optional]
 **legacy_address** | Option<**String**> |  | [optional]
 **enterprise_address** | Option<**String**> |  | [optional]
 **bip44_address_index** | Option<**i32**> |  | [optional]

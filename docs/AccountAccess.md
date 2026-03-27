@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | **String** | Indicates this uses account-based access | 
+**r#type** | **Type** | Indicates this uses account-based access (enum: PROVIDER_ACCOUNT) | 
 **provider_id** | Option<**String**> | The ID of the provider | [optional]
 **account_id** | **String** | The ID of the account | 
 

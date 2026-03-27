@@ -55,7 +55,7 @@ List all open Web3 connections. </br>Endpoint Permission: Admin, Non-Signing Adm
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **order** | Option<**String**> | List order (ascending or descending) |  |[default to ASC]
-**filter** | Option<[**GetFilterParameter**](.md)> | Parsed filter object |  |
+**filter** | Option<[**GetFilterParameter**](GetFilterParameter.md)> | Parsed filter object |  |
 **sort** | Option<**String**> | Property to sort Web3 connections by. |  |[default to createdAt]
 **page_size** | Option<**f64**> | Amount of results to return in the next page. |  |[default to 10]
 **next** | Option<**String**> | Cursor to the next page |  |

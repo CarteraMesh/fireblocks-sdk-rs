@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **String** | Name of the policy rule | 
 **id** | **String** | Unique identifier for the policy rule | 
-**policy_engine_version** | **String** | Policy engine version | 
+**policy_engine_version** | **PolicyEngineVersion** | Policy engine version (enum: v2) | 
 **r#type** | [**models::PolicyTypeV2**](PolicyTypeV2.md) |  | 
 **sub_type** | Option<[**models::PolicyTypeV2**](PolicyTypeV2.md)> |  | [optional]
 **initiator** | [**models::InitiatorConfigPatternV2**](InitiatorConfigPatternV2.md) |  | 

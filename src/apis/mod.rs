@@ -121,6 +121,7 @@ impl From<&str> for ContentType {
     }
 }
 
+pub mod approval_requests_api;
 pub mod blockchains_assets_api;
 pub mod compliance_api;
 pub mod connected_accounts_beta_api;
@@ -159,6 +160,7 @@ pub mod configuration;
 use std::sync::Arc;
 
 pub trait Api {
+    fn approval_requests_api(&self) -> &dyn approval_requests_api::ApprovalRequestsApi;
     fn blockchains_assets_api(&self) -> &dyn blockchains_assets_api::BlockchainsAssetsApi;
     fn compliance_api(&self) -> &dyn compliance_api::ComplianceApi;
     fn connected_accounts_beta_api(
@@ -200,6 +202,7 @@ pub trait Api {
 }
 
 pub struct ApiClient {
+    approval_requests_api: Box<dyn approval_requests_api::ApprovalRequestsApi>,
     blockchains_assets_api: Box<dyn blockchains_assets_api::BlockchainsAssetsApi>,
     compliance_api: Box<dyn compliance_api::ComplianceApi>,
     connected_accounts_beta_api: Box<dyn connected_accounts_beta_api::ConnectedAccountsBetaApi>,
@@ -239,6 +242,9 @@ pub struct ApiClient {
 impl ApiClient {
     pub fn new(configuration: Arc<configuration::Configuration>) -> Self {
         Self {
+            approval_requests_api: Box::new(approval_requests_api::ApprovalRequestsApiClient::new(
+                configuration.clone(),
+            )),
             blockchains_assets_api: Box::new(
                 blockchains_assets_api::BlockchainsAssetsApiClient::new(configuration.clone()),
             ),
@@ -336,6 +342,10 @@ impl ApiClient {
 }
 
 impl Api for ApiClient {
+    fn approval_requests_api(&self) -> &dyn approval_requests_api::ApprovalRequestsApi {
+        self.approval_requests_api.as_ref()
+    }
+
     fn blockchains_assets_api(&self) -> &dyn blockchains_assets_api::BlockchainsAssetsApi {
         self.blockchains_assets_api.as_ref()
     }

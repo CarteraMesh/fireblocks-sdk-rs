@@ -22,7 +22,12 @@ use {
 pub trait WebhooksApi: Send + Sync {
     /// POST /webhooks/resend/{txId}
     ///
-    /// Resends webhook notifications for a transaction by its unique identifier.  Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// **Deprecation notice:** Webhooks v1 will be deprecated in March 2026.
+    /// Please use the Developer Center in the Fireblocks Console to upgrade to
+    /// Webhooks v2, which offers improved reliability, performance, and
+    /// observability.  Resends webhook notifications for a transaction by its
+    /// unique identifier.  **Endpoint Permissions:** Admin, Non-Signing Admin,
+    /// Signer, Approver, Editor.
     async fn resend_transaction_webhooks(
         &self,
         params: ResendTransactionWebhooksParams,
@@ -30,7 +35,11 @@ pub trait WebhooksApi: Send + Sync {
 
     /// POST /webhooks/resend
     ///
-    /// Resends all failed webhook notifications.  Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// **Deprecation notice:** Webhooks v1 will be deprecated in March 2026.
+    /// Please use the Developer Center in the Fireblocks Console to upgrade to
+    /// Webhooks v2, which offers improved reliability, performance, and
+    /// observability.  Resends all failed webhook notifications.  </br>Endpoint
+    /// Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn resend_webhooks(
         &self,
         params: ResendWebhooksParams,
@@ -75,7 +84,12 @@ pub struct ResendWebhooksParams {
 
 #[async_trait]
 impl WebhooksApi for WebhooksApiClient {
-    /// Resends webhook notifications for a transaction by its unique identifier.  Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).  **Endpoint Permissions:** Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// **Deprecation notice:** Webhooks v1 will be deprecated in March 2026.
+    /// Please use the Developer Center in the Fireblocks Console to upgrade to
+    /// Webhooks v2, which offers improved reliability, performance, and
+    /// observability.  Resends webhook notifications for a transaction by its
+    /// unique identifier.  **Endpoint Permissions:** Admin, Non-Signing Admin,
+    /// Signer, Approver, Editor.
     async fn resend_transaction_webhooks(
         &self,
         params: ResendTransactionWebhooksParams,
@@ -151,7 +165,11 @@ impl WebhooksApi for WebhooksApiClient {
         }
     }
 
-    /// Resends all failed webhook notifications.  Learn more about Fireblocks Webhooks in the following [guide](https://developers.fireblocks.com/docs/configure-webhooks).  </br>Endpoint Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
+    /// **Deprecation notice:** Webhooks v1 will be deprecated in March 2026.
+    /// Please use the Developer Center in the Fireblocks Console to upgrade to
+    /// Webhooks v2, which offers improved reliability, performance, and
+    /// observability.  Resends all failed webhook notifications.  </br>Endpoint
+    /// Permission: Admin, Non-Signing Admin, Signer, Approver, Editor.
     async fn resend_webhooks(
         &self,
         params: ResendWebhooksParams,

@@ -11,12 +11,11 @@ use {
     serde::{Deserialize, Serialize},
 };
 
-/// TransactionRequestNetworkFee : **For EVM-based blockchains only.** The total
-/// transaction fee in the blockchain's largest unit.  Notes: - Only two of the
-/// three arguments can be specified in a single transaction: `gasLimit`,
-/// `gasPrice`, and/or `networkFee`. - Fireblocks recommends using a numeric
-/// string for more precision. Although a number input exists, it is deprecated.
-/// **For EVM-based blockchains only.** The total transaction fee in the
+/// TransactionRequestNetworkFee : The total transaction fee in the blockchain's
+/// largest unit.  Notes: - Only two of the three arguments can be specified in
+/// a single transaction: `gasLimit`, `gasPrice`, and/or `networkFee`. -
+/// Fireblocks recommends using a numeric string for more precision. Although a
+/// number input exists, it is deprecated. The total transaction fee in the
 /// blockchain's largest unit.  Notes: - Only two of the three arguments can be
 /// specified in a single transaction: `gasLimit`, `gasPrice`, and/or
 /// `networkFee`. - Fireblocks recommends using a numeric string for more

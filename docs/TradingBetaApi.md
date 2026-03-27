@@ -121,7 +121,7 @@ Name | Type | Description  | Required | Notes
 **order** | Option<**String**> | ASC / DESC ordering (default DESC) |  |[default to DESC]
 **account_id** | Option<[**Vec<String>**](String.md)> | Filter by accountId. |  |
 **provider_id** | Option<[**Vec<String>**](String.md)> | Filter by providerId. |  |
-**statuses** | Option<[**Vec<models::OrderStatus>**](models::OrderStatus.md)> | Filter by order status. |  |
+**statuses** | Option<[**Vec<models::OrderStatus>**](Models__OrderStatus.md)> | Filter by order status. |  |
 **start_time** | Option<**u32**> |  |  |
 **end_time** | Option<**u32**> |  |  |
 **asset_conversion_type** | Option<**String**> |  |  |

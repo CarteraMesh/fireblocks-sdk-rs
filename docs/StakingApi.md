@@ -33,7 +33,7 @@ Approve the terms of service of the staking provider. This must be called before
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**provider_id** | [**StakingProvider**](.md) | The unique identifier of the staking provider | [required] |
+**provider_id** | [**StakingProvider**](StakingProvider.md) | The unique identifier of the staking provider | [required] |
 **idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
 
 ### Return type
@@ -96,7 +96,7 @@ Return detailed information on all staking positions, including the staked amoun
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**chain_descriptor** | Option<[**ChainDescriptor**](.md)> | Use \"ETH\" / \"SOL\" / \"MATIC\" / \"STETH_ETH\" in order to obtain information related to the specific blockchain network or retrieve information about all chains that have data available by providing no argument. |  |
+**chain_descriptor** | Option<[**ChainDescriptor**](ChainDescriptor.md)> | Use \"ETH\" / \"SOL\" / \"MATIC\" / \"STETH_ETH\" in order to obtain information related to the specific blockchain network or retrieve information about all chains that have data available by providing no argument. |  |
 
 ### Return type
 
@@ -126,7 +126,7 @@ Return chain-specific, staking-related information summary (e.g. epoch details, 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**chain_descriptor** | [**ChainDescriptor**](.md) | The protocol identifier (e.g. \"ETH\"/\"SOL\"/\"MATIC\"/\"STETH_ETH\") to use | [required] |
+**chain_descriptor** | [**ChainDescriptor**](ChainDescriptor.md) | The protocol identifier (e.g. \"ETH\"/\"SOL\"/\"MATIC\"/\"STETH_ETH\") to use | [required] |
 
 ### Return type
 
@@ -358,7 +358,7 @@ Perform a chain-specific Stake.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**chain_descriptor** | [**ChainDescriptor**](.md) | The protocol identifier (e.g. \"ETH\"/\"SOL\"/\"MATIC\") to use | [required] |
+**chain_descriptor** | [**ChainDescriptor**](ChainDescriptor.md) | The protocol identifier (e.g. \"ETH\"/\"SOL\"/\"MATIC\") to use | [required] |
 **stake_request** | [**StakeRequest**](StakeRequest.md) |  | [required] |
 **idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
 
@@ -390,7 +390,7 @@ Execute an Unstake operation
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**chain_descriptor** | [**ChainDescriptor**](.md) | The protocol identifier (e.g. \"ETH\"/\"SOL\"/\"MATIC\") to use | [required] |
+**chain_descriptor** | [**ChainDescriptor**](ChainDescriptor.md) | The protocol identifier (e.g. \"ETH\"/\"SOL\"/\"MATIC\") to use | [required] |
 **unstake_request** | [**UnstakeRequest**](UnstakeRequest.md) |  | [required] |
 **idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
 
@@ -422,7 +422,7 @@ Perform a chain-specific Withdraw.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**chain_descriptor** | [**ChainDescriptor**](.md) | The protocol identifier (e.g. \"ETH\"/\"SOL\"/\"MATIC\") to use | [required] |
+**chain_descriptor** | [**ChainDescriptor**](ChainDescriptor.md) | The protocol identifier (e.g. \"ETH\"/\"SOL\"/\"MATIC\") to use | [required] |
 **withdraw_request** | [**WithdrawRequest**](WithdrawRequest.md) |  | [required] |
 **idempotency_key** | Option<**String**> | A unique identifier for the request. If the request is sent multiple times with the same idempotency key, the server will return the same response as the first request. The idempotency key is valid for 24 hours. |  |
 

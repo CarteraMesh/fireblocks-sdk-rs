@@ -22,14 +22,32 @@ pub struct Tag {
     /// Description for the tag
     #[serde(rename = "description", skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+    /// The tag color in hex format
+    #[serde(rename = "color", skip_serializing_if = "Option::is_none")]
+    pub color: Option<String>,
+    /// Indication of whether the tag is a protected tag
+    #[serde(rename = "isProtected")]
+    pub is_protected: bool,
+    /// The date and time the tag was last updated
+    #[serde(rename = "updatedAt")]
+    pub updated_at: f64,
+    #[serde(
+        rename = "pendingApprovalRequest",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub pending_approval_request: Option<models::ApprovalRequest>,
 }
 
 impl Tag {
-    pub fn new(id: uuid::Uuid, label: String) -> Tag {
+    pub fn new(id: uuid::Uuid, label: String, is_protected: bool, updated_at: f64) -> Tag {
         Tag {
             id,
             label,
             description: None,
+            color: None,
+            is_protected,
+            updated_at,
+            pending_approval_request: None,
         }
     }
 }

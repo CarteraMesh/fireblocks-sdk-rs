@@ -21,7 +21,7 @@ pub struct CreateApiUser {
     /// API requests are authenticated by providing in each request:   a. API Key in the `X-API-Key` header   b. Auth header - `Authorization: Bearer <JWT>` while the JWT is signed with an RSA 4096 private key.  When creating a new API Key, you need to generate an RSA 4096 private key and a CSR file.  The CSR file is uploaded to Fireblocks upon the user creation and used later on for signature validation (Auth JWT signature validation).  For more info read the following [article](https://developers.fireblocks.com/docs/manage-api-keys)
     #[serde(rename = "csrPem")]
     pub csr_pem: String,
-    /// Required for Signer/Admin API users that planned to be paired with an API Co-Signer Machine.  - SGX_MACHINE: For SGX enabled servers - FIREBLOCKS_CCMT: Fireblocks Communal Co-Signer (for Testnet workspaces only) - NITRO_MACHINE: For AWS Nitro Enclave enabled servers  For more information about Fireblocks Co-Signer setup please read the following [article](https://support.fireblocks.io/hc/en-us/articles/12006018592156-API-Co-Signer-Overview).
+    /// Required for Signer/Admin API users that planned to be paired with an API Co-Signer Machine.  - SGX_MACHINE: For SGX enabled servers - FIREBLOCKS_CCMT: Fireblocks Communal Co-Signer (for Testnet workspaces only) - NITRO_MACHINE: For AWS Nitro Enclave enabled servers - GCP_CONFIDENTIAL_SPACE: For GCP Confidential Space servers  For more information about Fireblocks Co-Signer setup please read the following [article](https://support.fireblocks.io/hc/en-us/articles/12006018592156-API-Co-Signer-Overview).
     #[serde(rename = "coSignerSetupType", skip_serializing_if = "Option::is_none")]
     pub co_signer_setup_type: Option<CoSignerSetupType>,
     /// Pass as `true`` if this is the first user on the your Co-Signer machine
@@ -43,7 +43,7 @@ impl CreateApiUser {
         }
     }
 }
-/// Required for Signer/Admin API users that planned to be paired with an API Co-Signer Machine.  - SGX_MACHINE: For SGX enabled servers - FIREBLOCKS_CCMT: Fireblocks Communal Co-Signer (for Testnet workspaces only) - NITRO_MACHINE: For AWS Nitro Enclave enabled servers  For more information about Fireblocks Co-Signer setup please read the following [article](https://support.fireblocks.io/hc/en-us/articles/12006018592156-API-Co-Signer-Overview).
+/// Required for Signer/Admin API users that planned to be paired with an API Co-Signer Machine.  - SGX_MACHINE: For SGX enabled servers - FIREBLOCKS_CCMT: Fireblocks Communal Co-Signer (for Testnet workspaces only) - NITRO_MACHINE: For AWS Nitro Enclave enabled servers - GCP_CONFIDENTIAL_SPACE: For GCP Confidential Space servers  For more information about Fireblocks Co-Signer setup please read the following [article](https://support.fireblocks.io/hc/en-us/articles/12006018592156-API-Co-Signer-Overview).
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum CoSignerSetupType {
     #[serde(rename = "SGX_MACHINE")]

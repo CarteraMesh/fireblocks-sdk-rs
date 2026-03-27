@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **String** | The status of the request | 
+**status** | **Status** | The status of the request (enum: deactivating) | 
 **in_progress** | **bool** | Indicates whether there is an ongoing action for this position related to this request | 
 **amount** | **String** | Amount of tokens to Unstake | 
 **tx_id** | Option<**String**> | The transaction ID of the ongoing request | [optional]

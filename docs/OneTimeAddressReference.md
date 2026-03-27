@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | **String** |  | 
+**r#type** | **Type** |  (enum: ONE_TIME_ADDRESS) | 
 **address** | **String** |  | 
 **tag** | Option<**String**> |  | [optional]
 

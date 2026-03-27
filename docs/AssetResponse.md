@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **legacy_id** | **String** |  | 
-**asset_class** | **String** |  | 
+**asset_class** | **AssetClass** |  (enum: NATIVE, FT, NFT, SFT) | 
 **onchain** | [**models::AssetOnchain**](AssetOnchain.md) |  | 
 **metadata** | [**models::AssetMetadata**](AssetMetadata.md) |  | 
 

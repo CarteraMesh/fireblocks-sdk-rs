@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | **String** | High-level error category. | 
+**r#type** | **Type** | High-level error category. (enum: INTERNAL, AUTHENTICATION, AUTHORIZATION, VALIDATION, NOT_FOUND, UNPROCESSABLE_ENTITY, FORBIDDEN) | 
 **message** | **String** | Human-readable error description. | 
 **error_code** | Option<**String**> | Service-specific error code for troubleshooting. | [optional]
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**r#type** | **String** |  | 
+**r#type** | **Type** |  (enum: IBAN, SWIFT, ACH, US_WIRE, SPEI, SEPA, PIX, LOCAL_BANK_TRANSFER_AFRICA, MOBILE_MONEY) | 
 **address** | [**models::AccountHolderDetails**](AccountHolderDetails.md) |  | 
 **reference_id** | **String** |  | 
 

@@ -148,9 +148,9 @@ Retrieves a paginated list of all assets supported by Fireblocks in your workspa
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **blockchain_id** | Option<**String**> | Blockchain id of the assets |  |
-**asset_class** | Option<[**AssetClass**](.md)> | Assets class |  |
+**asset_class** | Option<[**AssetClass**](AssetClass.md)> | Assets class |  |
 **symbol** | Option<**String**> | Assets onchain symbol |  |
-**scope** | Option<[**AssetScope**](.md)> | Scope of the assets |  |
+**scope** | Option<[**AssetScope**](AssetScope.md)> | Scope of the assets |  |
 **deprecated** | Option<**bool**> | Are assets deprecated |  |
 **ids** | Option<[**Vec<String>**](String.md)> | A list of asset IDs (max 100) |  |
 **page_cursor** | Option<**String**> | Next page cursor to fetch |  |
@@ -213,7 +213,7 @@ No authorization required
 > models::AssetResponse register_new_asset(idempotency_key, register_new_asset_request)
 Register an asset
 
-Register a new asset to a workspace and return the newly created asset's details. Currently supported chains are:    - EVM based chains   - Stellar   - Algorand   - TRON   - Solana  Learn more about Supporting Additional Assets in Fireblocks  in the following [guide](https://developers.fireblocks.com/docs/add-your-tokens-1). </br>Endpoint Permission: Owner, Admin, Non-Signing Admin, NCW Admin, Editor, and Signer. 
+Registers a new asset to a workspace and retrieves the newly created asset's details. Currently supported chains are:    - EVM-based chains   - Algorand   - NEAR   - Solana   - Stellar   - Sui   - TRON  **Endpoint Permissions:** Owner, Admin, Non-Signing Admin, NCW Admin, Editor, Signer.         
 
 ### Parameters
 

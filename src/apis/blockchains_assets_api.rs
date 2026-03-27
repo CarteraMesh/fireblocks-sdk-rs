@@ -75,7 +75,11 @@ pub trait BlockchainsAssetsApi: Send + Sync {
 
     /// POST /assets
     ///
-    /// Register a new asset to a workspace and return the newly created asset's details. Currently supported chains are:    - EVM based chains   - Stellar   - Algorand   - TRON   - Solana  Learn more about Supporting Additional Assets in Fireblocks  in the following [guide](https://developers.fireblocks.com/docs/add-your-tokens-1). </br>Endpoint Permission: Owner, Admin, Non-Signing Admin, NCW Admin, Editor, and Signer.
+    /// Registers a new asset to a workspace and retrieves the newly created
+    /// asset's details. Currently supported chains are:    - EVM-based chains
+    /// - Algorand   - NEAR   - Solana   - Stellar   - Sui   - TRON  **Endpoint
+    /// Permissions:** Owner, Admin, Non-Signing Admin, NCW Admin, Editor,
+    /// Signer.
     async fn register_new_asset(
         &self,
         params: RegisterNewAssetParams,
@@ -754,7 +758,11 @@ impl BlockchainsAssetsApi for BlockchainsAssetsApiClient {
         }
     }
 
-    /// Register a new asset to a workspace and return the newly created asset's details. Currently supported chains are:    - EVM based chains   - Stellar   - Algorand   - TRON   - Solana  Learn more about Supporting Additional Assets in Fireblocks  in the following [guide](https://developers.fireblocks.com/docs/add-your-tokens-1). </br>Endpoint Permission: Owner, Admin, Non-Signing Admin, NCW Admin, Editor, and Signer.
+    /// Registers a new asset to a workspace and retrieves the newly created
+    /// asset's details. Currently supported chains are:    - EVM-based chains
+    /// - Algorand   - NEAR   - Solana   - Stellar   - Sui   - TRON  **Endpoint
+    /// Permissions:** Owner, Admin, Non-Signing Admin, NCW Admin, Editor,
+    /// Signer.
     async fn register_new_asset(
         &self,
         params: RegisterNewAssetParams,

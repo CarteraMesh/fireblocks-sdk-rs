@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**rail** | **String** | The payment rail type for SEPA transfers | 
-**addressing_system** | **String** | The addressing system used for SEPA transfers | 
+**rail** | **Rail** | The payment rail type for SEPA transfers (enum: SEPA) | 
+**addressing_system** | **AddressingSystem** | The addressing system used for SEPA transfers (enum: IBAN) | 
 **account_holder_given_name** | **String** | The given name (first name) of the account holder | 
 **account_holder_surname** | **String** | The surname (last name) of the account holder | 
 **account_holder_country** | Option<**String**> | The country where the account holder resides (ISO 3166-1 alpha-2 code) | [optional]

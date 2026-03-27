@@ -252,7 +252,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **before** | Option<**String**> | Unix timestamp in milliseconds. Returns only transactions created before the specified date. Provides an explicit end time. If not provided, default value will be applied, and may change over time.  The current default value is the past 90 days.  |  |
 **after** | Option<**String**> | Unix timestamp in milliseconds. Returns only transactions created after the specified date. Provides an explicit start time. If not provided, default value will be applied, and may change over time.  The current default value is the past 90 days.  |  |
-**status** | Option<[**TransactionStatus**](.md)> | You can filter by one of the statuses. |  |
+**status** | Option<[**TransactionStatus**](TransactionStatus.md)> | You can filter by one of the statuses. |  |
 **order_by** | Option<**String**> | The field to order the results by.  **Note:** Ordering by a field that is not `createdAt` may result in transactions that receive updates as you request the next or previous pages of results, resulting in missing those transactions.  |  |
 **sort** | Option<**String**> | The direction to order the results by |  |
 **limit** | Option<**u32**> | Limits the number of results. If not provided, a limit of 200 will be used. The maximum allowed limit is 500 |  |[default to 200]

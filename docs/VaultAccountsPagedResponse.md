@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **accounts** | Option<[**Vec<models::VaultAccount>**](VaultAccount.md)> |  | [optional]
-**paging** | Option<[**models::VaultAccountsPagedResponsePaging**](VaultAccountsPagedResponse_paging.md)> |  | [optional]
+**paging** | Option<[**models::VaultAccountsPagedResponsePaging**](VaultAccountsPagedResponsePaging.md)> |  | [optional]
 **previous_url** | Option<**String**> |  | [optional]
 **next_url** | Option<**String**> |  | [optional]
 
