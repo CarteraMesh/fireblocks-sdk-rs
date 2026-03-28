@@ -1,6 +1,6 @@
 [package]
 name = "fireblocks-sdk"
-version = "2026.3.27"
+version = "2026.3.28"
 edition = "2024"
 description = "Rust implementation of the Fireblocks SDK"
 documentation = "https://docs.rs/fireblocks-sdk"
